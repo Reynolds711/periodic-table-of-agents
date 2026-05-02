@@ -1,0 +1,632 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>AMC AI Agent Periodic Table</title>
+<meta name="viewport" content="width=1400">
+<style>
+  :root {
+    --navy: #1F3A5F;
+    --ink: #1a1a1a;
+    --muted: #555;
+    --bg: #f7f7f5;
+    --card-bg: #ffffff;
+    --shadow: 0 1px 3px rgba(0,0,0,.08);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg); color: var(--ink); padding: 24px; min-width: 1400px;
+  }
+  header { text-align: center; margin-bottom: 18px; }
+  header h1 { font-size: 28px; margin: 0 0 4px 0; color: var(--navy); letter-spacing: -.01em; }
+  header p { margin: 0; color: var(--muted); font-style: italic; font-size: 14px; }
+  .controls { display: flex; align-items: center; gap: 12px; margin: 16px auto; max-width: 1400px; }
+  .controls input[type="search"] { flex: 1; padding: 8px 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; background: var(--card-bg); }
+  .controls button.reset { padding: 8px 14px; background: var(--navy); color: white; border: 0; border-radius: 6px; cursor: pointer; font-size: 13px; }
+  .controls button.reset:hover { background: #15273f; }
+  .grid-wrap { overflow-x: auto; text-align: center; }
+  .grid { display: inline-block; background: var(--card-bg); padding: 12px; border-radius: 8px; box-shadow: var(--shadow); }
+  .row { display: flex; gap: 4px; margin-bottom: 4px; }
+  .row:last-child { margin-bottom: 0; }
+  .cell { width: 70px; height: 78px; border-radius: 5px; padding: 4px 4px 3px; font-size: 11px; line-height: 1.1; position: relative; transition: transform .12s ease, box-shadow .12s ease, opacity .12s ease; cursor: pointer; border: 1px solid rgba(0,0,0,.08); }
+  .cell:focus { outline: 2px solid var(--navy); outline-offset: 1px; }
+  .cell:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,.18); z-index: 5; }
+  .cell .atomic { position: absolute; top: 3px; left: 5px; font-size: 9.5px; color: #444; }
+  .cell .symbol { font-weight: 700; font-size: 18px; text-align: center; margin-top: 12px; color: #111; }
+  .cell .name { font-size: 9px; text-align: center; color: #333; margin-top: 2px; }
+  .cell.empty { background: transparent; border: 0; cursor: default; pointer-events: none; }
+  .cell.label { background: var(--navy); color: white; border: 0; height: 28px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; cursor: default; }
+  .cell.label:hover { transform: none; box-shadow: none; }
+  .cell.period-label { background: #e8e8e8; color: #333; border: 0; width: 76px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; cursor: default; }
+  .cell.period-label.small { font-size: 10px; }
+  .cell.period-label:hover { transform: none; box-shadow: none; }
+  .cell.pointer { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; cursor: default; }
+  .cell.pointer .range { font-weight: 700; font-size: 12px; color: #333; }
+  .cell.pointer .ptr-label { font-size: 9px; color: #444; margin-top: 3px; }
+  .lanth-pointer { background: #F0E68C; }
+  .actin-pointer { background: #E6B8B7; }
+  .lanth-actin { margin-top: 14px; }
+  .cell.dimmed { opacity: .18; }
+  .narrative, .legend, .maturity, .howto { margin: 24px auto 8px; max-width: 1400px; background: var(--card-bg); padding: 14px 16px; border-radius: 8px; box-shadow: var(--shadow); }
+  .legend h2, .maturity h2, .howto h2, .narrative h2 { margin: 0 0 10px 0; font-size: 14px; color: var(--navy); letter-spacing: .02em; text-transform: uppercase; }
+  .narrative { padding: 20px 28px; }
+  .narrative h3 { margin: 16px 0 6px 0; font-size: 14px; color: var(--navy); }
+  .narrative p { margin: 0 0 10px 0; font-size: 13px; line-height: 1.55; color: #2a2a2a; }
+  .narrative ul { margin: 4px 0 12px 0; padding-left: 22px; font-size: 13px; line-height: 1.5; color: #2a2a2a; }
+  .narrative li { margin-bottom: 5px; }
+  .narrative li strong { color: var(--navy); }
+  .narrative .lead { font-size: 13.5px; color: #333; border-left: 3px solid var(--navy); padding-left: 14px; margin-bottom: 14px; }
+  .legend-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px 14px; }
+  .legend-item { display: flex; align-items: center; gap: 8px; background: transparent; border: 1px solid transparent; border-radius: 5px; padding: 5px 8px; font-size: 12.5px; cursor: pointer; text-align: left; color: var(--ink); font-family: inherit; }
+  .legend-item:hover { background: #f0f0ed; border-color: #ddd; }
+  .legend-item.active { background: #e8edf5; border-color: var(--navy); }
+  .swatch { width: 18px; height: 18px; border-radius: 4px; border: 1px solid rgba(0,0,0,.1); flex-shrink: 0; }
+  .legend-num { font-weight: 700; min-width: 18px; color: #333; }
+  .legend-name { color: #222; }
+  .maturity dl { margin: 0; display: grid; grid-template-columns: max-content 1fr; gap: 4px 16px; }
+  .maturity dt { font-weight: 700; color: var(--navy); }
+  .maturity dd { margin: 0; color: #333; }
+  .tooltip { position: fixed; background: #1a1a1a; color: white; padding: 8px 12px; border-radius: 6px; font-size: 12px; line-height: 1.4; max-width: 280px; pointer-events: none; z-index: 100; opacity: 0; transition: opacity .12s ease; box-shadow: 0 4px 16px rgba(0,0,0,.25); }
+  .tooltip.show { opacity: 1; }
+  .tooltip .tt-symbol { font-weight: 700; font-size: 14px; }
+  .tooltip .tt-name { font-weight: 600; margin-top: 2px; }
+  .tooltip .tt-meta { color: #bbb; margin-top: 4px; font-size: 11px; }
+  .tooltip .tt-section { margin-top: 6px; padding-top: 6px; border-top: 1px solid #444; }
+  .tooltip .tt-label { color: #f5b041; font-size: 10px; text-transform: uppercase; letter-spacing: .05em; font-weight: 700; margin-bottom: 1px; }
+  .tooltip .tt-value { color: white; font-size: 12px; line-height: 1.35; }
+  .panel-backdrop { position: fixed; inset: 0; background: rgba(20, 28, 45, 0.45); z-index: 200; opacity: 0; pointer-events: none; transition: opacity .15s ease; }
+  .panel-backdrop.show { opacity: 1; pointer-events: auto; }
+  .detail-panel { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(.96); width: min(460px, calc(100vw - 32px)); background: white; border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,.35); z-index: 201; opacity: 0; pointer-events: none; transition: opacity .15s ease, transform .15s ease; overflow: hidden; }
+  .detail-panel.show { opacity: 1; pointer-events: auto; transform: translate(-50%, -50%) scale(1); }
+  .dp-header { padding: 22px 56px 18px 24px; display: flex; align-items: flex-start; gap: 18px; border-bottom: 1px solid #eee; position: relative; }
+  .dp-symbol-box { width: 88px; height: 88px; border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid rgba(0,0,0,.1); flex-shrink: 0; position: relative; }
+  .dp-symbol-box .dp-atomic { position: absolute; top: 6px; left: 8px; font-size: 11px; color: #444; }
+  .dp-symbol-box .dp-symbol { font-size: 30px; font-weight: 700; color: #111; margin-top: 6px; }
+  .dp-title h3 { margin: 0 0 4px 0; font-size: 19px; color: var(--navy); line-height: 1.25; }
+  .dp-title .dp-domain { font-size: 13px; color: #555; }
+  .dp-close { position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; border: 0; background: transparent; border-radius: 6px; cursor: pointer; color: #666; font-size: 22px; line-height: 1; display: flex; align-items: center; justify-content: center; font-family: inherit; }
+  .dp-close:hover { background: #f0f0ed; color: #111; }
+  .dp-body { padding: 16px 24px 18px; display: grid; grid-template-columns: max-content 1fr; gap: 10px 18px; font-size: 13px; }
+  .dp-body dt { font-weight: 600; color: var(--navy); text-transform: uppercase; font-size: 10.5px; letter-spacing: .04em; align-self: center; }
+  .dp-body dd { margin: 0; color: #222; align-self: center; }
+  .dp-nav { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; background: #f7f7f5; border-top: 1px solid #eee; }
+  .dp-nav button { background: white; border: 1px solid #ccc; color: #333; padding: 6px 14px; border-radius: 5px; cursor: pointer; font-size: 12px; font-family: inherit; }
+  .dp-nav button:hover:not(:disabled) { border-color: var(--navy); color: var(--navy); }
+  .dp-nav button:disabled { opacity: .35; cursor: not-allowed; }
+  .dp-nav .dp-counter { font-size: 11px; color: #777; }
+  .dp-value-section { padding: 14px 24px 0; margin-bottom: 4px; }
+  .dp-value-block { margin-bottom: 12px; }
+  .dp-value-block:last-child { margin-bottom: 0; }
+  .dp-value-label { font-size: 10.5px; color: var(--navy); text-transform: uppercase; letter-spacing: .04em; font-weight: 700; margin-bottom: 3px; }
+  .dp-value-text { font-size: 13px; color: #222; line-height: 1.45; }
+  .cell.pinned { outline: 3px solid var(--navy); outline-offset: 1px; z-index: 6; }
+  .cell.highlighted { outline: 2px solid #1F3A5F; outline-offset: 1px; box-shadow: 0 0 0 4px rgba(31, 58, 95, .15); z-index: 4; }
+  footer { text-align: center; color: var(--muted); font-size: 11px; margin-top: 18px; }
+  @media print { body { padding: 6px; min-width: 0; } .controls { display: none; } .cell:hover { transform: none; box-shadow: none; } .grid { box-shadow: none; } }
+  .goals { margin: 8px auto 18px; max-width: 1400px; background: linear-gradient(135deg, #1F3A5F 0%, #2a4d7a 100%); color: white; padding: 22px 24px; border-radius: 10px; box-shadow: 0 2px 8px rgba(31,58,95,.18); }
+  .goals h2 { margin: 0 0 4px 0; font-size: 18px; color: white; letter-spacing: .01em; }
+  .goals .ph-sub { margin: 0 0 14px 0; color: #d6dfee; font-size: 13px; font-style: italic; }
+  .goals-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+  .goal-item { display: flex; flex-direction: column; gap: 4px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.18); border-radius: 8px; padding: 14px 14px; cursor: pointer; text-align: left; color: white; font-family: inherit; transition: background .15s ease, transform .12s ease, border-color .15s ease; }
+  .goal-item:hover { background: rgba(255,255,255,.18); border-color: rgba(255,255,255,.35); transform: translateY(-2px); }
+  .goal-item.active { background: white; border-color: white; }
+  .goal-item.active .goal-label { color: var(--navy); }
+  .goal-item.active .goal-blurb { color: #555; }
+  .goal-label { font-weight: 700; font-size: 14px; line-height: 1.25; }
+  .goal-blurb { font-size: 11.5px; line-height: 1.35; color: #d6dfee; }
+  .build-plan { margin-top: 18px; background: white; border-radius: 8px; padding: 18px 20px; color: var(--ink); }
+  .build-plan[hidden] { display: none; }
+  .bp-header { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: 14px; flex-wrap: wrap; }
+  .bp-header h3 { margin: 0; font-size: 15px; color: var(--navy); letter-spacing: .01em; }
+  .bp-sequence { font-size: 12px; color: #555; background: #f0f4fa; padding: 5px 12px; border-radius: 14px; font-weight: 600; }
+  .bp-sequence strong { color: var(--navy); }
+  .bp-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+  .bp-card { border: 1px solid #ddd; border-radius: 7px; padding: 10px 12px; background: #fafafa; cursor: pointer; transition: border-color .12s, transform .12s, box-shadow .12s; display: flex; flex-direction: column; gap: 4px; text-align: left; font-family: inherit; }
+  .bp-card:hover { border-color: var(--navy); transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,.1); }
+  .bp-card-head { display: flex; align-items: center; gap: 8px; margin-bottom: 2px; }
+  .bp-symbol { width: 28px; height: 28px; border-radius: 5px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; border: 1px solid rgba(0,0,0,.1); color: #111; }
+  .bp-step { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: .04em; font-weight: 700; }
+  .bp-name { font-weight: 700; font-size: 12.5px; color: var(--navy); line-height: 1.25; }
+  .bp-outcome { font-size: 11.5px; color: #444; line-height: 1.35; }
+  .bp-period { font-size: 10.5px; color: #777; margin-top: 2px; font-weight: 600; }
+  .bp-clear { margin-top: 12px; background: transparent; border: 1px solid #ccc; color: #555; padding: 5px 12px; border-radius: 5px; cursor: pointer; font-size: 11.5px; font-family: inherit; }
+  .bp-clear:hover { border-color: var(--navy); color: var(--navy); }
+  .howto-steps { margin: 0; padding-left: 22px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; list-style: decimal; font-size: 12.5px; color: #333; line-height: 1.4; }
+  .howto-steps li { padding-right: 8px; }
+  .howto-steps strong { color: var(--navy); display: block; margin-bottom: 2px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>AMC AI Agent Periodic Table</h1>
+  <p>Pick a strategic priority above to see your top 5 agents and build order — or explore all 118 agents below by domain (column) and maturity (row).</p>
+</header>
+
+<div class="controls">
+  <input type="search" id="search" placeholder="Or search by agent name, symbol, or domain…" autocomplete="off">
+  <button class="reset" id="reset">Reset filters</button>
+</div>
+
+<section class="goals">
+  <h2>Start with Your Priority</h2>
+  <p class="ph-sub">Pick the outcome you're chasing across the tripartite mission. We'll show you the 5 agents that move the needle, in build order.</p>
+  <div class="goals-grid">
+    <button class="goal-item" data-goal="burnout"><span class="goal-label">Reduce Clinician Burnout</span><span class="goal-blurb">Inbox, documentation, discharge churn, language access</span></button>
+    <button class="goal-item" data-goal="outcomes"><span class="goal-label">Improve Clinical Outcomes &amp; Safety</span><span class="goal-blurb">Sepsis, readmits, quality measures, equity</span></button>
+    <button class="goal-item" data-goal="research"><span class="goal-label">Accelerate Research &amp; Discovery</span><span class="goal-blurb">Grants, trials, accrual, eligibility</span></button>
+    <button class="goal-item" data-goal="education"><span class="goal-label">Strengthen Medical Education</span><span class="goal-blurb">UME/GME, faculty effort, competency, curriculum</span></button>
+    <button class="goal-item" data-goal="margin"><span class="goal-label">Run a Healthier Margin</span><span class="goal-blurb">Charge capture, denials, revenue cycle, throughput</span></button>
+  </div>
+  <div class="build-plan" id="buildPlan" hidden>
+    <div class="bp-header">
+      <h3 id="bpTitle">Top 5 agents</h3>
+      <div class="bp-sequence" id="bpSequence"></div>
+    </div>
+    <div class="bp-grid" id="bpGrid"></div>
+    <button class="bp-clear" id="bpClear">Clear plan</button>
+  </div>
+</section>
+
+<div class="grid-wrap">
+  <div class="grid" id="grid">
+<div class="row header-row"><div class="cell label">&nbsp;</div><div class="cell label">Group 1</div><div class="cell label">Group 2</div><div class="cell label">Group 3</div><div class="cell label">Group 4</div><div class="cell label">Group 5</div><div class="cell label">Group 6</div><div class="cell label">Group 7</div><div class="cell label">Group 8</div><div class="cell label">Group 9</div><div class="cell label">Group 10</div><div class="cell label">Group 11</div><div class="cell label">Group 12</div><div class="cell label">Group 13</div><div class="cell label">Group 14</div><div class="cell label">Group 15</div><div class="cell label">Group 16</div><div class="cell label">Group 17</div><div class="cell label">Group 18</div></div>
+<div class="row"><div class="cell period-label">Period 1</div><div class="cell g1" style="background:#DCEEFB" data-group="1" data-period="1" data-name="Login Help Agent" data-domain="Identity &amp; Access" data-tier="Informational" data-symbol="Lo" data-atomic="1" tabindex="0"><div class="atomic">1</div><div class="symbol">Lo</div><div class="name">Login Help Agent</div></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell g18" style="background:#DECBE4" data-group="18" data-period="1" data-name="Patient FAQ Agent" data-domain="Compliance &amp; Risk" data-tier="Informational" data-symbol="Fq" data-atomic="2" tabindex="0"><div class="atomic">2</div><div class="symbol">Fq</div><div class="name">Patient FAQ Agent</div></div></div>
+<div class="row"><div class="cell period-label">Period 2</div><div class="cell g1" style="background:#DCEEFB" data-group="1" data-period="2" data-name="Account Lookup Agent" data-domain="Identity &amp; Access" data-tier="Informational" data-symbol="Lu" data-atomic="3" tabindex="0"><div class="atomic">3</div><div class="symbol">Lu</div><div class="name">Account Lookup Agent</div></div><div class="cell g2" style="background:#BFE3F5" data-group="2" data-period="2" data-name="Scheduling Q&amp;A Agent" data-domain="Patient Access &amp; Scheduling" data-tier="Informational" data-symbol="Sc" data-atomic="4" tabindex="0"><div class="atomic">4</div><div class="symbol">Sc</div><div class="name">Scheduling Q&amp;A Agent</div></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell g13" style="background:#FFE4B5" data-group="13" data-period="2" data-name="HR Policy Agent" data-domain="Workforce &amp; HR" data-tier="Informational" data-symbol="Hr" data-atomic="5" tabindex="0"><div class="atomic">5</div><div class="symbol">Hr</div><div class="name">HR Policy Agent</div></div><div class="cell g14" style="background:#F2D7A0" data-group="14" data-period="2" data-name="Coding Q&amp;A Agent" data-domain="Revenue Cycle &amp; Finance" data-tier="Informational" data-symbol="Co" data-atomic="6" tabindex="0"><div class="atomic">6</div><div class="symbol">Co</div><div class="name">Coding Q&amp;A Agent</div></div><div class="cell g15" style="background:#E5D8BD" data-group="15" data-period="2" data-name="Formulary Q&amp;A Agent" data-domain="Supply Chain &amp; Pharmacy" data-tier="Informational" data-symbol="Rx" data-atomic="7" tabindex="0"><div class="atomic">7</div><div class="symbol">Rx</div><div class="name">Formulary Q&amp;A Agent</div></div><div class="cell g16" style="background:#B3CDE3" data-group="16" data-period="2" data-name="IT Helpdesk Agent" data-domain="IT &amp; Data" data-tier="Informational" data-symbol="Hk" data-atomic="8" tabindex="0"><div class="atomic">8</div><div class="symbol">Hk</div><div class="name">IT Helpdesk Agent</div></div><div class="cell g17" style="background:#CCEBC5" data-group="17" data-period="2" data-name="Patient Helpline Agent" data-domain="Patient &amp; Family Experience" data-tier="Informational" data-symbol="Hl" data-atomic="9" tabindex="0"><div class="atomic">9</div><div class="symbol">Hl</div><div class="name">Patient Helpline Agent</div></div><div class="cell g18" style="background:#DECBE4" data-group="18" data-period="2" data-name="Compliance Q&amp;A Agent" data-domain="Compliance &amp; Risk" data-tier="Informational" data-symbol="Cp" data-atomic="10" tabindex="0"><div class="atomic">10</div><div class="symbol">Cp</div><div class="name">Compliance Q&amp;A Agent</div></div></div>
+<div class="row"><div class="cell period-label">Period 3</div><div class="cell g1" style="background:#DCEEFB" data-group="1" data-period="3" data-name="Identity Verify Agent" data-domain="Identity &amp; Access" data-tier="Transactional" data-symbol="Iv" data-atomic="11" tabindex="0"><div class="atomic">11</div><div class="symbol">Iv</div><div class="name">Identity Verify Agent</div></div><div class="cell g2" style="background:#BFE3F5" data-group="2" data-period="3" data-name="Registration Assist Agent" data-domain="Patient Access &amp; Scheduling" data-tier="Transactional" data-symbol="Rg" data-atomic="12" tabindex="0"><div class="atomic">12</div><div class="symbol">Rg</div><div class="name">Registration Assist Agent</div></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell g13" style="background:#FFE4B5" data-group="13" data-period="3" data-name="Onboarding Agent" data-domain="Workforce &amp; HR" data-tier="Transactional" data-symbol="Ob" data-atomic="13" tabindex="0"><div class="atomic">13</div><div class="symbol">Ob</div><div class="name">Onboarding Agent</div></div><div class="cell g14" style="background:#F2D7A0" data-group="14" data-period="3" data-name="Charge Capture Agent" data-domain="Revenue Cycle &amp; Finance" data-tier="Transactional" data-symbol="Bl" data-atomic="14" tabindex="0"><div class="atomic">14</div><div class="symbol">Bl</div><div class="name">Charge Capture Agent</div></div><div class="cell g15" style="background:#E5D8BD" data-group="15" data-period="3" data-name="Purchase Request Agent" data-domain="Supply Chain &amp; Pharmacy" data-tier="Transactional" data-symbol="Pq" data-atomic="15" tabindex="0"><div class="atomic">15</div><div class="symbol">Pq</div><div class="name">Purchase Request Agent</div></div><div class="cell g16" style="background:#B3CDE3" data-group="16" data-period="3" data-name="Data Catalog Agent" data-domain="IT &amp; Data" data-tier="Transactional" data-symbol="Cg" data-atomic="16" tabindex="0"><div class="atomic">16</div><div class="symbol">Cg</div><div class="name">Data Catalog Agent</div></div><div class="cell g17" style="background:#CCEBC5" data-group="17" data-period="3" data-name="Patient Communication Agent" data-domain="Patient &amp; Family Experience" data-tier="Transactional" data-symbol="Tx" data-atomic="17" tabindex="0"><div class="atomic">17</div><div class="symbol">Tx</div><div class="name">Patient Communication Agent</div></div><div class="cell g18" style="background:#DECBE4" data-group="18" data-period="3" data-name="Compliance Reporting Agent" data-domain="Compliance &amp; Risk" data-tier="Transactional" data-symbol="Cr" data-atomic="18" tabindex="0"><div class="atomic">18</div><div class="symbol">Cr</div><div class="name">Compliance Reporting Agent</div></div></div>
+<div class="row"><div class="cell period-label">Period 4</div><div class="cell g1" style="background:#DCEEFB" data-group="1" data-period="4" data-name="Account Recovery Agent" data-domain="Identity &amp; Access" data-tier="Workflow" data-symbol="Re" data-atomic="19" tabindex="0"><div class="atomic">19</div><div class="symbol">Re</div><div class="name">Account Recovery Agent</div></div><div class="cell g2" style="background:#BFE3F5" data-group="2" data-period="4" data-name="Pre-Registration Agent" data-domain="Patient Access &amp; Scheduling" data-tier="Workflow" data-symbol="Pa" data-atomic="20" tabindex="0"><div class="atomic">20</div><div class="symbol">Pa</div><div class="name">Pre-Registration Agent</div></div><div class="cell g3" style="background:#C7E9C0" data-group="3" data-period="4" data-name="Inbox Triage Agent" data-domain="Clinical Care &amp; Workflow" data-tier="Workflow" data-symbol="Ix" data-atomic="21" tabindex="0"><div class="atomic">21</div><div class="symbol">Ix</div><div class="name">Inbox Triage Agent</div></div><div class="cell g4" style="background:#A1D99B" data-group="4" data-period="4" data-name="Quality Reporting Agent" data-domain="Quality &amp; Safety" data-tier="Workflow" data-symbol="Qr" data-atomic="22" tabindex="0"><div class="atomic">22</div><div class="symbol">Qr</div><div class="name">Quality Reporting Agent</div></div><div class="cell g5" style="background:#FDD0A2" data-group="5" data-period="4" data-name="Lecture Capture Agent" data-domain="Medical Education" data-tier="Workflow" data-symbol="Lt" data-atomic="23" tabindex="0"><div class="atomic">23</div><div class="symbol">Lt</div><div class="name">Lecture Capture Agent</div></div><div class="cell g6" style="background:#FDAE6B" data-group="6" data-period="4" data-name="Faculty Activity Agent" data-domain="Faculty &amp; Learner Affairs" data-tier="Workflow" data-symbol="Fa" data-atomic="24" tabindex="0"><div class="atomic">24</div><div class="symbol">Fa</div><div class="name">Faculty Activity Agent</div></div><div class="cell g7" style="background:#FDD49E" data-group="7" data-period="4" data-name="Grant Drafting Agent" data-domain="Research Operations" data-tier="Workflow" data-symbol="Gw" data-atomic="25" tabindex="0"><div class="atomic">25</div><div class="symbol">Gw</div><div class="name">Grant Drafting Agent</div></div><div class="cell g8" style="background:#FCBBA1" data-group="8" data-period="4" data-name="Trial Recruitment Agent" data-domain="Clinical Trials" data-tier="Workflow" data-symbol="Rt" data-atomic="26" tabindex="0"><div class="atomic">26</div><div class="symbol">Rt</div><div class="name">Trial Recruitment Agent</div></div><div class="cell g9" style="background:#FB9A99" data-group="9" data-period="4" data-name="Library Discovery Agent" data-domain="Knowledge &amp; Library" data-tier="Workflow" data-symbol="Lb" data-atomic="27" tabindex="0"><div class="atomic">27</div><div class="symbol">Lb</div><div class="name">Library Discovery Agent</div></div><div class="cell g10" style="background:#DADAEB" data-group="10" data-period="4" data-name="Discharge Planning Agent" data-domain="Care Coordination" data-tier="Workflow" data-symbol="Dx" data-atomic="28" tabindex="0"><div class="atomic">28</div><div class="symbol">Dx</div><div class="name">Discharge Planning Agent</div></div><div class="cell g11" style="background:#BCBDDC" data-group="11" data-period="4" data-name="Population Outreach Agent" data-domain="Population Health" data-tier="Workflow" data-symbol="Po" data-atomic="29" tabindex="0"><div class="atomic">29</div><div class="symbol">Po</div><div class="name">Population Outreach Agent</div></div><div class="cell g12" style="background:#9E9AC8" data-group="12" data-period="4" data-name="Chart Closure Agent" data-domain="Records &amp; HIM" data-tier="Workflow" data-symbol="Cx" data-atomic="30" tabindex="0"><div class="atomic">30</div><div class="symbol">Cx</div><div class="name">Chart Closure Agent</div></div><div class="cell g13" style="background:#FFE4B5" data-group="13" data-period="4" data-name="Credentialing Agent" data-domain="Workforce &amp; HR" data-tier="Workflow" data-symbol="Kc" data-atomic="31" tabindex="0"><div class="atomic">31</div><div class="symbol">Kc</div><div class="name">Credentialing Agent</div></div><div class="cell g14" style="background:#F2D7A0" data-group="14" data-period="4" data-name="Denial Management Agent" data-domain="Revenue Cycle &amp; Finance" data-tier="Workflow" data-symbol="Dn" data-atomic="32" tabindex="0"><div class="atomic">32</div><div class="symbol">Dn</div><div class="name">Denial Management Agent</div></div><div class="cell g15" style="background:#E5D8BD" data-group="15" data-period="4" data-name="Pharmacy Workflow Agent" data-domain="Supply Chain &amp; Pharmacy" data-tier="Workflow" data-symbol="Mx" data-atomic="33" tabindex="0"><div class="atomic">33</div><div class="symbol">Mx</div><div class="name">Pharmacy Workflow Agent</div></div><div class="cell g16" style="background:#B3CDE3" data-group="16" data-period="4" data-name="Access Provision Agent" data-domain="IT &amp; Data" data-tier="Workflow" data-symbol="Ax" data-atomic="34" tabindex="0"><div class="atomic">34</div><div class="symbol">Ax</div><div class="name">Access Provision Agent</div></div><div class="cell g17" style="background:#CCEBC5" data-group="17" data-period="4" data-name="Bedside Translator Agent" data-domain="Patient &amp; Family Experience" data-tier="Workflow" data-symbol="Bx" data-atomic="35" tabindex="0"><div class="atomic">35</div><div class="symbol">Bx</div><div class="name">Bedside Translator Agent</div></div><div class="cell g18" style="background:#DECBE4" data-group="18" data-period="4" data-name="Audit Prep Agent" data-domain="Compliance &amp; Risk" data-tier="Workflow" data-symbol="Au" data-atomic="36" tabindex="0"><div class="atomic">36</div><div class="symbol">Au</div><div class="name">Audit Prep Agent</div></div></div>
+<div class="row"><div class="cell period-label">Period 5</div><div class="cell g1" style="background:#DCEEFB" data-group="1" data-period="5" data-name="Trusted Identity Agent" data-domain="Identity &amp; Access" data-tier="Decision" data-symbol="Ti" data-atomic="37" tabindex="0"><div class="atomic">37</div><div class="symbol">Ti</div><div class="name">Trusted Identity Agent</div></div><div class="cell g2" style="background:#BFE3F5" data-group="2" data-period="5" data-name="Capacity Decision Agent" data-domain="Patient Access &amp; Scheduling" data-tier="Decision" data-symbol="Cy" data-atomic="38" tabindex="0"><div class="atomic">38</div><div class="symbol">Cy</div><div class="name">Capacity Decision Agent</div></div><div class="cell g3" style="background:#C7E9C0" data-group="3" data-period="5" data-name="Sepsis Detection Agent" data-domain="Clinical Care &amp; Workflow" data-tier="Decision" data-symbol="Sx" data-atomic="39" tabindex="0"><div class="atomic">39</div><div class="symbol">Sx</div><div class="name">Sepsis Detection Agent</div></div><div class="cell g4" style="background:#A1D99B" data-group="4" data-period="5" data-name="Readmission Predictor Agent" data-domain="Quality &amp; Safety" data-tier="Decision" data-symbol="Rd" data-atomic="40" tabindex="0"><div class="atomic">40</div><div class="symbol">Rd</div><div class="name">Readmission Predictor Agent</div></div><div class="cell g5" style="background:#FDD0A2" data-group="5" data-period="5" data-name="Adaptive Learning Agent" data-domain="Medical Education" data-tier="Decision" data-symbol="Ad" data-atomic="41" tabindex="0"><div class="atomic">41</div><div class="symbol">Ad</div><div class="name">Adaptive Learning Agent</div></div><div class="cell g6" style="background:#FDAE6B" data-group="6" data-period="5" data-name="Faculty Match Agent" data-domain="Faculty &amp; Learner Affairs" data-tier="Decision" data-symbol="Fm" data-atomic="42" tabindex="0"><div class="atomic">42</div><div class="symbol">Fm</div><div class="name">Faculty Match Agent</div></div><div class="cell g7" style="background:#FDD49E" data-group="7" data-period="5" data-name="Grant Match Agent" data-domain="Research Operations" data-tier="Decision" data-symbol="Gm" data-atomic="43" tabindex="0"><div class="atomic">43</div><div class="symbol">Gm</div><div class="name">Grant Match Agent</div></div><div class="cell g8" style="background:#FCBBA1" data-group="8" data-period="5" data-name="Trial Eligibility Agent" data-domain="Clinical Trials" data-tier="Decision" data-symbol="El" data-atomic="44" tabindex="0"><div class="atomic">44</div><div class="symbol">El</div><div class="name">Trial Eligibility Agent</div></div><div class="cell g9" style="background:#FB9A99" data-group="9" data-period="5" data-name="Evidence Synthesis Agent" data-domain="Knowledge &amp; Library" data-tier="Decision" data-symbol="Sy" data-atomic="45" tabindex="0"><div class="atomic">45</div><div class="symbol">Sy</div><div class="name">Evidence Synthesis Agent</div></div><div class="cell g10" style="background:#DADAEB" data-group="10" data-period="5" data-name="Care Plan Agent" data-domain="Care Coordination" data-tier="Decision" data-symbol="Cl" data-atomic="46" tabindex="0"><div class="atomic">46</div><div class="symbol">Cl</div><div class="name">Care Plan Agent</div></div><div class="cell g11" style="background:#BCBDDC" data-group="11" data-period="5" data-name="Risk Stratification Agent" data-domain="Population Health" data-tier="Decision" data-symbol="Rs" data-atomic="47" tabindex="0"><div class="atomic">47</div><div class="symbol">Rs</div><div class="name">Risk Stratification Agent</div></div><div class="cell g12" style="background:#9E9AC8" data-group="12" data-period="5" data-name="Clinical Documentation Agent" data-domain="Records &amp; HIM" data-tier="Decision" data-symbol="Nt" data-atomic="48" tabindex="0"><div class="atomic">48</div><div class="symbol">Nt</div><div class="name">Clinical Documentation Agent</div></div><div class="cell g13" style="background:#FFE4B5" data-group="13" data-period="5" data-name="Hiring Decision Agent" data-domain="Workforce &amp; HR" data-tier="Decision" data-symbol="Hd" data-atomic="49" tabindex="0"><div class="atomic">49</div><div class="symbol">Hd</div><div class="name">Hiring Decision Agent</div></div><div class="cell g14" style="background:#F2D7A0" data-group="14" data-period="5" data-name="Denial Predictor Agent" data-domain="Revenue Cycle &amp; Finance" data-tier="Decision" data-symbol="Dp" data-atomic="50" tabindex="0"><div class="atomic">50</div><div class="symbol">Dp</div><div class="name">Denial Predictor Agent</div></div><div class="cell g15" style="background:#E5D8BD" data-group="15" data-period="5" data-name="Drug Shortage Agent" data-domain="Supply Chain &amp; Pharmacy" data-tier="Decision" data-symbol="Ds" data-atomic="51" tabindex="0"><div class="atomic">51</div><div class="symbol">Ds</div><div class="name">Drug Shortage Agent</div></div><div class="cell g16" style="background:#B3CDE3" data-group="16" data-period="5" data-name="Data Governance Agent" data-domain="IT &amp; Data" data-tier="Decision" data-symbol="Dg" data-atomic="52" tabindex="0"><div class="atomic">52</div><div class="symbol">Dg</div><div class="name">Data Governance Agent</div></div><div class="cell g17" style="background:#CCEBC5" data-group="17" data-period="5" data-name="Patient Experience Predictor" data-domain="Patient &amp; Family Experience" data-tier="Decision" data-symbol="Px" data-atomic="53" tabindex="0"><div class="atomic">53</div><div class="symbol">Px</div><div class="name">Patient Experience Predictor</div></div><div class="cell g18" style="background:#DECBE4" data-group="18" data-period="5" data-name="Risk Surveillance Agent" data-domain="Compliance &amp; Risk" data-tier="Decision" data-symbol="Rv" data-atomic="54" tabindex="0"><div class="atomic">54</div><div class="symbol">Rv</div><div class="name">Risk Surveillance Agent</div></div></div>
+<div class="row"><div class="cell period-label">Period 6</div><div class="cell g1" style="background:#DCEEFB" data-group="1" data-period="6" data-name="Identity Broker Agent" data-domain="Identity &amp; Access" data-tier="Cross-Mission" data-symbol="Ib" data-atomic="55" tabindex="0"><div class="atomic">55</div><div class="symbol">Ib</div><div class="name">Identity Broker Agent</div></div><div class="cell g2" style="background:#BFE3F5" data-group="2" data-period="6" data-name="Master Scheduler Agent" data-domain="Patient Access &amp; Scheduling" data-tier="Cross-Mission" data-symbol="Ms" data-atomic="56" tabindex="0"><div class="atomic">56</div><div class="symbol">Ms</div><div class="name">Master Scheduler Agent</div></div><div class="cell pointer lanth-pointer"><div class="range">57–71</div><div class="ptr-label">Lanthanides ↓</div></div><div class="cell g4" style="background:#A1D99B" data-group="4" data-period="6" data-name="Outcomes Coordinator" data-domain="Quality &amp; Safety" data-tier="Cross-Mission" data-symbol="Oc" data-atomic="72" tabindex="0"><div class="atomic">72</div><div class="symbol">Oc</div><div class="name">Outcomes Coordinator</div></div><div class="cell g5" style="background:#FDD0A2" data-group="5" data-period="6" data-name="Curriculum Coordinator Agent" data-domain="Medical Education" data-tier="Cross-Mission" data-symbol="Cu" data-atomic="73" tabindex="0"><div class="atomic">73</div><div class="symbol">Cu</div><div class="name">Curriculum Coordinator Agent</div></div><div class="cell g6" style="background:#FDAE6B" data-group="6" data-period="6" data-name="Faculty Coordinator Agent" data-domain="Faculty &amp; Learner Affairs" data-tier="Cross-Mission" data-symbol="Fc" data-atomic="74" tabindex="0"><div class="atomic">74</div><div class="symbol">Fc</div><div class="name">Faculty Coordinator Agent</div></div><div class="cell g7" style="background:#FDD49E" data-group="7" data-period="6" data-name="Research Operations Agent" data-domain="Research Operations" data-tier="Cross-Mission" data-symbol="Ro" data-atomic="75" tabindex="0"><div class="atomic">75</div><div class="symbol">Ro</div><div class="name">Research Operations Agent</div></div><div class="cell g8" style="background:#FCBBA1" data-group="8" data-period="6" data-name="Trial Network Agent" data-domain="Clinical Trials" data-tier="Cross-Mission" data-symbol="Tn" data-atomic="76" tabindex="0"><div class="atomic">76</div><div class="symbol">Tn</div><div class="name">Trial Network Agent</div></div><div class="cell g9" style="background:#FB9A99" data-group="9" data-period="6" data-name="Knowledge Network Agent" data-domain="Knowledge &amp; Library" data-tier="Cross-Mission" data-symbol="Kn" data-atomic="77" tabindex="0"><div class="atomic">77</div><div class="symbol">Kn</div><div class="name">Knowledge Network Agent</div></div><div class="cell g10" style="background:#DADAEB" data-group="10" data-period="6" data-name="Care Network Agent" data-domain="Care Coordination" data-tier="Cross-Mission" data-symbol="Cn" data-atomic="78" tabindex="0"><div class="atomic">78</div><div class="symbol">Cn</div><div class="name">Care Network Agent</div></div><div class="cell g11" style="background:#BCBDDC" data-group="11" data-period="6" data-name="Population Hub Agent" data-domain="Population Health" data-tier="Cross-Mission" data-symbol="Pu" data-atomic="79" tabindex="0"><div class="atomic">79</div><div class="symbol">Pu</div><div class="name">Population Hub Agent</div></div><div class="cell g12" style="background:#9E9AC8" data-group="12" data-period="6" data-name="Records Network Agent" data-domain="Records &amp; HIM" data-tier="Cross-Mission" data-symbol="Rn" data-atomic="80" tabindex="0"><div class="atomic">80</div><div class="symbol">Rn</div><div class="name">Records Network Agent</div></div><div class="cell g13" style="background:#FFE4B5" data-group="13" data-period="6" data-name="Workforce Planning Agent" data-domain="Workforce &amp; HR" data-tier="Cross-Mission" data-symbol="Wp" data-atomic="81" tabindex="0"><div class="atomic">81</div><div class="symbol">Wp</div><div class="name">Workforce Planning Agent</div></div><div class="cell g14" style="background:#F2D7A0" data-group="14" data-period="6" data-name="Margin Coordinator Agent" data-domain="Revenue Cycle &amp; Finance" data-tier="Cross-Mission" data-symbol="Mc" data-atomic="82" tabindex="0"><div class="atomic">82</div><div class="symbol">Mc</div><div class="name">Margin Coordinator Agent</div></div><div class="cell g15" style="background:#E5D8BD" data-group="15" data-period="6" data-name="Pharmacy Network Agent" data-domain="Supply Chain &amp; Pharmacy" data-tier="Cross-Mission" data-symbol="Pm" data-atomic="83" tabindex="0"><div class="atomic">83</div><div class="symbol">Pm</div><div class="name">Pharmacy Network Agent</div></div><div class="cell g16" style="background:#B3CDE3" data-group="16" data-period="6" data-name="Platform Modernization Agent" data-domain="IT &amp; Data" data-tier="Cross-Mission" data-symbol="Pz" data-atomic="84" tabindex="0"><div class="atomic">84</div><div class="symbol">Pz</div><div class="name">Platform Modernization Agent</div></div><div class="cell g17" style="background:#CCEBC5" data-group="17" data-period="6" data-name="Patient Engagement Hub" data-domain="Patient &amp; Family Experience" data-tier="Cross-Mission" data-symbol="Eh" data-atomic="85" tabindex="0"><div class="atomic">85</div><div class="symbol">Eh</div><div class="name">Patient Engagement Hub</div></div><div class="cell g18" style="background:#DECBE4" data-group="18" data-period="6" data-name="Regulatory Reporting Agent" data-domain="Compliance &amp; Risk" data-tier="Cross-Mission" data-symbol="Rr" data-atomic="86" tabindex="0"><div class="atomic">86</div><div class="symbol">Rr</div><div class="name">Regulatory Reporting Agent</div></div></div>
+<div class="row"><div class="cell period-label">Period 7</div><div class="cell g1" style="background:#DCEEFB" data-group="1" data-period="7" data-name="Identity Fabric Agent" data-domain="Identity &amp; Access" data-tier="Autonomous" data-symbol="If" data-atomic="87" tabindex="0"><div class="atomic">87</div><div class="symbol">If</div><div class="name">Identity Fabric Agent</div></div><div class="cell g2" style="background:#BFE3F5" data-group="2" data-period="7" data-name="Universal Access Agent" data-domain="Patient Access &amp; Scheduling" data-tier="Autonomous" data-symbol="Ua" data-atomic="88" tabindex="0"><div class="atomic">88</div><div class="symbol">Ua</div><div class="name">Universal Access Agent</div></div><div class="cell pointer actin-pointer"><div class="range">89–103</div><div class="ptr-label">Actinides ↓</div></div><div class="cell g4" style="background:#A1D99B" data-group="4" data-period="7" data-name="Quality Autonomy Agent" data-domain="Quality &amp; Safety" data-tier="Autonomous" data-symbol="Qa" data-atomic="104" tabindex="0"><div class="atomic">104</div><div class="symbol">Qa</div><div class="name">Quality Autonomy Agent</div></div><div class="cell g5" style="background:#FDD0A2" data-group="5" data-period="7" data-name="Adaptive Curriculum Agent" data-domain="Medical Education" data-tier="Autonomous" data-symbol="Ac" data-atomic="105" tabindex="0"><div class="atomic">105</div><div class="symbol">Ac</div><div class="name">Adaptive Curriculum Agent</div></div><div class="cell g6" style="background:#FDAE6B" data-group="6" data-period="7" data-name="Faculty Autonomy Agent" data-domain="Faculty &amp; Learner Affairs" data-tier="Autonomous" data-symbol="Fy" data-atomic="106" tabindex="0"><div class="atomic">106</div><div class="symbol">Fy</div><div class="name">Faculty Autonomy Agent</div></div><div class="cell g7" style="background:#FDD49E" data-group="7" data-period="7" data-name="Research Autonomy Agent" data-domain="Research Operations" data-tier="Autonomous" data-symbol="Ra" data-atomic="107" tabindex="0"><div class="atomic">107</div><div class="symbol">Ra</div><div class="name">Research Autonomy Agent</div></div><div class="cell g8" style="background:#FCBBA1" data-group="8" data-period="7" data-name="Trial Autonomy Agent" data-domain="Clinical Trials" data-tier="Autonomous" data-symbol="Ta" data-atomic="108" tabindex="0"><div class="atomic">108</div><div class="symbol">Ta</div><div class="name">Trial Autonomy Agent</div></div><div class="cell g9" style="background:#FB9A99" data-group="9" data-period="7" data-name="Knowledge Synthesis Agent" data-domain="Knowledge &amp; Library" data-tier="Autonomous" data-symbol="Ks" data-atomic="109" tabindex="0"><div class="atomic">109</div><div class="symbol">Ks</div><div class="name">Knowledge Synthesis Agent</div></div><div class="cell g10" style="background:#DADAEB" data-group="10" data-period="7" data-name="Care Journey Agent" data-domain="Care Coordination" data-tier="Autonomous" data-symbol="Cj" data-atomic="110" tabindex="0"><div class="atomic">110</div><div class="symbol">Cj</div><div class="name">Care Journey Agent</div></div><div class="cell g11" style="background:#BCBDDC" data-group="11" data-period="7" data-name="Population Wellness Agent" data-domain="Population Health" data-tier="Autonomous" data-symbol="Pw" data-atomic="111" tabindex="0"><div class="atomic">111</div><div class="symbol">Pw</div><div class="name">Population Wellness Agent</div></div><div class="cell g12" style="background:#9E9AC8" data-group="12" data-period="7" data-name="Records Autonomy Agent" data-domain="Records &amp; HIM" data-tier="Autonomous" data-symbol="Hx" data-atomic="112" tabindex="0"><div class="atomic">112</div><div class="symbol">Hx</div><div class="name">Records Autonomy Agent</div></div><div class="cell g13" style="background:#FFE4B5" data-group="13" data-period="7" data-name="Human Capital Agent" data-domain="Workforce &amp; HR" data-tier="Autonomous" data-symbol="Hc" data-atomic="113" tabindex="0"><div class="atomic">113</div><div class="symbol">Hc</div><div class="name">Human Capital Agent</div></div><div class="cell g14" style="background:#F2D7A0" data-group="14" data-period="7" data-name="Fiscal Intelligence Agent" data-domain="Revenue Cycle &amp; Finance" data-tier="Autonomous" data-symbol="Fx" data-atomic="114" tabindex="0"><div class="atomic">114</div><div class="symbol">Fx</div><div class="name">Fiscal Intelligence Agent</div></div><div class="cell g15" style="background:#E5D8BD" data-group="15" data-period="7" data-name="Operations Steward Agent" data-domain="Supply Chain &amp; Pharmacy" data-tier="Autonomous" data-symbol="Os" data-atomic="115" tabindex="0"><div class="atomic">115</div><div class="symbol">Os</div><div class="name">Operations Steward Agent</div></div><div class="cell g16" style="background:#B3CDE3" data-group="16" data-period="7" data-name="Health System OS Agent" data-domain="IT &amp; Data" data-tier="Autonomous" data-symbol="Ho" data-atomic="116" tabindex="0"><div class="atomic">116</div><div class="symbol">Ho</div><div class="name">Health System OS Agent</div></div><div class="cell g17" style="background:#CCEBC5" data-group="17" data-period="7" data-name="Engagement Intelligence Agent" data-domain="Patient &amp; Family Experience" data-tier="Autonomous" data-symbol="Ei" data-atomic="117" tabindex="0"><div class="atomic">117</div><div class="symbol">Ei</div><div class="name">Engagement Intelligence Agent</div></div><div class="cell g18" style="background:#DECBE4" data-group="18" data-period="7" data-name="Public Trust Agent" data-domain="Compliance &amp; Risk" data-tier="Autonomous" data-symbol="Pt" data-atomic="118" tabindex="0"><div class="atomic">118</div><div class="symbol">Pt</div><div class="name">Public Trust Agent</div></div></div>
+    <div class="lanth-actin">
+      <div class="row"><div class="cell period-label small">Lanthanides</div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell lanth" style="background:#F0E68C" data-group="L" data-period="6" data-name="Identity Engine Agent" data-domain="Lanthanide" data-tier="Cross-Mission" data-symbol="Id" data-atomic="57" tabindex="0"><div class="atomic">57</div><div class="symbol">Id</div><div class="name">Identity Engine Agent</div></div><div class="cell lanth" style="background:#F0E68C" data-group="L" data-period="6" data-name="Eligibility Engine Agent" data-domain="Lanthanide" data-tier="Cross-Mission" data-symbol="Eg" data-atomic="58" tabindex="0"><div class="atomic">58</div><div class="symbol">Eg</div><div class="name">Eligibility Engine Agent</div></div><div class="cell lanth" style="background:#F0E68C" data-group="L" data-period="6" data-name="Forms Engine Agent" data-domain="Lanthanide" data-tier="Cross-Mission" data-symbol="Fe" data-atomic="59" tabindex="0"><div class="atomic">59</div><div class="symbol">Fe</div><div class="name">Forms Engine Agent</div></div><div class="cell lanth" style="background:#F0E68C" data-group="L" data-period="6" data-name="Document OCR Agent" data-domain="Lanthanide" data-tier="Cross-Mission" data-symbol="Or" data-atomic="60" tabindex="0"><div class="atomic">60</div><div class="symbol">Or</div><div class="name">Document OCR Agent</div></div><div class="cell lanth" style="background:#F0E68C" data-group="L" data-period="6" data-name="Evidence Matching Agent" data-domain="Lanthanide" data-tier="Cross-Mission" data-symbol="Em" data-atomic="61" tabindex="0"><div class="atomic">61</div><div class="symbol">Em</div><div class="name">Evidence Matching Agent</div></div><div class="cell lanth" style="background:#F0E68C" data-group="L" data-period="6" data-name="Notice Generation Agent" data-domain="Lanthanide" data-tier="Cross-Mission" data-symbol="Nx" data-atomic="62" tabindex="0"><div class="atomic">62</div><div class="symbol">Nx</div><div class="name">Notice Generation Agent</div></div><div class="cell lanth" style="background:#F0E68C" data-group="L" data-period="6" data-name="Payments Rail Agent" data-domain="Lanthanide" data-tier="Cross-Mission" data-symbol="Py" data-atomic="63" tabindex="0"><div class="atomic">63</div><div class="symbol">Py</div><div class="name">Payments Rail Agent</div></div><div class="cell lanth" style="background:#F0E68C" data-group="L" data-period="6" data-name="Master Data Agent" data-domain="Lanthanide" data-tier="Cross-Mission" data-symbol="Md" data-atomic="64" tabindex="0"><div class="atomic">64</div><div class="symbol">Md</div><div class="name">Master Data Agent</div></div><div class="cell lanth" style="background:#F0E68C" data-group="L" data-period="6" data-name="Rules Version Agent" data-domain="Lanthanide" data-tier="Cross-Mission" data-symbol="Rl" data-atomic="65" tabindex="0"><div class="atomic">65</div><div class="symbol">Rl</div><div class="name">Rules Version Agent</div></div><div class="cell lanth" style="background:#F0E68C" data-group="L" data-period="6" data-name="Queue Management Agent" data-domain="Lanthanide" data-tier="Cross-Mission" data-symbol="Qm" data-atomic="66" tabindex="0"><div class="atomic">66</div><div class="symbol">Qm</div><div class="name">Queue Management Agent</div></div><div class="cell lanth" style="background:#F0E68C" data-group="L" data-period="6" data-name="Messaging Agent" data-domain="Lanthanide" data-tier="Cross-Mission" data-symbol="Mg" data-atomic="67" tabindex="0"><div class="atomic">67</div><div class="symbol">Mg</div><div class="name">Messaging Agent</div></div><div class="cell lanth" style="background:#F0E68C" data-group="L" data-period="6" data-name="Evidence Store Agent" data-domain="Lanthanide" data-tier="Cross-Mission" data-symbol="Ev" data-atomic="68" tabindex="0"><div class="atomic">68</div><div class="symbol">Ev</div><div class="name">Evidence Store Agent</div></div><div class="cell lanth" style="background:#F0E68C" data-group="L" data-period="6" data-name="Address Standard Agent" data-domain="Lanthanide" data-tier="Cross-Mission" data-symbol="As" data-atomic="69" tabindex="0"><div class="atomic">69</div><div class="symbol">As</div><div class="name">Address Standard Agent</div></div><div class="cell lanth" style="background:#F0E68C" data-group="L" data-period="6" data-name="EHR Connector Agent" data-domain="Lanthanide" data-tier="Cross-Mission" data-symbol="Er" data-atomic="70" tabindex="0"><div class="atomic">70</div><div class="symbol">Er</div><div class="name">EHR Connector Agent</div></div><div class="cell lanth" style="background:#F0E68C" data-group="L" data-period="6" data-name="LMS Connector Agent" data-domain="Lanthanide" data-tier="Cross-Mission" data-symbol="Lm" data-atomic="71" tabindex="0"><div class="atomic">71</div><div class="symbol">Lm</div><div class="name">LMS Connector Agent</div></div></div>
+<div class="row"><div class="cell period-label small">Actinides</div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell actin" style="background:#E6B8B7" data-group="A" data-period="7" data-name="Fraud Detection Agent" data-domain="Actinide" data-tier="Autonomous" data-symbol="Fr" data-atomic="89" tabindex="0"><div class="atomic">89</div><div class="symbol">Fr</div><div class="name">Fraud Detection Agent</div></div><div class="cell actin" style="background:#E6B8B7" data-group="A" data-period="7" data-name="Privacy Impact Agent" data-domain="Actinide" data-tier="Autonomous" data-symbol="Pi" data-atomic="90" tabindex="0"><div class="atomic">90</div><div class="symbol">Pi</div><div class="name">Privacy Impact Agent</div></div><div class="cell actin" style="background:#E6B8B7" data-group="A" data-period="7" data-name="HIPAA Guard Agent" data-domain="Actinide" data-tier="Autonomous" data-symbol="Hg" data-atomic="91" tabindex="0"><div class="atomic">91</div><div class="symbol">Hg</div><div class="name">HIPAA Guard Agent</div></div><div class="cell actin" style="background:#E6B8B7" data-group="A" data-period="7" data-name="Stark/AKS Agent" data-domain="Actinide" data-tier="Autonomous" data-symbol="Sk" data-atomic="92" tabindex="0"><div class="atomic">92</div><div class="symbol">Sk</div><div class="name">Stark/AKS Agent</div></div><div class="cell actin" style="background:#E6B8B7" data-group="A" data-period="7" data-name="AI Oversight Agent" data-domain="Actinide" data-tier="Autonomous" data-symbol="Ao" data-atomic="93" tabindex="0"><div class="atomic">93</div><div class="symbol">Ao</div><div class="name">AI Oversight Agent</div></div><div class="cell actin" style="background:#E6B8B7" data-group="A" data-period="7" data-name="Audit Trail Agent" data-domain="Actinide" data-tier="Autonomous" data-symbol="At" data-atomic="94" tabindex="0"><div class="atomic">94</div><div class="symbol">At</div><div class="name">Audit Trail Agent</div></div><div class="cell actin" style="background:#E6B8B7" data-group="A" data-period="7" data-name="Equity Impact Agent" data-domain="Actinide" data-tier="Autonomous" data-symbol="Eq" data-atomic="95" tabindex="0"><div class="atomic">95</div><div class="symbol">Eq</div><div class="name">Equity Impact Agent</div></div><div class="cell actin" style="background:#E6B8B7" data-group="A" data-period="7" data-name="Cyber Risk Agent" data-domain="Actinide" data-tier="Autonomous" data-symbol="Cb" data-atomic="96" tabindex="0"><div class="atomic">96</div><div class="symbol">Cb</div><div class="name">Cyber Risk Agent</div></div><div class="cell actin" style="background:#E6B8B7" data-group="A" data-period="7" data-name="IRB Compliance Agent" data-domain="Actinide" data-tier="Autonomous" data-symbol="Ir" data-atomic="97" tabindex="0"><div class="atomic">97</div><div class="symbol">Ir</div><div class="name">IRB Compliance Agent</div></div><div class="cell actin" style="background:#E6B8B7" data-group="A" data-period="7" data-name="ACGME Compliance Agent" data-domain="Actinide" data-tier="Autonomous" data-symbol="Ag" data-atomic="98" tabindex="0"><div class="atomic">98</div><div class="symbol">Ag</div><div class="name">ACGME Compliance Agent</div></div><div class="cell actin" style="background:#E6B8B7" data-group="A" data-period="7" data-name="Ethics Review Agent" data-domain="Actinide" data-tier="Autonomous" data-symbol="Et" data-atomic="99" tabindex="0"><div class="atomic">99</div><div class="symbol">Et</div><div class="name">Ethics Review Agent</div></div><div class="cell actin" style="background:#E6B8B7" data-group="A" data-period="7" data-name="Experience Monitor Agent" data-domain="Actinide" data-tier="Autonomous" data-symbol="Xm" data-atomic="100" tabindex="0"><div class="atomic">100</div><div class="symbol">Xm</div><div class="name">Experience Monitor Agent</div></div><div class="cell actin" style="background:#E6B8B7" data-group="A" data-period="7" data-name="Risk Scoring Agent" data-domain="Actinide" data-tier="Autonomous" data-symbol="Rk" data-atomic="101" tabindex="0"><div class="atomic">101</div><div class="symbol">Rk</div><div class="name">Risk Scoring Agent</div></div><div class="cell actin" style="background:#E6B8B7" data-group="A" data-period="7" data-name="Adverse Event Agent" data-domain="Actinide" data-tier="Autonomous" data-symbol="Ae" data-atomic="102" tabindex="0"><div class="atomic">102</div><div class="symbol">Ae</div><div class="name">Adverse Event Agent</div></div><div class="cell actin" style="background:#E6B8B7" data-group="A" data-period="7" data-name="Bioethics Review Agent" data-domain="Actinide" data-tier="Autonomous" data-symbol="Be" data-atomic="103" tabindex="0"><div class="atomic">103</div><div class="symbol">Be</div><div class="name">Bioethics Review Agent</div></div></div>
+    </div>
+  </div>
+</div>
+
+<section class="legend">
+  <h2>Domains (click to filter)</h2>
+  <div class="legend-grid">
+    <button class="legend-item" data-filter-group="1"><span class="swatch" style="background:#DCEEFB"></span><span class="legend-num">1</span><span class="legend-name">Identity &amp; Access</span></button>
+<button class="legend-item" data-filter-group="2"><span class="swatch" style="background:#BFE3F5"></span><span class="legend-num">2</span><span class="legend-name">Patient Access &amp; Scheduling</span></button>
+<button class="legend-item" data-filter-group="3"><span class="swatch" style="background:#C7E9C0"></span><span class="legend-num">3</span><span class="legend-name">Clinical Care &amp; Workflow</span></button>
+<button class="legend-item" data-filter-group="4"><span class="swatch" style="background:#A1D99B"></span><span class="legend-num">4</span><span class="legend-name">Quality &amp; Safety</span></button>
+<button class="legend-item" data-filter-group="5"><span class="swatch" style="background:#FDD0A2"></span><span class="legend-num">5</span><span class="legend-name">Medical Education</span></button>
+<button class="legend-item" data-filter-group="6"><span class="swatch" style="background:#FDAE6B"></span><span class="legend-num">6</span><span class="legend-name">Faculty &amp; Learner Affairs</span></button>
+<button class="legend-item" data-filter-group="7"><span class="swatch" style="background:#FDD49E"></span><span class="legend-num">7</span><span class="legend-name">Research Operations</span></button>
+<button class="legend-item" data-filter-group="8"><span class="swatch" style="background:#FCBBA1"></span><span class="legend-num">8</span><span class="legend-name">Clinical Trials</span></button>
+<button class="legend-item" data-filter-group="9"><span class="swatch" style="background:#FB9A99"></span><span class="legend-num">9</span><span class="legend-name">Knowledge &amp; Library</span></button>
+<button class="legend-item" data-filter-group="10"><span class="swatch" style="background:#DADAEB"></span><span class="legend-num">10</span><span class="legend-name">Care Coordination</span></button>
+<button class="legend-item" data-filter-group="11"><span class="swatch" style="background:#BCBDDC"></span><span class="legend-num">11</span><span class="legend-name">Population Health</span></button>
+<button class="legend-item" data-filter-group="12"><span class="swatch" style="background:#9E9AC8"></span><span class="legend-num">12</span><span class="legend-name">Records &amp; HIM</span></button>
+<button class="legend-item" data-filter-group="13"><span class="swatch" style="background:#FFE4B5"></span><span class="legend-num">13</span><span class="legend-name">Workforce &amp; HR</span></button>
+<button class="legend-item" data-filter-group="14"><span class="swatch" style="background:#F2D7A0"></span><span class="legend-num">14</span><span class="legend-name">Revenue Cycle &amp; Finance</span></button>
+<button class="legend-item" data-filter-group="15"><span class="swatch" style="background:#E5D8BD"></span><span class="legend-num">15</span><span class="legend-name">Supply Chain &amp; Pharmacy</span></button>
+<button class="legend-item" data-filter-group="16"><span class="swatch" style="background:#B3CDE3"></span><span class="legend-num">16</span><span class="legend-name">IT &amp; Data</span></button>
+<button class="legend-item" data-filter-group="17"><span class="swatch" style="background:#CCEBC5"></span><span class="legend-num">17</span><span class="legend-name">Patient &amp; Family Experience</span></button>
+<button class="legend-item" data-filter-group="18"><span class="swatch" style="background:#DECBE4"></span><span class="legend-num">18</span><span class="legend-name">Compliance &amp; Risk</span></button>
+<button class="legend-item" data-filter-group="L"><span class="swatch" style="background:#F0E68C"></span><span class="legend-num">L</span><span class="legend-name">Lanthanides · Operational Backbone</span></button>
+<button class="legend-item" data-filter-group="A"><span class="swatch" style="background:#E6B8B7"></span><span class="legend-num">A</span><span class="legend-name">Actinides · Governance &amp; Public Trust</span></button>
+  </div>
+</section>
+
+<section class="maturity">
+  <h2>Maturity Levels</h2>
+  <dl>
+    <dt>Informational</dt><dd>Answers questions, surfaces information (Periods 1–2)</dd>
+    <dt>Transactional</dt><dd>Completes simple tasks end-to-end (Period 3)</dd>
+    <dt>Workflow</dt><dd>Runs multi-step processes across systems (Period 4)</dd>
+    <dt>Decision</dt><dd>Recommends decisions with evidence and explanations (Period 5)</dd>
+    <dt>Cross-Mission</dt><dd>Coordinates across clinical, education, and research missions and partners (Period 6)</dd>
+    <dt>Autonomous</dt><dd>Self-directs with strong governance and oversight (Period 7)</dd>
+  </dl>
+</section>
+
+<section class="howto">
+  <h2>How to Start</h2>
+  <ol class="howto-steps">
+    <li><strong>Pick a priority.</strong> One outcome. Not three.</li>
+    <li><strong>Choose 1–2 agents.</strong> Start where the friction is sharpest.</li>
+    <li><strong>Pilot in 30–60 days.</strong> One service line, real users, narrow scope.</li>
+    <li><strong>Measure impact.</strong> Physician hours back, sepsis time-to-antibiotic, denial rate, accrual rate, learner competency — pick one.</li>
+    <li><strong>Scale.</strong> Add the next agent in the build order. Reuse the backbone.</li>
+  </ol>
+</section>
+
+<section class="narrative">
+  <h2>How to read this table</h2>
+  <p class="lead">This table reframes 118 AMC AI agents as a periodic system — not a checklist. The position of each agent tells you what it does, how mature it needs to be, and how it relates to the agents around it. It is purpose-built for the academic medical center tripartite mission: clinical care, education, and research.</p>
+
+  <h3>Two axes — domain and autonomy</h3>
+  <ul>
+    <li><strong>Columns (groups) = the WHAT.</strong> Each column is an AMC function — Patient Access, Clinical Care, Quality &amp; Safety, Medical Education, Faculty &amp; Learner Affairs, Research Operations, Clinical Trials, Pharmacy, Patient Experience, Compliance, and so on. Read down a column to see how a function progresses from informational chatbots to autonomous, governed systems.</li>
+    <li><strong>Rows (periods) = the autonomy &amp; risk profile.</strong> Period 1–2 agents answer questions. Period 3–4 agents complete transactions and run workflows. Period 5 agents make recommendations with evidence. Period 6 agents coordinate across the tripartite mission. Period 7 agents act with significant autonomy and require the strongest governance.</li>
+  </ul>
+
+  <h3>The two special rows</h3>
+  <ul>
+    <li><strong>Lanthanides (yellow band, 57–71) — Operational Backbone.</strong> Identity, eligibility, document OCR, payments rail, master data, EHR/LMS connectors, queue management, messaging. These are the shared engines every other agent depends on. They're not user-facing, but they're load-bearing. Underinvest here and everything above gets brittle.</li>
+    <li><strong>Actinides (rose band, 89–103) — Governance, Risk &amp; Public Trust.</strong> HIPAA Guard, Stark/AKS, IRB Compliance, ACGME Compliance, equity impact, AI oversight, bioethics review, cyber risk, adverse-event learning. These cut across every domain — they are the institutional license to operate in academic medicine.</li>
+  </ul>
+
+  <h3>Where simple tools live in the table</h3>
+  <p>The Period 1–2 row is reserved for cross-cutting informational helpers (login, scheduling, HR, billing, IT, patient FAQ, compliance Q&amp;A). Domain-specific simple tools — for example, IRB policy lookup or SOAP-note guidance — are absorbed into related agents rather than given their own cells:</p>
+  <ul>
+    <li><strong>IRB policy access</strong> is covered by <strong>Compliance Q&amp;A Agent (Aj)</strong> at Period 2 (HIPAA, IRB, ACGME, and institutional policy lookup), backstopped by <strong>IRB Compliance Agent (Ds)</strong> in the actinide row for continuous protocol oversight.</li>
+    <li><strong>SOAP and clinical note assistance</strong> shows up as <strong>Clinical Documentation Agent (Bv)</strong> at Period 5 — ambient capture and note drafting — because in modern AMC workflows, real value is at the documentation tier, not at template-only Q&amp;A.</li>
+  </ul>
+
+  <h3>What AMC leaders should be considering</h3>
+  <ul>
+    <li><strong>Build the floor before the ceiling.</strong> Period 6–7 agents only work if the lanthanides underneath them are solid. Many AMCs overinvest in flagship agents (ambient documentation, sepsis alerts) and underfund the shared identity, master-data, and EHR/LMS connectors that make those flagships work at scale.</li>
+    <li><strong>Governance runs in parallel, not sequentially.</strong> The actinides aren't a phase 3 deliverable — HIPAA, Stark/AKS, IRB, ACGME, equity, and bioethics need to stand up alongside the first transactional agent that touches PHI, learner data, or research subjects. In academic medicine, these are bright-line risks that don't tolerate "we'll get to it."</li>
+    <li><strong>Sequence by risk, not by enthusiasm.</strong> A Period 2 informational agent (Compliance Q&amp;A, Patient Helpline) carries low risk and ships fast — it builds organizational confidence. A Period 5–7 decision-support or autonomous agent (Sepsis Detection, Adaptive Curriculum, Research Autonomy) needs evidence, governance scaffolding, and human-in-the-loop review before launch.</li>
+    <li><strong>Pick a portfolio, not a project.</strong> Use the Start with Your Priority section above to assemble 5–8 agents that together advance one strategic outcome — for example, clinician burnout combines Inbox Triage, Clinical Documentation, Discharge Planning, Care Network, and Care Journey, supported by Queue Management (backbone) and Experience Monitor (governance). One agent in isolation rarely moves the needle.</li>
+    <li><strong>Align to the AMC pressure stack.</strong> Clinician burnout, documentation burden, value-based contracts, the NIH and trial economics, ACGME/LCME requirements, HIPAA exposure, ransomware targeting, equity accountability, the 340B and Stark/AKS environment, and the AI use-policy question — this table is designed to map your roadmap to those forcing functions, not against them.</li>
+    <li><strong>Talk in symbols, not slideware.</strong> The two-letter symbols (Aa, Bm, Cz) make this a shared vocabulary across CEO, CMO, CMIO, CRO, dean, and the board. It lowers the activation energy for governance conversations — "Bm needs a Dm before it ships" beats a 30-page deck.</li>
+  </ul>
+</section>
+
+<footer>118 agents · 7 periods · 18 groups · Lanthanides (operational backbone) · Actinides (governance &amp; public trust)</footer>
+
+<div class="tooltip" id="tooltip" role="tooltip" aria-hidden="true"></div>
+
+<div class="panel-backdrop" id="panelBackdrop"></div>
+<div class="detail-panel" id="detailPanel" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="dpName">
+  <div class="dp-header">
+    <div class="dp-symbol-box" id="dpSymbolBox">
+      <div class="dp-atomic" id="dpAtomic"></div>
+      <div class="dp-symbol" id="dpSymbol"></div>
+    </div>
+    <div class="dp-title">
+      <h3 id="dpName"></h3>
+      <div class="dp-domain" id="dpDomain"></div>
+    </div>
+    <button class="dp-close" id="dpClose" aria-label="Close">×</button>
+  </div>
+  <div class="dp-value-section">
+    <div class="dp-value-block">
+      <div class="dp-value-label">What it does</div>
+      <div class="dp-value-text" id="dpWhat"></div>
+    </div>
+    <div class="dp-value-block">
+      <div class="dp-value-label">Outcome</div>
+      <div class="dp-value-text" id="dpOutcome"></div>
+    </div>
+    <div class="dp-value-block">
+      <div class="dp-value-label">Why it matters</div>
+      <div class="dp-value-text" id="dpWhy"></div>
+    </div>
+  </div>
+  <dl class="dp-body">
+    <dt>Atomic #</dt><dd id="dpAtomicFull"></dd>
+    <dt>Symbol</dt><dd id="dpSymbolFull"></dd>
+    <dt>Domain</dt><dd id="dpDomainFull"></dd>
+    <dt>Period</dt><dd id="dpPeriod"></dd>
+    <dt>Group</dt><dd id="dpGroup"></dd>
+    <dt>Maturity</dt><dd id="dpTier"></dd>
+  </dl>
+  <div class="dp-nav">
+    <button id="dpPrev">← Previous</button>
+    <span class="dp-counter" id="dpCounter"></span>
+    <button id="dpNext">Next →</button>
+  </div>
+</div>
+
+<script>
+(function() {
+  const cells = Array.from(document.querySelectorAll('.cell[data-atomic]'));
+  const VALUE_PROPS = {"1": {"what": "Answers staff and patient login questions in plain English", "outcome": "Self-service for routine access asks", "why": "Frees IT for higher-value work"}, "2": {"what": "Answers common patient and visitor questions on hours, parking, policies", "outcome": "Front desk volume drops", "why": "Visitor guidance is a hidden FTE drain"}, "3": {"what": "Answers account, password, and access questions for staff and trainees", "outcome": "Self-service for routine asks", "why": "Frees IT helpdesk for complex tickets"}, "4": {"what": "Answers appointment, referral, and registration questions", "outcome": "Patients get answers without calling the office", "why": "Front-office call volume is the silent productivity drag"}, "5": {"what": "Answers staff HR and benefits questions instantly", "outcome": "Self-service for routine staff asks", "why": "Frees HR for higher-value work"}, "6": {"what": "Answers coding and billing questions for clinicians and billers", "outcome": "Self-service for coding clarifications", "why": "Coding ambiguity drives denial rates"}, "7": {"what": "Answers drug formulary, alternatives, and policy questions", "outcome": "Cleaner ordering, fewer formulary calls", "why": "Formulary friction delays patient care"}, "8": {"what": "Answers tier-1 IT questions for staff, faculty, and learners", "outcome": "Self-service for routine asks", "why": "Frees IT for higher-value work"}, "9": {"what": "Answers patient questions about navigation, services, and policies", "outcome": "Front office spends less time on FAQ calls", "why": "Patient-facing volume is the largest hidden workload"}, "10": {"what": "Answers staff questions on HIPAA, IRB, ACGME, and institutional policy", "outcome": "Self-service for compliance and IRB lookups", "why": "Policy and IRB accessibility prevent compliance drift"}, "11": {"what": "Validates patient, staff, and trainee identity at sensitive moments", "outcome": "Synthetic and stolen identities stop at the door", "why": "Cheaper to prevent than to remediate"}, "12": {"what": "Completes patient registration end-to-end with insurance check", "outcome": "Higher completion, lower abandonment, cleaner data", "why": "Registration friction is a documented access drag"}, "13": {"what": "Completes new-staff and trainee onboarding tasks end-to-end", "outcome": "Shorter cycle times, less rework", "why": "First-week experience drives retention signals"}, "14": {"what": "Captures and codes charges from clinical documentation", "outcome": "Faster, cleaner revenue capture", "why": "Lost charges are the silent margin killer"}, "15": {"what": "Drafts and routes purchase requests from prior templates", "outcome": "POs out the door in days, not weeks", "why": "Procurement cycle time delays clinical needs"}, "16": {"what": "Maintains the enterprise data catalog automatically", "outcome": "Faster, cleaner reporting and analytics", "why": "Bad metadata is the silent killer of data projects"}, "17": {"what": "Drafts personalized patient messages, reminders, and education", "outcome": "More touches, in patient languages, with consistent voice", "why": "Communication quality moves the needle on adherence"}, "18": {"what": "Drafts routine regulatory and accreditation reports", "outcome": "Reports out faster with fewer errors", "why": "Reporting burden is rising, not falling"}, "19": {"what": "Runs account recovery across SSO, EHR, LMS, and research systems", "outcome": "Less manual handoff, faster throughput", "why": "Recovery flows are the most-touched IT process"}, "20": {"what": "Pre-arrival registration, insurance verification, and prep instructions", "outcome": "Patients arrive ready, clinics start on time", "why": "Day-of friction cascades into provider schedules"}, "21": {"what": "Drafts replies, routes messages, and triages clinician inboxes", "outcome": "Hours of physician time back per week", "why": "Inbox burden is the #1 driver of clinician burnout"}, "22": {"what": "Automates bundle compliance, core measure, and quality reporting", "outcome": "Cleaner submissions, less abstractor burden", "why": "Quality reporting drives reimbursement and reputation"}, "23": {"what": "Captures, transcribes, and summarizes UME/GME teaching sessions", "outcome": "Learners get timestamped notes, faculty save prep time", "why": "Education time is the most squeezed faculty resource"}, "24": {"what": "Tracks teaching, service, and scholarly activity automatically", "outcome": "Promotion packets assemble themselves", "why": "Faculty effort tracking is a chronic time sink"}, "25": {"what": "Drafts NIH/NSF/foundation grant sections from prior work", "outcome": "More submissions, stronger first drafts", "why": "Grant capacity caps research output"}, "26": {"what": "Identifies eligible patients and drafts outreach for active trials", "outcome": "Trial accrual rates rise; sites avoid penalties", "why": "Slow accrual is the #1 cause of trial cost overruns"}, "27": {"what": "Helps clinicians, faculty, and learners find evidence and citations", "outcome": "Less time hunting, more time using", "why": "Evidence access is a clinical and academic bottleneck"}, "28": {"what": "Coordinates discharge tasks, instructions, and follow-up scheduling", "outcome": "Shorter LOS, fewer 30-day readmits", "why": "Discharge churn drives bed availability and outcomes"}, "29": {"what": "Outreach to gap-in-care and chronic disease cohorts", "outcome": "More closed gaps, better risk-adjusted outcomes", "why": "Population outreach drives value-based revenue"}, "30": {"what": "Drives open chart closure, signature, and addendum workflow", "outcome": "Cleaner, more timely records", "why": "Open charts delay billing and risk compliance"}, "31": {"what": "Runs provider credentialing and re-credentialing workflow", "outcome": "Faster onboarding, no lapsed privileges", "why": "Credentialing delays directly cost revenue"}, "32": {"what": "Routes claim denials with the right documentation and appeal templates", "outcome": "Higher overturn rate, faster cash", "why": "Denial backlog is a top-five margin lever"}, "33": {"what": "Runs medication order verification and dispense workflow", "outcome": "Faster, safer dispensing", "why": "Pharmacy throughput gates discharge and admission"}, "34": {"what": "Provisions and de-provisions accounts across all systems", "outcome": "New staff productive on day one; offboarding clean", "why": "Access drift is the #1 audit and security risk"}, "35": {"what": "Real-time medical translation in 40+ languages at the bedside", "outcome": "Every patient hears their care plan in their language", "why": "Language access is a regulatory and equity bright line"}, "36": {"what": "Assembles audit evidence and runs pre-audit gap analysis", "outcome": "Audits go smoothly; surprises surface early", "why": "Audit findings carry direct reimbursement and reputational risk"}, "37": {"what": "Verifies any person is who they claim to be at scale", "outcome": "Identity fraud blocked across patient, provider, and trainee", "why": "Identity is the substrate of every other control"}, "38": {"what": "Recommends scheduling, room, and capacity decisions with evidence", "outcome": "Higher utilization, shorter wait times", "why": "Capacity is the binding constraint on access"}, "39": {"what": "Detects early sepsis signals from vitals, labs, and notes", "outcome": "Earlier antibiotics, lower mortality", "why": "Sepsis remains a leading preventable inpatient death"}, "40": {"what": "Forecasts 30-day readmission risk and recommends interventions", "outcome": "Targeted post-discharge support reaches the right patients", "why": "Readmissions are penalty events with margin impact"}, "41": {"what": "Personalizes UME/GME content to each learner's gaps and progress", "outcome": "Faster competency, fewer remediation cases", "why": "Competency-based education needs scale to work"}, "42": {"what": "Matches faculty to mentees, committees, and research collaborations", "outcome": "Better matches, less administrative search", "why": "Faculty match quality compounds across careers"}, "43": {"what": "Matches investigators to funding opportunities and partners", "outcome": "More targeted submissions, higher hit rate", "why": "Grant fit drives both win rate and impact"}, "44": {"what": "Matches patients to trial eligibility with explainable criteria", "outcome": "More patients screened, faster enrollment", "why": "Eligibility screening is the #1 trial bottleneck"}, "45": {"what": "Synthesizes evidence for clinical questions and policy decisions", "outcome": "Faster, defensible decisions at the point of care", "why": "Synthesis is the new core competency"}, "46": {"what": "Recommends personalized care plans across conditions and settings", "outcome": "Plans aligned to evidence and patient goals", "why": "Care planning capacity gaps drive variation"}, "47": {"what": "Stratifies populations by risk for proactive intervention", "outcome": "Resources reach patients before crises", "why": "Risk stratification underpins value-based contracts"}, "48": {"what": "Drafts SOAP notes from ambient capture and recommends documentation improvements", "outcome": "Documentation time drops; specificity rises", "why": "Documentation burden is the most-cited burnout driver"}, "49": {"what": "Recommends hiring decisions with evidence from rubrics and references", "outcome": "Searches close faster with stronger candidate pools", "why": "Hiring cycle time gates strategic talent moves"}, "50": {"what": "Predicts denial probability before claim submission", "outcome": "Cleaner first-pass yield, less rework", "why": "Pre-submission scrubbing is the highest-ROI revenue lever"}, "51": {"what": "Recommends substitutions and routing during drug shortages", "outcome": "Continuity of care during supply disruption", "why": "Drug shortages are now a permanent feature"}, "52": {"what": "Recommends data access, classification, and sharing decisions", "outcome": "Faster, safer data sharing across the enterprise", "why": "Data governance is the bottleneck for analytics maturity"}, "53": {"what": "Predicts HCAHPS and experience signals from operational data", "outcome": "Service recovery happens before the survey lands", "why": "Patient experience drives both reputation and reimbursement"}, "54": {"what": "Detects risk signals across data sources with mandatory review", "outcome": "Risks reach the right person immediately", "why": "Latent risks compound into existential events"}, "55": {"what": "Coordinates identity across SSO, EHR, LMS, IRB, and research systems", "outcome": "One identity, one experience, one audit trail", "why": "Identity sprawl is the #1 AMC integration failure"}, "56": {"what": "Builds and optimizes scheduling across clinics, OR, and ancillary services", "outcome": "More throughput, fewer conflicts, better utilization", "why": "Scheduling optimization is a top-five operational lever"}, "72": {"what": "Coordinates quality and outcomes measurement across service lines", "outcome": "One outcomes picture per service line, not five", "why": "Outcomes fragmentation makes improvement invisible"}, "73": {"what": "Aligns UME, GME, CME, and continuing education across programs", "outcome": "Smoother transitions, less duplication", "why": "Vertical alignment drags every accreditation outcome"}, "74": {"what": "Coordinates faculty workload, effort, and development across schools", "outcome": "Effort balanced across mission areas", "why": "Faculty effort allocation is the binding strategic constraint"}, "75": {"what": "Coordinates research administration, IRB, contracts, and core facilities", "outcome": "Less rework, faster startup", "why": "Research ops fragmentation is the #1 PI complaint"}, "76": {"what": "Coordinates multi-site trials, contracts, and accrual goals", "outcome": "Stronger sponsor relationships, better margins", "why": "Multi-site coordination is where trials lose money"}, "77": {"what": "Coordinates library, evidence, and knowledge resources enterprise-wide", "outcome": "One source of truth across clinical and academic missions", "why": "Consortium pricing and licensing collapse without coordination"}, "78": {"what": "Orchestrates care across hospital, ambulatory, and post-acute settings", "outcome": "Fewer dropped handoffs, better continuity", "why": "Most attrition hides in transitions, not visits"}, "79": {"what": "Coordinates population health programs across payers and partners", "outcome": "Aligned interventions, measurable outcomes", "why": "Population strategy executes through coordination, not programs"}, "80": {"what": "Coordinates records and information across affiliated systems", "outcome": "One canonical record per patient", "why": "Record sprawl forces re-work at every level"}, "81": {"what": "Coordinates staffing across clinical, academic, and research missions", "outcome": "Staffing aligned to mission and demand", "why": "Mission-misaligned staffing is the slowest-moving lever"}, "82": {"what": "Coordinates revenue cycle and finance across entities and joint ventures", "outcome": "Cleaner consolidations, better margin visibility", "why": "AMC margin is buried in entity sprawl"}, "83": {"what": "Coordinates pharmacy operations, 340B, and supply across sites", "outcome": "Lower cost, cleaner 340B compliance", "why": "Pharmacy coordination unlocks meaningful savings"}, "84": {"what": "Coordinates EHR, ERP, and research IT modernization", "outcome": "Less technical debt, faster delivery", "why": "Tech debt eventually consumes all new investment"}, "85": {"what": "Coordinates patient engagement campaigns across channels and conditions", "outcome": "Sharper segmentation, stronger response rates", "why": "Engagement ROI is now expected to be measured"}, "86": {"what": "Coordinates CMS, Joint Commission, ACGME, and accreditor reporting", "outcome": "Reports submitted clean, on time, with audit trail", "why": "Reporting burden is rising; staffing isn't"}, "87": {"what": "Self-directs identity across the entire enterprise with governance", "outcome": "Continuous identity posture, no manual cleanup", "why": "Operating-model shift, not just a feature"}, "88": {"what": "Single front door across clinical, academic, and research access", "outcome": "Access once, find every program and service", "why": "Ends the per-system access maze"}, "104": {"what": "Self-directs quality and safety surveillance with governance", "outcome": "Continuous quality posture, not periodic scorecards", "why": "Quality compounds with continuous management"}, "105": {"what": "Self-directs UME/GME curriculum optimization at scale", "outcome": "Curricular outcomes improve continuously, not annually", "why": "Continuous improvement is the moat against accreditation risk"}, "106": {"what": "Self-directs faculty lifecycle, effort, and recognition", "outcome": "Faculty strategy executes continuously, not in cycles", "why": "Faculty experience drives retention and recruitment"}, "107": {"what": "Self-directs research administration lifecycle", "outcome": "Investigators spend more time on science, less on admin", "why": "Research administration is where most AMCs lose ground"}, "108": {"what": "Self-directs trial operations from feasibility to closeout", "outcome": "Trial portfolios run continuously, not project-by-project", "why": "Trial operations are the new competitive moat"}, "109": {"what": "Self-directs knowledge synthesis across clinical and academic content", "outcome": "Insight per dollar of knowledge spend rises continuously", "why": "Synthesis, not search, is the next learning advantage"}, "110": {"what": "Proactively guides every patient through every milestone", "outcome": "Anticipated service, not requested service", "why": "Sets the bar for patient and family experience"}, "111": {"what": "Self-directs population health interventions continuously", "outcome": "Continuous population health, not crisis cycles", "why": "Population strategy drives value-based contract margin"}, "112": {"what": "Self-directs records, ROI, and credential issuance", "outcome": "Real-time records, no human bottleneck", "why": "Records agility is becoming a competitive feature"}, "113": {"what": "Self-directs staff and faculty lifecycle with governance", "outcome": "Talent strategy executes continuously, not in cycles", "why": "Talent gaps now constrain strategy more than budget"}, "114": {"what": "Continuously rebalances revenue, spend, and risk across the enterprise", "outcome": "Real-time financial health, not quarterly snapshots", "why": "Moves AMC fiscal management from reactive to live"}, "115": {"what": "Self-directs supply chain, pharmacy, and facilities performance", "outcome": "Continuous operational optimization at scale", "why": "Operations value compounds with continuous management"}, "116": {"what": "Unified operating layer across EHR, ERP, LMS, and research systems", "outcome": "One system of intelligence, many systems of record", "why": "Integration is the limit on every other capability"}, "117": {"what": "Self-directs patient and learner engagement strategy", "outcome": "Campaigns adapt continuously to signal", "why": "Engagement is measured against ROI now, not effort"}, "118": {"what": "Maintains public-facing trust posture across compliance and disclosure", "outcome": "Reputation defended continuously, not after incidents", "why": "Public trust is the institutional license to operate"}, "57": {"what": "Shared identity engine reused across every agent", "outcome": "One reliable capability, not 18 reinventions", "why": "Backbone every other agent depends on"}, "58": {"what": "Shared insurance eligibility and authorization engine", "outcome": "Consistent eligibility decisions across systems", "why": "Eligibility errors are the #1 source of denials"}, "59": {"what": "Shared form, consent, and questionnaire engine", "outcome": "Forms launched in days, not quarters", "why": "Forms backlog is the silent productivity killer"}, "60": {"what": "Shared document capture and OCR across all intake", "outcome": "Paper and faxes become structured data automatically", "why": "Document chasing is the silent backlog driver"}, "61": {"what": "Matches submitted documents to required evidence automatically", "outcome": "No more 'we never received your form' loops", "why": "Evidence-matching errors waste staff time and patient trust"}, "62": {"what": "Generates notices, decisions, and letters consistently", "outcome": "One voice, fewer errors, full audit trail", "why": "Notice quality is a major source of complaints and appeals"}, "63": {"what": "Shared payments rail for refunds, vendor pay, payroll, and patient billing", "outcome": "Faster, cleaner movement of money", "why": "Payment rails are the substrate of trust"}, "64": {"what": "Shared master-data layer for patients, providers, faculty, and vendors", "outcome": "One source of truth across systems", "why": "Master data quality determines analytics ceiling"}, "65": {"what": "Shared business-rules versioning and audit", "outcome": "Always know which rules ran for any decision", "why": "Required for explainability and audit defense"}, "66": {"what": "Balances queues across teams, skills, and SLA", "outcome": "Even workload, no starved queues", "why": "Backbone of any backlog-reduction effort"}, "67": {"what": "Shared messaging across email, SMS, push, and patient portal", "outcome": "One reliable channel layer for every agent", "why": "Channel sprawl makes outreach unreliable"}, "68": {"what": "Shared evidence and document store with retention", "outcome": "All evidence in one place with one retention policy", "why": "Discovery and audit collapse without this"}, "69": {"what": "Standardizes and validates addresses and demographics", "outcome": "Mail reaches patients; demographics roll up cleanly", "why": "Address quality is upstream of every state and federal report"}, "70": {"what": "Shared connector to the EHR (Epic, Cerner, Meditech, etc.)", "outcome": "One reliable EHR interface for every agent", "why": "EHR coupling is the #1 source of integration debt"}, "71": {"what": "Shared connector to the learning and assessment management system", "outcome": "One reliable learning interface for every agent", "why": "LMS data unlocks education and competency agents"}, "89": {"what": "Flags fraud patterns across billing, identity, and claims", "outcome": "Recoveries up, payouts to bad actors down", "why": "Healthcare fraud is a growing federal and state focus"}, "90": {"what": "Continuously monitors privacy impact across all agents", "outcome": "Privacy risks surface before they become incidents", "why": "Required for AI's license to operate in healthcare"}, "91": {"what": "Continuously monitors HIPAA compliance across systems and agents", "outcome": "PHI exposure caught before disclosure", "why": "HIPAA is the bright-line risk in healthcare AI"}, "92": {"what": "Monitors Stark and Anti-Kickback Statute compliance", "outcome": "Referral and arrangement risk surfaces early", "why": "Stark and AKS exposure carries existential financial risk"}, "93": {"what": "Provides AI oversight, drift detection, and bias monitoring", "outcome": "AI behaves as approved, not as it drifts", "why": "Without oversight, AI risk compounds silently"}, "94": {"what": "Maintains end-to-end audit trail for every agent decision", "outcome": "Any decision can be reconstructed and defended", "why": "Audit defense is the cost of doing AI in regulated care"}, "95": {"what": "Continuously monitors health equity across access, treatment, and outcomes", "outcome": "Disparate impact surfaces before patients are harmed", "why": "Equity is now a regulatory and accreditation requirement"}, "96": {"what": "Continuously monitors cyber risk across enterprise systems", "outcome": "Risks surface before they become breaches", "why": "Healthcare is the most-targeted vertical for ransomware"}, "97": {"what": "Continuously reviews IRB and human subjects protection compliance", "outcome": "Protocol drift caught early; subjects protected", "why": "IRB findings can halt research and federal funding"}, "98": {"what": "Continuously monitors ACGME and trainee compliance", "outcome": "Trainee evidence always ready, not assembled", "why": "ACGME findings carry direct GME funding risk"}, "99": {"what": "Reviews AI use cases against institutional ethics policy", "outcome": "AI deployments aligned with stated values", "why": "Required for community and learner trust in AI"}, "100": {"what": "Tracks patient, staff, and learner experience in real time", "outcome": "Pain points surface in days, not annual surveys", "why": "You can't improve what you don't measure"}, "101": {"what": "Scores enterprise risk continuously across domains", "outcome": "Leadership focuses on the risks that move the dial", "why": "Risk-based prioritization is the only scalable path"}, "102": {"what": "Reviews adverse events and produces post-incident learning", "outcome": "Each event makes the institution stronger", "why": "Without learning, adverse events repeat"}, "103": {"what": "Maintains bioethics evidence and review across clinical and research cases", "outcome": "Cases reviewed consistently with full audit trail", "why": "Bioethics is the bright-line public-trust standard"}};
+  const GOAL_PLANS = {
+    burnout: {
+      title: "Reduce Clinician Burnout",
+      sequence: ["Workflow", "Decision", "Workflow", "Cross-Mission", "Autonomous"],
+      agents: [
+        { atomic: 21, step: "Step 1", name: "Inbox Triage", outcome: "Hours of physician time back per week" },
+        { atomic: 48, step: "Step 2", name: "Clinical Documentation", outcome: "Documentation time drops; specificity rises" },
+        { atomic: 28, step: "Step 3", name: "Discharge Planning", outcome: "Shorter LOS, fewer readmits" },
+        { atomic: 78, step: "Step 4", name: "Care Network", outcome: "Fewer dropped handoffs" },
+        { atomic: 110, step: "Step 5", name: "Care Journey", outcome: "Continuous patient orchestration" }
+      ]
+    },
+    outcomes: {
+      title: "Improve Clinical Outcomes & Safety",
+      sequence: ["Workflow", "Decision", "Decision", "Cross-Mission", "Autonomous"],
+      agents: [
+        { atomic: 22, step: "Step 1", name: "Quality Reporting", outcome: "Cleaner submissions, less abstractor burden" },
+        { atomic: 39, step: "Step 2", name: "Sepsis Detection", outcome: "Earlier antibiotics, lower mortality" },
+        { atomic: 40, step: "Step 3", name: "Readmission Predictor", outcome: "Targeted post-discharge support" },
+        { atomic: 72, step: "Step 4", name: "Outcomes Coordinator", outcome: "One outcomes picture per service line" },
+        { atomic: 104, step: "Step 5", name: "Quality Autonomy", outcome: "Continuous quality posture" }
+      ]
+    },
+    research: {
+      title: "Accelerate Research & Discovery",
+      sequence: ["Workflow", "Workflow", "Decision", "Cross-Mission", "Autonomous"],
+      agents: [
+        { atomic: 25, step: "Step 1", name: "Grant Drafting", outcome: "More submissions, stronger first drafts" },
+        { atomic: 26, step: "Step 2", name: "Trial Recruitment", outcome: "Trial accrual rates rise" },
+        { atomic: 44, step: "Step 3", name: "Trial Eligibility", outcome: "More patients screened, faster enrollment" },
+        { atomic: 76, step: "Step 4", name: "Trial Network", outcome: "Multi-site coordination at scale" },
+        { atomic: 107, step: "Step 5", name: "Research Autonomy", outcome: "Investigators focus on science" }
+      ]
+    },
+    education: {
+      title: "Strengthen Medical Education",
+      sequence: ["Workflow", "Workflow", "Decision", "Cross-Mission", "Autonomous"],
+      agents: [
+        { atomic: 23, step: "Step 1", name: "Lecture Capture", outcome: "Learners get timestamped notes" },
+        { atomic: 24, step: "Step 2", name: "Faculty Activity", outcome: "Promotion packets assemble themselves" },
+        { atomic: 41, step: "Step 3", name: "Adaptive Learning", outcome: "Faster competency, fewer remediations" },
+        { atomic: 73, step: "Step 4", name: "Curriculum Coordinator", outcome: "Smoother transitions across programs" },
+        { atomic: 105, step: "Step 5", name: "Adaptive Curriculum", outcome: "Outcomes improve continuously" }
+      ]
+    },
+    margin: {
+      title: "Run a Healthier Margin",
+      sequence: ["Transactional", "Workflow", "Decision", "Cross-Mission", "Autonomous"],
+      agents: [
+        { atomic: 14, step: "Step 1", name: "Charge Capture", outcome: "Faster, cleaner revenue capture" },
+        { atomic: 32, step: "Step 2", name: "Denial Management", outcome: "Higher overturn rate, faster cash" },
+        { atomic: 50, step: "Step 3", name: "Denial Predictor", outcome: "Cleaner first-pass yield" },
+        { atomic: 82, step: "Step 4", name: "Margin Coordinator", outcome: "Cleaner consolidations" },
+        { atomic: 114, step: "Step 5", name: "Fiscal Intelligence", outcome: "Real-time financial health" }
+      ]
+    }
+  };
+
+  const tooltip = document.getElementById('tooltip');
+  const search = document.getElementById('search');
+  const reset = document.getElementById('reset');
+  const legendBtns = Array.from(document.querySelectorAll('.legend-item'));
+  const goalBtns = Array.from(document.querySelectorAll('.goal-item'));
+  const buildPlan = document.getElementById('buildPlan');
+  const bpTitle = document.getElementById('bpTitle');
+  const bpSequence = document.getElementById('bpSequence');
+  const bpGrid = document.getElementById('bpGrid');
+  const bpClear = document.getElementById('bpClear');
+
+  function showTooltip(e, cell) {
+    const sym = cell.dataset.symbol, num = cell.dataset.atomic;
+    const name = cell.dataset.name, dom = cell.dataset.domain, tier = cell.dataset.tier;
+    const vp = VALUE_PROPS[num] || {};
+    let html =
+      '<div class="tt-symbol">' + sym + ' · #' + num + '</div>' +
+      '<div class="tt-name">' + name + '</div>' +
+      '<div class="tt-meta">' + dom + ' · ' + tier + '</div>';
+    if (vp.what) html += '<div class="tt-section"><div class="tt-label">What</div><div class="tt-value">' + vp.what + '</div></div>';
+    if (vp.outcome) html += '<div class="tt-section"><div class="tt-label">Outcome</div><div class="tt-value">' + vp.outcome + '</div></div>';
+    if (vp.why) html += '<div class="tt-section"><div class="tt-label">Why it matters</div><div class="tt-value">' + vp.why + '</div></div>';
+    tooltip.innerHTML = html;
+    tooltip.classList.add('show');
+    tooltip.setAttribute('aria-hidden', 'false');
+    moveTooltip(e);
+  }
+  function moveTooltip(e) {
+    const pad = 14;
+    const tw = tooltip.offsetWidth, th = tooltip.offsetHeight;
+    let x = e.clientX + pad, y = e.clientY + pad;
+    if (x + tw > window.innerWidth - 8) x = e.clientX - tw - pad;
+    if (y + th > window.innerHeight - 8) y = e.clientY - th - pad;
+    tooltip.style.left = x + 'px';
+    tooltip.style.top = y + 'px';
+  }
+  function hideTooltip() {
+    tooltip.classList.remove('show');
+    tooltip.setAttribute('aria-hidden', 'true');
+  }
+
+  const panel = document.getElementById('detailPanel');
+  const backdrop = document.getElementById('panelBackdrop');
+  const dpClose = document.getElementById('dpClose');
+  const dpPrev = document.getElementById('dpPrev');
+  const dpNext = document.getElementById('dpNext');
+  const dpName = document.getElementById('dpName');
+  const dpDomain = document.getElementById('dpDomain');
+  const dpAtomic = document.getElementById('dpAtomic');
+  const dpSymbol = document.getElementById('dpSymbol');
+  const dpSymbolBox = document.getElementById('dpSymbolBox');
+  const dpAtomicFull = document.getElementById('dpAtomicFull');
+  const dpSymbolFull = document.getElementById('dpSymbolFull');
+  const dpDomainFull = document.getElementById('dpDomainFull');
+  const dpPeriod = document.getElementById('dpPeriod');
+  const dpGroup = document.getElementById('dpGroup');
+  const dpTier = document.getElementById('dpTier');
+  const dpCounter = document.getElementById('dpCounter');
+
+  let pinnedCell = null;
+
+  function openPanel(cell) {
+    if (pinnedCell) pinnedCell.classList.remove('pinned');
+    pinnedCell = cell;
+    cell.classList.add('pinned');
+    const sym = cell.dataset.symbol, num = cell.dataset.atomic;
+    const name = cell.dataset.name, dom = cell.dataset.domain, tier = cell.dataset.tier;
+    const period = cell.dataset.period, group = cell.dataset.group;
+    const fill = cell.style.background;
+    dpName.textContent = name;
+    dpDomain.textContent = dom;
+    dpAtomic.textContent = num;
+    dpSymbol.textContent = sym;
+    dpSymbolBox.style.background = fill;
+    dpAtomicFull.textContent = num;
+    dpSymbolFull.textContent = sym;
+    dpDomainFull.textContent = dom;
+    dpPeriod.textContent = period;
+    dpGroup.textContent = (group === 'L') ? 'Lanthanides (operational backbone)'
+                        : (group === 'A') ? 'Actinides (governance & public trust)'
+                        : 'Group ' + group;
+    dpTier.textContent = tier;
+    const vp = VALUE_PROPS[num] || {};
+    document.getElementById('dpWhat').textContent = vp.what || '—';
+    document.getElementById('dpOutcome').textContent = vp.outcome || '—';
+    document.getElementById('dpWhy').textContent = vp.why || '—';
+    const idx = cells.indexOf(cell);
+    dpCounter.textContent = (idx + 1) + ' of ' + cells.length;
+    dpPrev.disabled = (idx <= 0);
+    dpNext.disabled = (idx >= cells.length - 1);
+    panel.classList.add('show');
+    backdrop.classList.add('show');
+    panel.setAttribute('aria-hidden', 'false');
+    hideTooltip();
+    setTimeout(() => dpClose.focus(), 50);
+  }
+
+  function closePanel() {
+    panel.classList.remove('show');
+    backdrop.classList.remove('show');
+    panel.setAttribute('aria-hidden', 'true');
+    if (pinnedCell) {
+      pinnedCell.classList.remove('pinned');
+      const cell = pinnedCell;
+      pinnedCell = null;
+      cell.focus();
+    }
+  }
+
+  function navigatePanel(delta) {
+    if (!pinnedCell) return;
+    const idx = cells.indexOf(pinnedCell);
+    const next = cells[idx + delta];
+    if (next) openPanel(next);
+  }
+
+  cells.forEach(c => {
+    c.addEventListener('mouseenter', e => { if (!panel.classList.contains('show')) showTooltip(e, c); });
+    c.addEventListener('mousemove', e => { if (!panel.classList.contains('show')) moveTooltip(e); });
+    c.addEventListener('mouseleave', hideTooltip);
+    c.addEventListener('focus', e => {
+      if (panel.classList.contains('show')) return;
+      const r = c.getBoundingClientRect();
+      showTooltip({ clientX: r.left + r.width/2, clientY: r.bottom }, c);
+    });
+    c.addEventListener('blur', hideTooltip);
+    c.addEventListener('click', () => openPanel(c));
+    c.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openPanel(c); }
+    });
+  });
+
+  dpClose.addEventListener('click', closePanel);
+  backdrop.addEventListener('click', closePanel);
+  dpPrev.addEventListener('click', () => navigatePanel(-1));
+  dpNext.addEventListener('click', () => navigatePanel(1));
+
+  document.addEventListener('keydown', e => {
+    if (!panel.classList.contains('show')) return;
+    if (e.key === 'Escape') closePanel();
+    else if (e.key === 'ArrowLeft') navigatePanel(-1);
+    else if (e.key === 'ArrowRight') navigatePanel(1);
+  });
+
+  function applyFilter(predicate) {
+    cells.forEach(c => {
+      if (predicate(c)) c.classList.remove('dimmed');
+      else c.classList.add('dimmed');
+    });
+  }
+  function clearFilter() {
+    cells.forEach(c => { c.classList.remove('dimmed'); c.classList.remove('highlighted'); });
+    legendBtns.forEach(b => b.classList.remove('active'));
+    goalBtns.forEach(b => b.classList.remove('active'));
+    search.value = '';
+    hideBuildPlan();
+  }
+
+  goalBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const goalKey = btn.dataset.goal;
+      const wasActive = btn.classList.contains('active');
+      cells.forEach(c => { c.classList.remove('dimmed'); c.classList.remove('highlighted'); });
+      legendBtns.forEach(b => b.classList.remove('active'));
+      goalBtns.forEach(b => b.classList.remove('active'));
+      search.value = '';
+      if (wasActive) { hideBuildPlan(); return; }
+      btn.classList.add('active');
+      const plan = GOAL_PLANS[goalKey];
+      if (!plan) return;
+      renderBuildPlan(plan);
+      const set = new Set(plan.agents.map(a => String(a.atomic)));
+      cells.forEach(c => {
+        if (set.has(c.dataset.atomic)) c.classList.add('highlighted');
+        else c.classList.add('dimmed');
+      });
+    });
+  });
+
+  function renderBuildPlan(plan) {
+    bpTitle.textContent = "Top 5 agents · " + plan.title;
+    bpSequence.innerHTML = '<strong>Build order:</strong> ' + plan.sequence.join(' → ');
+    bpGrid.innerHTML = plan.agents.map(a => {
+      const cell = cells.find(c => c.dataset.atomic === String(a.atomic));
+      const sym = cell ? cell.dataset.symbol : '';
+      const period = cell ? cell.dataset.period : '';
+      const tier = cell ? cell.dataset.tier : '';
+      const fill = cell ? cell.style.background : '#eee';
+      return '<button class="bp-card" data-atomic="' + a.atomic + '">' +
+             '<div class="bp-card-head">' +
+               '<div class="bp-symbol" style="background:' + fill + '">' + sym + '</div>' +
+               '<div class="bp-step">' + a.step + '</div>' +
+             '</div>' +
+             '<div class="bp-name">' + a.name + '</div>' +
+             '<div class="bp-outcome">' + a.outcome + '</div>' +
+             '<div class="bp-period">Period ' + period + ' · ' + tier + '</div>' +
+             '</button>';
+    }).join('');
+    buildPlan.hidden = false;
+    Array.from(bpGrid.querySelectorAll('.bp-card')).forEach(card => {
+      card.addEventListener('click', () => {
+        const atomic = card.dataset.atomic;
+        const target = cells.find(c => c.dataset.atomic === atomic);
+        if (target) openPanel(target);
+      });
+    });
+  }
+
+  function hideBuildPlan() {
+    buildPlan.hidden = true;
+    bpGrid.innerHTML = '';
+  }
+
+  bpClear.addEventListener('click', () => {
+    goalBtns.forEach(b => b.classList.remove('active'));
+    cells.forEach(c => { c.classList.remove('dimmed'); c.classList.remove('highlighted'); });
+    hideBuildPlan();
+  });
+
+  legendBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const g = btn.dataset.filterGroup;
+      const wasActive = btn.classList.contains('active');
+      legendBtns.forEach(b => b.classList.remove('active'));
+      goalBtns.forEach(b => b.classList.remove('active'));
+      cells.forEach(c => c.classList.remove('highlighted'));
+      hideBuildPlan();
+      if (wasActive) { clearFilter(); return; }
+      btn.classList.add('active');
+      applyFilter(c => c.dataset.group === g);
+    });
+  });
+
+  search.addEventListener('input', () => {
+    const q = search.value.trim().toLowerCase();
+    legendBtns.forEach(b => b.classList.remove('active'));
+    goalBtns.forEach(b => b.classList.remove('active'));
+    cells.forEach(c => c.classList.remove('highlighted'));
+    hideBuildPlan();
+    if (!q) { cells.forEach(c => c.classList.remove('dimmed')); return; }
+    applyFilter(c =>
+      c.dataset.name.toLowerCase().includes(q) ||
+      c.dataset.symbol.toLowerCase().includes(q) ||
+      c.dataset.domain.toLowerCase().includes(q) ||
+      c.dataset.atomic === q
+    );
+  });
+
+  reset.addEventListener('click', clearFilter);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1191 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SLG AI Agent Periodic Table</title>
+<meta name="viewport" content="width=1400">
+<style>
+  :root {
+    --navy: #1F3A5F;
+    --ink: #1a1a1a;
+    --muted: #555;
+    --bg: #f7f7f5;
+    --card-bg: #ffffff;
+    --shadow: 0 1px 3px rgba(0,0,0,.08);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    padding: 24px;
+    min-width: 1400px;
+  }
+  header { text-align: center; margin-bottom: 18px; }
+  header h1 {
+    font-size: 28px;
+    margin: 0 0 4px 0;
+    color: var(--navy);
+    letter-spacing: -.01em;
+  }
+  header p {
+    margin: 0;
+    color: var(--muted);
+    font-style: italic;
+    font-size: 14px;
+  }
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 16px auto;
+    max-width: 1400px;
+  }
+  .controls input[type="search"] {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    background: var(--card-bg);
+  }
+  .controls button.reset {
+    padding: 8px 14px;
+    background: var(--navy);
+    color: white;
+    border: 0;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+  }
+  .controls button.reset:hover { background: #15273f; }
+  .grid-wrap { overflow-x: auto; text-align: center; }
+  .grid {
+    display: inline-block;
+    background: var(--card-bg);
+    padding: 12px;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+  }
+  .row { display: flex; gap: 4px; margin-bottom: 4px; }
+  .row:last-child { margin-bottom: 0; }
+  .cell {
+    width: 70px;
+    height: 78px;
+    border-radius: 5px;
+    padding: 4px 4px 3px;
+    font-size: 11px;
+    line-height: 1.1;
+    position: relative;
+    transition: transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+    cursor: pointer;
+    border: 1px solid rgba(0,0,0,.08);
+  }
+  .cell:focus { outline: 2px solid var(--navy); outline-offset: 1px; }
+  .cell:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,.18);
+    z-index: 5;
+  }
+  .cell .atomic { position: absolute; top: 3px; left: 5px; font-size: 9.5px; color: #444; }
+  .cell .symbol { font-weight: 700; font-size: 18px; text-align: center; margin-top: 12px; color: #111; }
+  .cell .name { font-size: 9px; text-align: center; color: #333; margin-top: 2px; }
+  .cell.empty {
+    background: transparent;
+    border: 0;
+    cursor: default;
+    pointer-events: none;
+  }
+  .cell.label {
+    background: var(--navy);
+    color: white;
+    border: 0;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: default;
+  }
+  .cell.label:hover { transform: none; box-shadow: none; }
+  .cell.period-label {
+    background: #e8e8e8;
+    color: #333;
+    border: 0;
+    width: 76px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: default;
+  }
+  .cell.period-label.small { font-size: 10px; }
+  .cell.period-label:hover { transform: none; box-shadow: none; }
+  .cell.pointer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: default;
+  }
+  .cell.pointer .range { font-weight: 700; font-size: 12px; color: #333; }
+  .cell.pointer .ptr-label { font-size: 9px; color: #444; margin-top: 3px; }
+  .lanth-pointer { background: #F0E68C; }
+  .actin-pointer { background: #E6B8B7; }
+  .lanth-actin { margin-top: 14px; }
+  .cell.dimmed { opacity: .18; }
+
+  .priorities {
+    margin: 24px auto 8px;
+    max-width: 1400px;
+    background: var(--card-bg);
+    padding: 14px 16px;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+  }
+  .priorities h2 {
+    margin: 0 0 4px 0;
+    font-size: 14px;
+    color: var(--navy);
+    letter-spacing: .02em;
+    text-transform: uppercase;
+  }
+  .priorities .ph-sub {
+    margin: 0 0 12px 0;
+    color: var(--muted);
+    font-size: 12.5px;
+    font-style: italic;
+  }
+  .priorities-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+  .priority-item {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    background: #fafafa;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 10px 12px;
+    cursor: pointer;
+    text-align: left;
+    color: var(--ink);
+    font-family: inherit;
+    transition: background .12s ease, border-color .12s ease, transform .12s ease;
+  }
+  .priority-item:hover {
+    background: #f0f4fa;
+    border-color: #b8c4d4;
+    transform: translateY(-1px);
+  }
+  .priority-item.active {
+    background: #1F3A5F;
+    border-color: #1F3A5F;
+  }
+  .priority-item.active .priority-label,
+  .priority-item.active .priority-blurb,
+  .priority-item.active .priority-count {
+    color: white;
+  }
+  .priority-label {
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--navy);
+  }
+  .priority-blurb {
+    font-size: 11.5px;
+    color: #555;
+    line-height: 1.3;
+  }
+  .priority-count {
+    font-size: 10.5px;
+    color: #888;
+    margin-top: 2px;
+    font-weight: 600;
+  }
+  .cell.highlighted {
+    outline: 2px solid #1F3A5F;
+    outline-offset: 1px;
+    box-shadow: 0 0 0 4px rgba(31, 58, 95, .15);
+    z-index: 4;
+  }
+
+  .narrative {
+    margin: 24px auto 8px;
+    max-width: 1400px;
+    background: var(--card-bg);
+    padding: 20px 28px;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+  }
+  .narrative h2 {
+    margin: 0 0 14px 0;
+    font-size: 14px;
+    color: var(--navy);
+    letter-spacing: .02em;
+    text-transform: uppercase;
+  }
+  .narrative h3 {
+    margin: 16px 0 6px 0;
+    font-size: 14px;
+    color: var(--navy);
+  }
+  .narrative p {
+    margin: 0 0 10px 0;
+    font-size: 13px;
+    line-height: 1.55;
+    color: #2a2a2a;
+  }
+  .narrative ul {
+    margin: 4px 0 12px 0;
+    padding-left: 22px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #2a2a2a;
+  }
+  .narrative li { margin-bottom: 5px; }
+  .narrative li strong { color: var(--navy); }
+  .narrative .lead {
+    font-size: 13.5px;
+    color: #333;
+    border-left: 3px solid var(--navy);
+    padding-left: 14px;
+    margin-bottom: 14px;
+  }
+
+  .legend {
+    margin: 24px auto 8px;
+    max-width: 1400px;
+    background: var(--card-bg);
+    padding: 14px 16px;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+  }
+  .legend h2 {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    color: var(--navy);
+    letter-spacing: .02em;
+    text-transform: uppercase;
+  }
+  .legend-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px 14px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    padding: 5px 8px;
+    font-size: 12.5px;
+    cursor: pointer;
+    text-align: left;
+    color: var(--ink);
+    font-family: inherit;
+  }
+  .legend-item:hover { background: #f0f0ed; border-color: #ddd; }
+  .legend-item.active { background: #e8edf5; border-color: var(--navy); }
+  .swatch {
+    width: 18px; height: 18px; border-radius: 4px;
+    border: 1px solid rgba(0,0,0,.1);
+    flex-shrink: 0;
+  }
+  .legend-num { font-weight: 700; min-width: 18px; color: #333; }
+  .legend-name { color: #222; }
+
+  .maturity {
+    margin: 16px auto;
+    max-width: 1400px;
+    background: var(--card-bg);
+    padding: 14px 16px;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+  }
+  .maturity h2 {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    color: var(--navy);
+    letter-spacing: .02em;
+    text-transform: uppercase;
+  }
+  .maturity dl { margin: 0; display: grid; grid-template-columns: max-content 1fr; gap: 4px 16px; }
+  .maturity dt { font-weight: 700; color: var(--navy); }
+  .maturity dd { margin: 0; color: #333; }
+
+  /* Tooltip */
+  .tooltip {
+    position: fixed;
+    background: #1a1a1a;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    line-height: 1.4;
+    max-width: 240px;
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0;
+    transition: opacity .12s ease;
+    box-shadow: 0 4px 16px rgba(0,0,0,.25);
+  }
+  .tooltip.show { opacity: 1; }
+  .tooltip .tt-symbol { font-weight: 700; font-size: 14px; }
+  .tooltip .tt-name { font-weight: 600; margin-top: 2px; }
+  .tooltip .tt-meta { color: #bbb; margin-top: 4px; font-size: 11px; }
+
+  /* Click-to-pin detail panel */
+  .panel-backdrop {
+    position: fixed; inset: 0;
+    background: rgba(20, 28, 45, 0.45);
+    z-index: 200; opacity: 0; pointer-events: none;
+    transition: opacity .15s ease;
+  }
+  .panel-backdrop.show { opacity: 1; pointer-events: auto; }
+  .detail-panel {
+    position: fixed; top: 50%; left: 50%;
+    transform: translate(-50%, -50%) scale(.96);
+    width: min(460px, calc(100vw - 32px));
+    background: white; border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.35);
+    z-index: 201; opacity: 0; pointer-events: none;
+    transition: opacity .15s ease, transform .15s ease;
+    overflow: hidden;
+  }
+  .detail-panel.show {
+    opacity: 1; pointer-events: auto;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  .dp-header {
+    padding: 22px 56px 18px 24px;
+    display: flex; align-items: flex-start; gap: 18px;
+    border-bottom: 1px solid #eee; position: relative;
+  }
+  .dp-symbol-box {
+    width: 88px; height: 88px; border-radius: 8px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    border: 1px solid rgba(0,0,0,.1); flex-shrink: 0;
+    position: relative;
+  }
+  .dp-symbol-box .dp-atomic {
+    position: absolute; top: 6px; left: 8px;
+    font-size: 11px; color: #444;
+  }
+  .dp-symbol-box .dp-symbol {
+    font-size: 30px; font-weight: 700; color: #111; margin-top: 6px;
+  }
+  .dp-title h3 {
+    margin: 0 0 4px 0; font-size: 19px;
+    color: var(--navy); line-height: 1.25;
+  }
+  .dp-title .dp-domain { font-size: 13px; color: #555; }
+  .dp-close {
+    position: absolute; top: 12px; right: 12px;
+    width: 32px; height: 32px; border: 0;
+    background: transparent; border-radius: 6px;
+    cursor: pointer; color: #666; font-size: 22px;
+    line-height: 1; display: flex;
+    align-items: center; justify-content: center;
+    font-family: inherit;
+  }
+  .dp-close:hover { background: #f0f0ed; color: #111; }
+  .dp-body {
+    padding: 16px 24px 18px;
+    display: grid; grid-template-columns: max-content 1fr;
+    gap: 10px 18px; font-size: 13px;
+  }
+  .dp-body dt {
+    font-weight: 600; color: var(--navy);
+    text-transform: uppercase; font-size: 10.5px;
+    letter-spacing: .04em; align-self: center;
+  }
+  .dp-body dd { margin: 0; color: #222; align-self: center; }
+  .dp-nav {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 16px; background: #f7f7f5;
+    border-top: 1px solid #eee;
+  }
+  .dp-nav button {
+    background: white; border: 1px solid #ccc;
+    color: #333; padding: 6px 14px;
+    border-radius: 5px; cursor: pointer;
+    font-size: 12px; font-family: inherit;
+  }
+  .dp-nav button:hover:not(:disabled) {
+    border-color: var(--navy); color: var(--navy);
+  }
+  .dp-nav button:disabled { opacity: .35; cursor: not-allowed; }
+  .dp-nav .dp-counter { font-size: 11px; color: #777; }
+
+  .cell.pinned {
+    outline: 3px solid var(--navy);
+    outline-offset: 1px;
+    z-index: 6;
+  }
+
+  footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 18px;
+  }
+
+  @media print {
+    body { padding: 6px; min-width: 0; }
+    .controls { display: none; }
+    .cell:hover { transform: none; box-shadow: none; }
+    .grid { box-shadow: none; }
+  }
+
+  /* Goals (primary entry point) */
+  .goals {
+    margin: 8px auto 18px;
+    max-width: 1400px;
+    background: linear-gradient(135deg, #1F3A5F 0%, #2a4d7a 100%);
+    color: white;
+    padding: 22px 24px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(31,58,95,.18);
+  }
+  .goals h2 {
+    margin: 0 0 4px 0; font-size: 18px; color: white;
+    letter-spacing: .01em;
+  }
+  .goals .ph-sub {
+    margin: 0 0 14px 0; color: #d6dfee;
+    font-size: 13px; font-style: italic;
+  }
+  .goals-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+  }
+  .goal-item {
+    display: flex; flex-direction: column; gap: 4px;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.18);
+    border-radius: 8px;
+    padding: 14px 14px;
+    cursor: pointer; text-align: left;
+    color: white; font-family: inherit;
+    transition: background .15s ease, transform .12s ease, border-color .15s ease;
+  }
+  .goal-item:hover {
+    background: rgba(255,255,255,.18);
+    border-color: rgba(255,255,255,.35);
+    transform: translateY(-2px);
+  }
+  .goal-item.active {
+    background: white;
+    border-color: white;
+  }
+  .goal-item.active .goal-label { color: var(--navy); }
+  .goal-item.active .goal-blurb { color: #555; }
+  .goal-label {
+    font-weight: 700; font-size: 14px; line-height: 1.25;
+  }
+  .goal-blurb {
+    font-size: 11.5px; line-height: 1.35;
+    color: #d6dfee;
+  }
+
+  /* Build plan panel */
+  .build-plan {
+    margin-top: 18px;
+    background: white;
+    border-radius: 8px;
+    padding: 18px 20px;
+    color: var(--ink);
+  }
+  .build-plan[hidden] { display: none; }
+  .bp-header {
+    display: flex; justify-content: space-between;
+    align-items: baseline; gap: 16px;
+    margin-bottom: 14px; flex-wrap: wrap;
+  }
+  .bp-header h3 {
+    margin: 0; font-size: 15px; color: var(--navy);
+    letter-spacing: .01em;
+  }
+  .bp-sequence {
+    font-size: 12px; color: #555;
+    background: #f0f4fa; padding: 5px 12px;
+    border-radius: 14px; font-weight: 600;
+  }
+  .bp-sequence strong { color: var(--navy); }
+  .bp-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+  }
+  .bp-card {
+    border: 1px solid #ddd; border-radius: 7px;
+    padding: 10px 12px;
+    background: #fafafa;
+    cursor: pointer;
+    transition: border-color .12s, transform .12s, box-shadow .12s;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .bp-card:hover {
+    border-color: var(--navy);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,.1);
+  }
+  .bp-card-head {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 2px;
+  }
+  .bp-symbol {
+    width: 28px; height: 28px;
+    border-radius: 5px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 12px;
+    border: 1px solid rgba(0,0,0,.1);
+    color: #111;
+  }
+  .bp-step {
+    font-size: 10px; color: #888;
+    text-transform: uppercase; letter-spacing: .04em;
+    font-weight: 700;
+  }
+  .bp-name {
+    font-weight: 700; font-size: 12.5px;
+    color: var(--navy); line-height: 1.25;
+  }
+  .bp-outcome {
+    font-size: 11.5px; color: #444; line-height: 1.35;
+  }
+  .bp-period {
+    font-size: 10.5px; color: #777;
+    margin-top: 2px; font-weight: 600;
+  }
+  .bp-clear {
+    margin-top: 12px;
+    background: transparent;
+    border: 1px solid #ccc;
+    color: #555; padding: 5px 12px;
+    border-radius: 5px; cursor: pointer;
+    font-size: 11.5px; font-family: inherit;
+  }
+  .bp-clear:hover { border-color: var(--navy); color: var(--navy); }
+
+  /* How to Start panel */
+  .howto {
+    margin: 16px auto;
+    max-width: 1400px;
+    background: var(--card-bg);
+    padding: 16px 20px;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+  }
+  .howto h2 {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    color: var(--navy);
+    letter-spacing: .02em;
+    text-transform: uppercase;
+  }
+  .howto-steps {
+    margin: 0; padding-left: 22px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    list-style: decimal;
+    font-size: 12.5px;
+    color: #333;
+    line-height: 1.4;
+  }
+  .howto-steps li { padding-right: 8px; }
+  .howto-steps strong { color: var(--navy); display: block; margin-bottom: 2px; }
+
+  /* Tooltip — value-driven sections */
+  .tooltip {
+    max-width: 280px;
+  }
+  .tooltip .tt-section {
+    margin-top: 6px; padding-top: 6px;
+    border-top: 1px solid #444;
+  }
+  .tooltip .tt-label {
+    color: #f5b041; font-size: 10px;
+    text-transform: uppercase; letter-spacing: .05em;
+    font-weight: 700; margin-bottom: 1px;
+  }
+  .tooltip .tt-value { color: white; font-size: 12px; line-height: 1.35; }
+
+  /* Detail panel — value sections */
+  .dp-value-section {
+    padding: 14px 24px 0;
+    margin-bottom: 4px;
+  }
+  .dp-value-block {
+    margin-bottom: 12px;
+  }
+  .dp-value-block:last-child { margin-bottom: 0; }
+  .dp-value-label {
+    font-size: 10.5px; color: var(--navy);
+    text-transform: uppercase; letter-spacing: .04em;
+    font-weight: 700; margin-bottom: 3px;
+  }
+  .dp-value-text {
+    font-size: 13px; color: #222; line-height: 1.45;
+  }
+
+</style>
+</head>
+<body>
+<header>
+  <h1>State &amp; Local Government AI Agent Periodic Table</h1>
+  <p>Pick a goal above to see your top 5 agents and build order — or explore all 118 agents below by domain (column) and maturity (row).</p>
+</header>
+
+<div class="controls">
+  <input type="search" id="search" placeholder="Or search by agent name, symbol, or domain…" autocomplete="off">
+  <button class="reset" id="reset">Reset filters</button>
+</div>
+
+
+<section class="goals">
+  <h2>Start with Your Goal</h2>
+  <p class="ph-sub">Pick the outcome you're chasing. We'll show you the 5 agents that move the needle, in build order.</p>
+  <div class="goals-grid">
+    <button class="goal-item" data-goal="fiscal">
+      <span class="goal-label">Improve Fiscal Stewardship</span>
+      <span class="goal-blurb">Forecast accuracy, audit readiness, payment integrity</span>
+    </button>
+    <button class="goal-item" data-goal="backlog">
+      <span class="goal-label">Reduce Case Backlogs</span>
+      <span class="goal-blurb">Triage, document capture, worker assist, queue balance</span>
+    </button>
+    <button class="goal-item" data-goal="experience">
+      <span class="goal-label">Improve Constituent Experience</span>
+      <span class="goal-blurb">No-wrong-door access, self-service, life-event journeys</span>
+    </button>
+    <button class="goal-item" data-goal="uptake">
+      <span class="goal-label">Increase Benefit Uptake</span>
+      <span class="goal-blurb">Eligibility screening, frictionless enrollment, renewal accuracy</span>
+    </button>
+    <button class="goal-item" data-goal="fraud">
+      <span class="goal-label">Reduce Fraud &amp; Risk</span>
+      <span class="goal-blurb">Identity verification, fraud detection, payment assurance</span>
+    </button>
+  </div>
+  <div class="build-plan" id="buildPlan" hidden>
+    <div class="bp-header">
+      <h3 id="bpTitle">Top 5 agents</h3>
+      <div class="bp-sequence" id="bpSequence"></div>
+    </div>
+    <div class="bp-grid" id="bpGrid"></div>
+    <button class="bp-clear" id="bpClear">Clear plan</button>
+  </div>
+</section>
+
+<div class="grid-wrap">
+  <div class="grid" id="grid">
+    <div class="row header-row"><div class="cell label">&nbsp;</div><div class="cell label">Group 1</div><div class="cell label">Group 2</div><div class="cell label">Group 3</div><div class="cell label">Group 4</div><div class="cell label">Group 5</div><div class="cell label">Group 6</div><div class="cell label">Group 7</div><div class="cell label">Group 8</div><div class="cell label">Group 9</div><div class="cell label">Group 10</div><div class="cell label">Group 11</div><div class="cell label">Group 12</div><div class="cell label">Group 13</div><div class="cell label">Group 14</div><div class="cell label">Group 15</div><div class="cell label">Group 16</div><div class="cell label">Group 17</div><div class="cell label">Group 18</div></div>
+<div class="row"><div class="cell period-label">Period 1</div><div class="cell g1" style="background:#DCEEFB" data-group="1" data-period="1" data-name="Identity Access Agent" data-domain="Identity & Access" data-tier="Informational" data-symbol="Aa" data-atomic="1" tabindex="0"><div class="atomic">1</div><div class="symbol">Aa</div><div class="name">Identity Access</div></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell g18" style="background:#DECBE4" data-group="18" data-period="1" data-name="Community Interface Agent" data-domain="External / Federal / Nonprofit" data-tier="Informational" data-symbol="Ab" data-atomic="2" tabindex="0"><div class="atomic">2</div><div class="symbol">Ab</div><div class="name">Community Interface</div></div></div>
+<div class="row"><div class="cell period-label">Period 2</div><div class="cell g1" style="background:#DCEEFB" data-group="1" data-period="2" data-name="Login Support Agent" data-domain="Identity & Access" data-tier="Informational" data-symbol="Ac" data-atomic="3" tabindex="0"><div class="atomic">3</div><div class="symbol">Ac</div><div class="name">Login Support</div></div><div class="cell g2" style="background:#BFE3F5" data-group="2" data-period="2" data-name="Benefits Screener Agent" data-domain="Benefits & Eligibility" data-tier="Informational" data-symbol="Ad" data-atomic="4" tabindex="0"><div class="atomic">4</div><div class="symbol">Ad</div><div class="name">Benefits Screener</div></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell g13" style="background:#FFE4B5" data-group="13" data-period="2" data-name="HR Policy Agent" data-domain="HR" data-tier="Informational" data-symbol="Ae" data-atomic="5" tabindex="0"><div class="atomic">5</div><div class="symbol">Ae</div><div class="name">HR Policy</div></div><div class="cell g14" style="background:#F2D7A0" data-group="14" data-period="2" data-name="Budget Guidance Agent" data-domain="Budget & Finance" data-tier="Informational" data-symbol="Af" data-atomic="6" tabindex="0"><div class="atomic">6</div><div class="symbol">Af</div><div class="name">Budget Guidance</div></div><div class="cell g15" style="background:#E5D8BD" data-group="15" data-period="2" data-name="Vendor Registration Agent" data-domain="Procurement" data-tier="Informational" data-symbol="Ag" data-atomic="7" tabindex="0"><div class="atomic">7</div><div class="symbol">Ag</div><div class="name">Vendor Registration</div></div><div class="cell g16" style="background:#B3CDE3" data-group="16" data-period="2" data-name="IT Helpdesk Agent" data-domain="IT & Data" data-tier="Informational" data-symbol="Ah" data-atomic="8" tabindex="0"><div class="atomic">8</div><div class="symbol">Ah</div><div class="name">IT Helpdesk</div></div><div class="cell g17" style="background:#CCEBC5" data-group="17" data-period="2" data-name="Agency Routing Agent" data-domain="Interagency" data-tier="Informational" data-symbol="Ai" data-atomic="9" tabindex="0"><div class="atomic">9</div><div class="symbol">Ai</div><div class="name">Agency Routing</div></div><div class="cell g18" style="background:#DECBE4" data-group="18" data-period="2" data-name="Federal Navigation Agent" data-domain="External / Federal / Nonprofit" data-tier="Informational" data-symbol="Aj" data-atomic="10" tabindex="0"><div class="atomic">10</div><div class="symbol">Aj</div><div class="name">Federal Navigation</div></div></div>
+<div class="row"><div class="cell period-label">Period 3</div><div class="cell g1" style="background:#DCEEFB" data-group="1" data-period="3" data-name="Verification Prep Agent" data-domain="Identity & Access" data-tier="Transactional" data-symbol="Ak" data-atomic="11" tabindex="0"><div class="atomic">11</div><div class="symbol">Ak</div><div class="name">Verification Prep</div></div><div class="cell g2" style="background:#BFE3F5" data-group="2" data-period="3" data-name="SNAP Application Agent" data-domain="Benefits & Eligibility" data-tier="Transactional" data-symbol="Al" data-atomic="12" tabindex="0"><div class="atomic">12</div><div class="symbol">Al</div><div class="name">SNAP Application</div></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell g13" style="background:#FFE4B5" data-group="13" data-period="3" data-name="Onboarding Agent" data-domain="HR" data-tier="Transactional" data-symbol="Am" data-atomic="13" tabindex="0"><div class="atomic">13</div><div class="symbol">Am</div><div class="name">Onboarding</div></div><div class="cell g14" style="background:#F2D7A0" data-group="14" data-period="3" data-name="Expense Coding Agent" data-domain="Budget & Finance" data-tier="Transactional" data-symbol="An" data-atomic="14" tabindex="0"><div class="atomic">14</div><div class="symbol">An</div><div class="name">Expense Coding</div></div><div class="cell g15" style="background:#E5D8BD" data-group="15" data-period="3" data-name="RFP Drafting Agent" data-domain="Procurement" data-tier="Transactional" data-symbol="Ao" data-atomic="15" tabindex="0"><div class="atomic">15</div><div class="symbol">Ao</div><div class="name">RFP Drafting</div></div><div class="cell g16" style="background:#B3CDE3" data-group="16" data-period="3" data-name="Data Catalog Agent" data-domain="IT & Data" data-tier="Transactional" data-symbol="Ap" data-atomic="16" tabindex="0"><div class="atomic">16</div><div class="symbol">Ap</div><div class="name">Data Catalog</div></div><div class="cell g17" style="background:#CCEBC5" data-group="17" data-period="3" data-name="No Wrong Door Agent" data-domain="Interagency" data-tier="Transactional" data-symbol="Aq" data-atomic="17" tabindex="0"><div class="atomic">17</div><div class="symbol">Aq</div><div class="name">No Wrong Door</div></div><div class="cell g18" style="background:#DECBE4" data-group="18" data-period="3" data-name="Nonprofit Referral Agent" data-domain="External / Federal / Nonprofit" data-tier="Transactional" data-symbol="Ar" data-atomic="18" tabindex="0"><div class="atomic">18</div><div class="symbol">Ar</div><div class="name">Nonprofit Referral</div></div></div>
+<div class="row"><div class="cell period-label">Period 4</div><div class="cell g1" style="background:#DCEEFB" data-group="1" data-period="4" data-name="Account Recovery Agent" data-domain="Identity & Access" data-tier="Workflow" data-symbol="As" data-atomic="19" tabindex="0"><div class="atomic">19</div><div class="symbol">As</div><div class="name">Account Recovery</div></div><div class="cell g2" style="background:#BFE3F5" data-group="2" data-period="4" data-name="Medicaid Renewal Agent" data-domain="Benefits & Eligibility" data-tier="Workflow" data-symbol="At" data-atomic="20" tabindex="0"><div class="atomic">20</div><div class="symbol">At</div><div class="name">Medicaid Renewal</div></div><div class="cell g3" style="background:#C7E9C0" data-group="3" data-period="4" data-name="License Renewal Agent" data-domain="Licensing & Permits" data-tier="Workflow" data-symbol="Au" data-atomic="21" tabindex="0"><div class="atomic">21</div><div class="symbol">Au</div><div class="name">License Renewal</div></div><div class="cell g4" style="background:#A1D99B" data-group="4" data-period="4" data-name="Tax Filing Agent" data-domain="Tax & Revenue" data-tier="Workflow" data-symbol="Av" data-atomic="22" tabindex="0"><div class="atomic">22</div><div class="symbol">Av</div><div class="name">Tax Filing</div></div><div class="cell g5" style="background:#FDD0A2" data-group="5" data-period="4" data-name="Health Intake Agent" data-domain="Public Health" data-tier="Workflow" data-symbol="Aw" data-atomic="23" tabindex="0"><div class="atomic">23</div><div class="symbol">Aw</div><div class="name">Health Intake</div></div><div class="cell g6" style="background:#FDAE6B" data-group="6" data-period="4" data-name="Unemployment Claim Agent" data-domain="Workforce" data-tier="Workflow" data-symbol="Ax" data-atomic="24" tabindex="0"><div class="atomic">24</div><div class="symbol">Ax</div><div class="name">Unemployment Claim</div></div><div class="cell g7" style="background:#FDD49E" data-group="7" data-period="4" data-name="Housing Assistance Agent" data-domain="Housing & Social Services" data-tier="Workflow" data-symbol="Ay" data-atomic="25" tabindex="0"><div class="atomic">25</div><div class="symbol">Ay</div><div class="name">Housing Assistance</div></div><div class="cell g8" style="background:#FCBBA1" data-group="8" data-period="4" data-name="Childcare Subsidy Agent" data-domain="Education & Child Services" data-tier="Workflow" data-symbol="Az" data-atomic="26" tabindex="0"><div class="atomic">26</div><div class="symbol">Az</div><div class="name">Childcare Subsidy</div></div><div class="cell g9" style="background:#FB9A99" data-group="9" data-period="4" data-name="Emergency Alert Agent" data-domain="Public Safety" data-tier="Workflow" data-symbol="Ba" data-atomic="27" tabindex="0"><div class="atomic">27</div><div class="symbol">Ba</div><div class="name">Emergency Alert</div></div><div class="cell g10" style="background:#DADAEB" data-group="10" data-period="4" data-name="Case Intake Agent" data-domain="Case Management" data-tier="Workflow" data-symbol="Bb" data-atomic="28" tabindex="0"><div class="atomic">28</div><div class="symbol">Bb</div><div class="name">Case Intake</div></div><div class="cell g11" style="background:#BCBDDC" data-group="11" data-period="4" data-name="Payment Setup Agent" data-domain="Payments" data-tier="Workflow" data-symbol="Bc" data-atomic="29" tabindex="0"><div class="atomic">29</div><div class="symbol">Bc</div><div class="name">Payment Setup</div></div><div class="cell g12" style="background:#9E9AC8" data-group="12" data-period="4" data-name="Document Upload Agent" data-domain="Document Processing" data-tier="Workflow" data-symbol="Bd" data-atomic="30" tabindex="0"><div class="atomic">30</div><div class="symbol">Bd</div><div class="name">Document Upload</div></div><div class="cell g13" style="background:#FFE4B5" data-group="13" data-period="4" data-name="Leave Request Agent" data-domain="HR" data-tier="Workflow" data-symbol="Be" data-atomic="31" tabindex="0"><div class="atomic">31</div><div class="symbol">Be</div><div class="name">Leave Request</div></div><div class="cell g14" style="background:#F2D7A0" data-group="14" data-period="4" data-name="Forecast Agent" data-domain="Budget & Finance" data-tier="Workflow" data-symbol="Bf" data-atomic="32" tabindex="0"><div class="atomic">32</div><div class="symbol">Bf</div><div class="name">Forecast</div></div><div class="cell g15" style="background:#E5D8BD" data-group="15" data-period="4" data-name="Purchase Order Agent" data-domain="Procurement" data-tier="Workflow" data-symbol="Bg" data-atomic="33" tabindex="0"><div class="atomic">33</div><div class="symbol">Bg</div><div class="name">Purchase Order</div></div><div class="cell g16" style="background:#B3CDE3" data-group="16" data-period="4" data-name="Access Provision Agent" data-domain="IT & Data" data-tier="Workflow" data-symbol="Bh" data-atomic="34" tabindex="0"><div class="atomic">34</div><div class="symbol">Bh</div><div class="name">Access Provision</div></div><div class="cell g17" style="background:#CCEBC5" data-group="17" data-period="4" data-name="Shared Services Agent" data-domain="Interagency" data-tier="Workflow" data-symbol="Bi" data-atomic="35" tabindex="0"><div class="atomic">35</div><div class="symbol">Bi</div><div class="name">Shared Services</div></div><div class="cell g18" style="background:#DECBE4" data-group="18" data-period="4" data-name="Grant Referral Agent" data-domain="External / Federal / Nonprofit" data-tier="Workflow" data-symbol="Bj" data-atomic="36" tabindex="0"><div class="atomic">36</div><div class="symbol">Bj</div><div class="name">Grant Referral</div></div></div>
+<div class="row"><div class="cell period-label">Period 5</div><div class="cell g1" style="background:#DCEEFB" data-group="1" data-period="5" data-name="Trusted Identity Agent" data-domain="Identity & Access" data-tier="Decision" data-symbol="Bk" data-atomic="37" tabindex="0"><div class="atomic">37</div><div class="symbol">Bk</div><div class="name">Trusted Identity</div></div><div class="cell g2" style="background:#BFE3F5" data-group="2" data-period="5" data-name="Eligibility Decision Agent" data-domain="Benefits & Eligibility" data-tier="Decision" data-symbol="Bl" data-atomic="38" tabindex="0"><div class="atomic">38</div><div class="symbol">Bl</div><div class="name">Eligibility Decision</div></div><div class="cell g3" style="background:#C7E9C0" data-group="3" data-period="5" data-name="Professional Licensing Agent" data-domain="Licensing & Permits" data-tier="Decision" data-symbol="Bm" data-atomic="39" tabindex="0"><div class="atomic">39</div><div class="symbol">Bm</div><div class="name">Professional Licensing</div></div><div class="cell g4" style="background:#A1D99B" data-group="4" data-period="5" data-name="Audit Support Agent" data-domain="Tax & Revenue" data-tier="Decision" data-symbol="Bn" data-atomic="40" tabindex="0"><div class="atomic">40</div><div class="symbol">Bn</div><div class="name">Audit Support</div></div><div class="cell g5" style="background:#FDD0A2" data-group="5" data-period="5" data-name="Epidemiology Agent" data-domain="Public Health" data-tier="Decision" data-symbol="Bo" data-atomic="41" tabindex="0"><div class="atomic">41</div><div class="symbol">Bo</div><div class="name">Epidemiology</div></div><div class="cell g6" style="background:#FDAE6B" data-group="6" data-period="5" data-name="Reemployment Agent" data-domain="Workforce" data-tier="Decision" data-symbol="Bp" data-atomic="42" tabindex="0"><div class="atomic">42</div><div class="symbol">Bp</div><div class="name">Reemployment</div></div><div class="cell g7" style="background:#FDD49E" data-group="7" data-period="5" data-name="Social Services Plan Agent" data-domain="Housing & Social Services" data-tier="Decision" data-symbol="Bq" data-atomic="43" tabindex="0"><div class="atomic">43</div><div class="symbol">Bq</div><div class="name">Social Services Plan</div></div><div class="cell g8" style="background:#FCBBA1" data-group="8" data-period="5" data-name="Child Protection Agent" data-domain="Education & Child Services" data-tier="Decision" data-symbol="Br" data-atomic="44" tabindex="0"><div class="atomic">44</div><div class="symbol">Br</div><div class="name">Child Protection</div></div><div class="cell g9" style="background:#FB9A99" data-group="9" data-period="5" data-name="Dispatch Support Agent" data-domain="Public Safety" data-tier="Decision" data-symbol="Bs" data-atomic="45" tabindex="0"><div class="atomic">45</div><div class="symbol">Bs</div><div class="name">Dispatch Support</div></div><div class="cell g10" style="background:#DADAEB" data-group="10" data-period="5" data-name="Case Copilot Agent" data-domain="Case Management" data-tier="Decision" data-symbol="Bt" data-atomic="46" tabindex="0"><div class="atomic">46</div><div class="symbol">Bt</div><div class="name">Case Copilot</div></div><div class="cell g11" style="background:#BCBDDC" data-group="11" data-period="5" data-name="Disbursement Agent" data-domain="Payments" data-tier="Decision" data-symbol="Bu" data-atomic="47" tabindex="0"><div class="atomic">47</div><div class="symbol">Bu</div><div class="name">Disbursement</div></div><div class="cell g12" style="background:#9E9AC8" data-group="12" data-period="5" data-name="Records Compliance Agent" data-domain="Document Processing" data-tier="Decision" data-symbol="Bv" data-atomic="48" tabindex="0"><div class="atomic">48</div><div class="symbol">Bv</div><div class="name">Records Compliance</div></div><div class="cell g13" style="background:#FFE4B5" data-group="13" data-period="5" data-name="Talent Mobility Agent" data-domain="HR" data-tier="Decision" data-symbol="Bw" data-atomic="49" tabindex="0"><div class="atomic">49</div><div class="symbol">Bw</div><div class="name">Talent Mobility</div></div><div class="cell g14" style="background:#F2D7A0" data-group="14" data-period="5" data-name="Allocation Agent" data-domain="Budget & Finance" data-tier="Decision" data-symbol="Bx" data-atomic="50" tabindex="0"><div class="atomic">50</div><div class="symbol">Bx</div><div class="name">Allocation</div></div><div class="cell g15" style="background:#E5D8BD" data-group="15" data-period="5" data-name="Contract Compliance Agent" data-domain="Procurement" data-tier="Decision" data-symbol="By" data-atomic="51" tabindex="0"><div class="atomic">51</div><div class="symbol">By</div><div class="name">Contract Compliance</div></div><div class="cell g16" style="background:#B3CDE3" data-group="16" data-period="5" data-name="Data Governance Agent" data-domain="IT & Data" data-tier="Decision" data-symbol="Bz" data-atomic="52" tabindex="0"><div class="atomic">52</div><div class="symbol">Bz</div><div class="name">Data Governance</div></div><div class="cell g17" style="background:#CCEBC5" data-group="17" data-period="5" data-name="Cross Agency Agent" data-domain="Interagency" data-tier="Decision" data-symbol="Ca" data-atomic="53" tabindex="0"><div class="atomic">53</div><div class="symbol">Ca</div><div class="name">Cross Agency</div></div><div class="cell g18" style="background:#DECBE4" data-group="18" data-period="5" data-name="Federal Obligation Agent" data-domain="External / Federal / Nonprofit" data-tier="Decision" data-symbol="Cb" data-atomic="54" tabindex="0"><div class="atomic">54</div><div class="symbol">Cb</div><div class="name">Federal Obligation</div></div></div>
+<div class="row"><div class="cell period-label">Period 6</div><div class="cell g1" style="background:#DCEEFB" data-group="1" data-period="6" data-name="Identity Broker Agent" data-domain="Identity & Access" data-tier="Cross-Agency" data-symbol="Cc" data-atomic="55" tabindex="0"><div class="atomic">55</div><div class="symbol">Cc</div><div class="name">Identity Broker</div></div><div class="cell g2" style="background:#BFE3F5" data-group="2" data-period="6" data-name="Needs Based Services Agent" data-domain="Benefits & Eligibility" data-tier="Cross-Agency" data-symbol="Cd" data-atomic="56" tabindex="0"><div class="atomic">56</div><div class="symbol">Cd</div><div class="name">Needs Based Services</div></div><div class="cell pointer lanth-pointer"><div class="range">57–71</div><div class="ptr-label">Lanthanides ↓</div></div><div class="cell g4" style="background:#A1D99B" data-group="4" data-period="6" data-name="Revenue Risk Agent" data-domain="Tax & Revenue" data-tier="Cross-Agency" data-symbol="Ct" data-atomic="72" tabindex="0"><div class="atomic">72</div><div class="symbol">Ct</div><div class="name">Revenue Risk</div></div><div class="cell g5" style="background:#FDD0A2" data-group="5" data-period="6" data-name="Health Exchange Agent" data-domain="Public Health" data-tier="Cross-Agency" data-symbol="Cu" data-atomic="73" tabindex="0"><div class="atomic">73</div><div class="symbol">Cu</div><div class="name">Health Exchange</div></div><div class="cell g6" style="background:#FDAE6B" data-group="6" data-period="6" data-name="Jobs Ecosystem Agent" data-domain="Workforce" data-tier="Cross-Agency" data-symbol="Cv" data-atomic="74" tabindex="0"><div class="atomic">74</div><div class="symbol">Cv</div><div class="name">Jobs Ecosystem</div></div><div class="cell g7" style="background:#FDD49E" data-group="7" data-period="6" data-name="Family Stabilization Agent" data-domain="Housing & Social Services" data-tier="Cross-Agency" data-symbol="Cw" data-atomic="75" tabindex="0"><div class="atomic">75</div><div class="symbol">Cw</div><div class="name">Family Stabilization</div></div><div class="cell g8" style="background:#FCBBA1" data-group="8" data-period="6" data-name="Early Childhood Agent" data-domain="Education & Child Services" data-tier="Cross-Agency" data-symbol="Cx" data-atomic="76" tabindex="0"><div class="atomic">76</div><div class="symbol">Cx</div><div class="name">Early Childhood</div></div><div class="cell g9" style="background:#FB9A99" data-group="9" data-period="6" data-name="Emergency Orchestrator Agent" data-domain="Public Safety" data-tier="Cross-Agency" data-symbol="Cy" data-atomic="77" tabindex="0"><div class="atomic">77</div><div class="symbol">Cy</div><div class="name">Emergency Orchestrator</div></div><div class="cell g10" style="background:#DADAEB" data-group="10" data-period="6" data-name="Service Journey Agent" data-domain="Case Management" data-tier="Cross-Agency" data-symbol="Cz" data-atomic="78" tabindex="0"><div class="atomic">78</div><div class="symbol">Cz</div><div class="name">Service Journey</div></div><div class="cell g11" style="background:#BCBDDC" data-group="11" data-period="6" data-name="Treasury Agent" data-domain="Payments" data-tier="Cross-Agency" data-symbol="Da" data-atomic="79" tabindex="0"><div class="atomic">79</div><div class="symbol">Da</div><div class="name">Treasury</div></div><div class="cell g12" style="background:#9E9AC8" data-group="12" data-period="6" data-name="Knowledge Records Agent" data-domain="Document Processing" data-tier="Cross-Agency" data-symbol="Db" data-atomic="80" tabindex="0"><div class="atomic">80</div><div class="symbol">Db</div><div class="name">Knowledge Records</div></div><div class="cell g13" style="background:#FFE4B5" data-group="13" data-period="6" data-name="Workforce Planning Agent" data-domain="HR" data-tier="Cross-Agency" data-symbol="Dc" data-atomic="81" tabindex="0"><div class="atomic">81</div><div class="symbol">Dc</div><div class="name">Workforce Planning</div></div><div class="cell g14" style="background:#F2D7A0" data-group="14" data-period="6" data-name="Strategic Budget Agent" data-domain="Budget & Finance" data-tier="Cross-Agency" data-symbol="Dd" data-atomic="82" tabindex="0"><div class="atomic">82</div><div class="symbol">Dd</div><div class="name">Strategic Budget</div></div><div class="cell g15" style="background:#E5D8BD" data-group="15" data-period="6" data-name="Procurement Marketplace Agent" data-domain="Procurement" data-tier="Cross-Agency" data-symbol="De" data-atomic="83" tabindex="0"><div class="atomic">83</div><div class="symbol">De</div><div class="name">Procurement Marketplace</div></div><div class="cell g16" style="background:#B3CDE3" data-group="16" data-period="6" data-name="Platform Modernization Agent" data-domain="IT & Data" data-tier="Cross-Agency" data-symbol="Df" data-atomic="84" tabindex="0"><div class="atomic">84</div><div class="symbol">Df</div><div class="name">Platform Modernization</div></div><div class="cell g17" style="background:#CCEBC5" data-group="17" data-period="6" data-name="Interagency Command Agent" data-domain="Interagency" data-tier="Cross-Agency" data-symbol="Dg" data-atomic="85" tabindex="0"><div class="atomic">85</div><div class="symbol">Dg</div><div class="name">Interagency Command</div></div><div class="cell g18" style="background:#DECBE4" data-group="18" data-period="6" data-name="Federal Exchange Agent" data-domain="External / Federal / Nonprofit" data-tier="Cross-Agency" data-symbol="Dh" data-atomic="86" tabindex="0"><div class="atomic">86</div><div class="symbol">Dh</div><div class="name">Federal Exchange</div></div></div>
+<div class="row"><div class="cell period-label">Period 7</div><div class="cell g1" style="background:#DCEEFB" data-group="1" data-period="7" data-name="Identity Fabric Agent" data-domain="Identity & Access" data-tier="Autonomous" data-symbol="Di" data-atomic="87" tabindex="0"><div class="atomic">87</div><div class="symbol">Di</div><div class="name">Identity Fabric</div></div><div class="cell g2" style="background:#BFE3F5" data-group="2" data-period="7" data-name="Universal Wallet Agent" data-domain="Benefits & Eligibility" data-tier="Autonomous" data-symbol="Dj" data-atomic="88" tabindex="0"><div class="atomic">88</div><div class="symbol">Dj</div><div class="name">Universal Wallet</div></div><div class="cell pointer actin-pointer"><div class="range">89–103</div><div class="ptr-label">Actinides ↓</div></div><div class="cell g4" style="background:#A1D99B" data-group="4" data-period="7" data-name="Revenue Autonomy Agent" data-domain="Tax & Revenue" data-tier="Autonomous" data-symbol="Dz" data-atomic="104" tabindex="0"><div class="atomic">104</div><div class="symbol">Dz</div><div class="name">Revenue Autonomy</div></div><div class="cell g5" style="background:#FDD0A2" data-group="5" data-period="7" data-name="Population Health Agent" data-domain="Public Health" data-tier="Autonomous" data-symbol="Ea" data-atomic="105" tabindex="0"><div class="atomic">105</div><div class="symbol">Ea</div><div class="name">Population Health</div></div><div class="cell g6" style="background:#FDAE6B" data-group="6" data-period="7" data-name="Labor Intelligence Agent" data-domain="Workforce" data-tier="Autonomous" data-symbol="Eb" data-atomic="106" tabindex="0"><div class="atomic">106</div><div class="symbol">Eb</div><div class="name">Labor Intelligence</div></div><div class="cell g7" style="background:#FDD49E" data-group="7" data-period="7" data-name="Social Care Network Agent" data-domain="Housing & Social Services" data-tier="Autonomous" data-symbol="Ec" data-atomic="107" tabindex="0"><div class="atomic">107</div><div class="symbol">Ec</div><div class="name">Social Care Network</div></div><div class="cell g8" style="background:#FCBBA1" data-group="8" data-period="7" data-name="Youth Success Agent" data-domain="Education & Child Services" data-tier="Autonomous" data-symbol="Ed" data-atomic="108" tabindex="0"><div class="atomic">108</div><div class="symbol">Ed</div><div class="name">Youth Success</div></div><div class="cell g9" style="background:#FB9A99" data-group="9" data-period="7" data-name="Safety Assurance Agent" data-domain="Public Safety" data-tier="Autonomous" data-symbol="Ee" data-atomic="109" tabindex="0"><div class="atomic">109</div><div class="symbol">Ee</div><div class="name">Safety Assurance</div></div><div class="cell g10" style="background:#DADAEB" data-group="10" data-period="7" data-name="Omni Journey Agent" data-domain="Case Management" data-tier="Autonomous" data-symbol="Ef" data-atomic="110" tabindex="0"><div class="atomic">110</div><div class="symbol">Ef</div><div class="name">Omni Journey</div></div><div class="cell g11" style="background:#BCBDDC" data-group="11" data-period="7" data-name="Payment Assurance Agent" data-domain="Payments" data-tier="Autonomous" data-symbol="Eg" data-atomic="111" tabindex="0"><div class="atomic">111</div><div class="symbol">Eg</div><div class="name">Payment Assurance</div></div><div class="cell g12" style="background:#9E9AC8" data-group="12" data-period="7" data-name="Records Autonomy Agent" data-domain="Document Processing" data-tier="Autonomous" data-symbol="Eh" data-atomic="112" tabindex="0"><div class="atomic">112</div><div class="symbol">Eh</div><div class="name">Records Autonomy</div></div><div class="cell g13" style="background:#FFE4B5" data-group="13" data-period="7" data-name="Human Capital Agent" data-domain="HR" data-tier="Autonomous" data-symbol="Ei" data-atomic="113" tabindex="0"><div class="atomic">113</div><div class="symbol">Ei</div><div class="name">Human Capital</div></div><div class="cell g14" style="background:#F2D7A0" data-group="14" data-period="7" data-name="Fiscal Intelligence Agent" data-domain="Budget & Finance" data-tier="Autonomous" data-symbol="Ej" data-atomic="114" tabindex="0"><div class="atomic">114</div><div class="symbol">Ej</div><div class="name">Fiscal Intelligence</div></div><div class="cell g15" style="background:#E5D8BD" data-group="15" data-period="7" data-name="Vendor Steward Agent" data-domain="Procurement" data-tier="Autonomous" data-symbol="Ek" data-atomic="115" tabindex="0"><div class="atomic">115</div><div class="symbol">Ek</div><div class="name">Vendor Steward</div></div><div class="cell g16" style="background:#B3CDE3" data-group="16" data-period="7" data-name="Government OS Agent" data-domain="IT & Data" data-tier="Autonomous" data-symbol="El" data-atomic="116" tabindex="0"><div class="atomic">116</div><div class="symbol">El</div><div class="name">Government OS</div></div><div class="cell g17" style="background:#CCEBC5" data-group="17" data-period="7" data-name="Orchestration Agent" data-domain="Interagency" data-tier="Autonomous" data-symbol="Em" data-atomic="117" tabindex="0"><div class="atomic">117</div><div class="symbol">Em</div><div class="name">Orchestration</div></div><div class="cell g18" style="background:#DECBE4" data-group="18" data-period="7" data-name="Public Interface Agent" data-domain="External / Federal / Nonprofit" data-tier="Autonomous" data-symbol="En" data-atomic="118" tabindex="0"><div class="atomic">118</div><div class="symbol">En</div><div class="name">Public Interface</div></div></div>
+    <div class="lanth-actin">
+      <div class="row"><div class="cell period-label small">Lanthanides</div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell lanth" style="background:#F0E68C" data-group="L" data-period="6" data-name="Identity Engine Agent" data-domain="Lanthanide" data-tier="Cross-Agency" data-symbol="Ce" data-atomic="57" tabindex="0"><div class="atomic">57</div><div class="symbol">Ce</div><div class="name">Identity Engine</div></div><div class="cell lanth" style="background:#F0E68C" data-group="L" data-period="6" data-name="Eligibility Engine Agent" data-domain="Lanthanide" data-tier="Cross-Agency" data-symbol="Cf" data-atomic="58" tabindex="0"><div class="atomic">58</div><div class="symbol">Cf</div><div class="name">Eligibility Engine</div></div><div class="cell lanth" style="background:#F0E68C" data-group="L" data-period="6" data-name="Forms Engine Agent" data-domain="Lanthanide" data-tier="Cross-Agency" data-symbol="Cg" data-atomic="59" tabindex="0"><div class="atomic">59</div><div class="symbol">Cg</div><div class="name">Forms Engine</div></div><div class="cell lanth" style="background:#F0E68C" data-group="L" data-period="6" data-name="Document OCR Agent" data-domain="Lanthanide" data-tier="Cross-Agency" data-symbol="Ch" data-atomic="60" tabindex="0"><div class="atomic">60</div><div class="symbol">Ch</div><div class="name">Document OCR</div></div><div class="cell lanth" style="background:#F0E68C" data-group="L" data-period="6" data-name="Evidence Matching Agent" data-domain="Lanthanide" data-tier="Cross-Agency" data-symbol="Ci" data-atomic="61" tabindex="0"><div class="atomic">61</div><div class="symbol">Ci</div><div class="name">Evidence Matching</div></div><div class="cell lanth" style="background:#F0E68C" data-group="L" data-period="6" data-name="Notice Generation Agent" data-domain="Lanthanide" data-tier="Cross-Agency" data-symbol="Cj" data-atomic="62" tabindex="0"><div class="atomic">62</div><div class="symbol">Cj</div><div class="name">Notice Generation</div></div><div class="cell lanth" style="background:#F0E68C" data-group="L" data-period="6" data-name="Payments Rail Agent" data-domain="Lanthanide" data-tier="Cross-Agency" data-symbol="Ck" data-atomic="63" tabindex="0"><div class="atomic">63</div><div class="symbol">Ck</div><div class="name">Payments Rail</div></div><div class="cell lanth" style="background:#F0E68C" data-group="L" data-period="6" data-name="Master Data Agent" data-domain="Lanthanide" data-tier="Cross-Agency" data-symbol="Cl" data-atomic="64" tabindex="0"><div class="atomic">64</div><div class="symbol">Cl</div><div class="name">Master Data</div></div><div class="cell lanth" style="background:#F0E68C" data-group="L" data-period="6" data-name="Rules Version Agent" data-domain="Lanthanide" data-tier="Cross-Agency" data-symbol="Cm" data-atomic="65" tabindex="0"><div class="atomic">65</div><div class="symbol">Cm</div><div class="name">Rules Version</div></div><div class="cell lanth" style="background:#F0E68C" data-group="L" data-period="6" data-name="Queue Management Agent" data-domain="Lanthanide" data-tier="Cross-Agency" data-symbol="Cn" data-atomic="66" tabindex="0"><div class="atomic">66</div><div class="symbol">Cn</div><div class="name">Queue Management</div></div><div class="cell lanth" style="background:#F0E68C" data-group="L" data-period="6" data-name="Messaging Agent" data-domain="Lanthanide" data-tier="Cross-Agency" data-symbol="Co" data-atomic="67" tabindex="0"><div class="atomic">67</div><div class="symbol">Co</div><div class="name">Messaging</div></div><div class="cell lanth" style="background:#F0E68C" data-group="L" data-period="6" data-name="Evidence Store Agent" data-domain="Lanthanide" data-tier="Cross-Agency" data-symbol="Cp" data-atomic="68" tabindex="0"><div class="atomic">68</div><div class="symbol">Cp</div><div class="name">Evidence Store</div></div><div class="cell lanth" style="background:#F0E68C" data-group="L" data-period="6" data-name="Address Standard Agent" data-domain="Lanthanide" data-tier="Cross-Agency" data-symbol="Cq" data-atomic="69" tabindex="0"><div class="atomic">69</div><div class="symbol">Cq</div><div class="name">Address Standard</div></div><div class="cell lanth" style="background:#F0E68C" data-group="L" data-period="6" data-name="Provider Registry Agent" data-domain="Lanthanide" data-tier="Cross-Agency" data-symbol="Cr" data-atomic="70" tabindex="0"><div class="atomic">70</div><div class="symbol">Cr</div><div class="name">Provider Registry</div></div><div class="cell lanth" style="background:#F0E68C" data-group="L" data-period="6" data-name="Service Authorization Agent" data-domain="Lanthanide" data-tier="Cross-Agency" data-symbol="Cs" data-atomic="71" tabindex="0"><div class="atomic">71</div><div class="symbol">Cs</div><div class="name">Service Authorization</div></div></div>
+<div class="row"><div class="cell period-label small">Actinides</div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell actin" style="background:#E6B8B7" data-group="A" data-period="7" data-name="Fraud Detection Agent" data-domain="Actinide" data-tier="Autonomous" data-symbol="Dk" data-atomic="89" tabindex="0"><div class="atomic">89</div><div class="symbol">Dk</div><div class="name">Fraud Detection</div></div><div class="cell actin" style="background:#E6B8B7" data-group="A" data-period="7" data-name="Abuse Monitoring Agent" data-domain="Actinide" data-tier="Autonomous" data-symbol="Dl" data-atomic="90" tabindex="0"><div class="atomic">90</div><div class="symbol">Dl</div><div class="name">Abuse Monitoring</div></div><div class="cell actin" style="background:#E6B8B7" data-group="A" data-period="7" data-name="Privacy Impact Agent" data-domain="Actinide" data-tier="Autonomous" data-symbol="Dm" data-atomic="91" tabindex="0"><div class="atomic">91</div><div class="symbol">Dm</div><div class="name">Privacy Impact</div></div><div class="cell actin" style="background:#E6B8B7" data-group="A" data-period="7" data-name="Compliance Monitoring Agent" data-domain="Actinide" data-tier="Autonomous" data-symbol="Dn" data-atomic="92" tabindex="0"><div class="atomic">92</div><div class="symbol">Dn</div><div class="name">Compliance Monitoring</div></div><div class="cell actin" style="background:#E6B8B7" data-group="A" data-period="7" data-name="AI Oversight Agent" data-domain="Actinide" data-tier="Autonomous" data-symbol="Do" data-atomic="93" tabindex="0"><div class="atomic">93</div><div class="symbol">Do</div><div class="name">AI Oversight</div></div><div class="cell actin" style="background:#E6B8B7" data-group="A" data-period="7" data-name="Audit Trail Agent" data-domain="Actinide" data-tier="Autonomous" data-symbol="Dp" data-atomic="94" tabindex="0"><div class="atomic">94</div><div class="symbol">Dp</div><div class="name">Audit Trail</div></div><div class="cell actin" style="background:#E6B8B7" data-group="A" data-period="7" data-name="Equity Impact Agent" data-domain="Actinide" data-tier="Autonomous" data-symbol="Dq" data-atomic="95" tabindex="0"><div class="atomic">95</div><div class="symbol">Dq</div><div class="name">Equity Impact</div></div><div class="cell actin" style="background:#E6B8B7" data-group="A" data-period="7" data-name="Cyber Risk Agent" data-domain="Actinide" data-tier="Autonomous" data-symbol="Dr" data-atomic="96" tabindex="0"><div class="atomic">96</div><div class="symbol">Dr</div><div class="name">Cyber Risk</div></div><div class="cell actin" style="background:#E6B8B7" data-group="A" data-period="7" data-name="Safety Review Agent" data-domain="Actinide" data-tier="Autonomous" data-symbol="Ds" data-atomic="97" tabindex="0"><div class="atomic">97</div><div class="symbol">Ds</div><div class="name">Safety Review</div></div><div class="cell actin" style="background:#E6B8B7" data-group="A" data-period="7" data-name="Open Records Agent" data-domain="Actinide" data-tier="Autonomous" data-symbol="Dt" data-atomic="98" tabindex="0"><div class="atomic">98</div><div class="symbol">Dt</div><div class="name">Open Records</div></div><div class="cell actin" style="background:#E6B8B7" data-group="A" data-period="7" data-name="Ethics Review Agent" data-domain="Actinide" data-tier="Autonomous" data-symbol="Du" data-atomic="99" tabindex="0"><div class="atomic">99</div><div class="symbol">Du</div><div class="name">Ethics Review</div></div><div class="cell actin" style="background:#E6B8B7" data-group="A" data-period="7" data-name="Experience Monitoring Agent" data-domain="Actinide" data-tier="Autonomous" data-symbol="Dv" data-atomic="100" tabindex="0"><div class="atomic">100</div><div class="symbol">Dv</div><div class="name">Experience Monitoring</div></div><div class="cell actin" style="background:#E6B8B7" data-group="A" data-period="7" data-name="Risk Scoring Agent" data-domain="Actinide" data-tier="Autonomous" data-symbol="Dw" data-atomic="101" tabindex="0"><div class="atomic">101</div><div class="symbol">Dw</div><div class="name">Risk Scoring</div></div><div class="cell actin" style="background:#E6B8B7" data-group="A" data-period="7" data-name="Incident Review Agent" data-domain="Actinide" data-tier="Autonomous" data-symbol="Dx" data-atomic="102" tabindex="0"><div class="atomic">102</div><div class="symbol">Dx</div><div class="name">Incident Review</div></div><div class="cell actin" style="background:#E6B8B7" data-group="A" data-period="7" data-name="Public Trust Agent" data-domain="Actinide" data-tier="Autonomous" data-symbol="Dy" data-atomic="103" tabindex="0"><div class="atomic">103</div><div class="symbol">Dy</div><div class="name">Public Trust</div></div></div>
+    </div>
+  </div>
+</div>
+
+
+
+<section class="legend">
+  <h2>Domains (click to filter)</h2>
+  <div class="legend-grid">
+    <button class="legend-item" data-filter-group="1"><span class="swatch" style="background:#DCEEFB"></span><span class="legend-num">1</span><span class="legend-name">Identity & Access</span></button>
+<button class="legend-item" data-filter-group="2"><span class="swatch" style="background:#BFE3F5"></span><span class="legend-num">2</span><span class="legend-name">Benefits & Eligibility</span></button>
+<button class="legend-item" data-filter-group="3"><span class="swatch" style="background:#C7E9C0"></span><span class="legend-num">3</span><span class="legend-name">Licensing & Permits</span></button>
+<button class="legend-item" data-filter-group="4"><span class="swatch" style="background:#A1D99B"></span><span class="legend-num">4</span><span class="legend-name">Tax & Revenue</span></button>
+<button class="legend-item" data-filter-group="5"><span class="swatch" style="background:#FDD0A2"></span><span class="legend-num">5</span><span class="legend-name">Public Health</span></button>
+<button class="legend-item" data-filter-group="6"><span class="swatch" style="background:#FDAE6B"></span><span class="legend-num">6</span><span class="legend-name">Workforce</span></button>
+<button class="legend-item" data-filter-group="7"><span class="swatch" style="background:#FDD49E"></span><span class="legend-num">7</span><span class="legend-name">Housing & Social Services</span></button>
+<button class="legend-item" data-filter-group="8"><span class="swatch" style="background:#FCBBA1"></span><span class="legend-num">8</span><span class="legend-name">Education & Child Services</span></button>
+<button class="legend-item" data-filter-group="9"><span class="swatch" style="background:#FB9A99"></span><span class="legend-num">9</span><span class="legend-name">Public Safety</span></button>
+<button class="legend-item" data-filter-group="10"><span class="swatch" style="background:#DADAEB"></span><span class="legend-num">10</span><span class="legend-name">Case Management</span></button>
+<button class="legend-item" data-filter-group="11"><span class="swatch" style="background:#BCBDDC"></span><span class="legend-num">11</span><span class="legend-name">Payments</span></button>
+<button class="legend-item" data-filter-group="12"><span class="swatch" style="background:#9E9AC8"></span><span class="legend-num">12</span><span class="legend-name">Document Processing</span></button>
+<button class="legend-item" data-filter-group="13"><span class="swatch" style="background:#FFE4B5"></span><span class="legend-num">13</span><span class="legend-name">HR</span></button>
+<button class="legend-item" data-filter-group="14"><span class="swatch" style="background:#F2D7A0"></span><span class="legend-num">14</span><span class="legend-name">Budget & Finance</span></button>
+<button class="legend-item" data-filter-group="15"><span class="swatch" style="background:#E5D8BD"></span><span class="legend-num">15</span><span class="legend-name">Procurement</span></button>
+<button class="legend-item" data-filter-group="16"><span class="swatch" style="background:#B3CDE3"></span><span class="legend-num">16</span><span class="legend-name">IT & Data</span></button>
+<button class="legend-item" data-filter-group="17"><span class="swatch" style="background:#CCEBC5"></span><span class="legend-num">17</span><span class="legend-name">Interagency</span></button>
+<button class="legend-item" data-filter-group="18"><span class="swatch" style="background:#DECBE4"></span><span class="legend-num">18</span><span class="legend-name">External / Federal / Nonprofit</span></button>
+<button class="legend-item" data-filter-group="L"><span class="swatch" style="background:#F0E68C"></span><span class="legend-num">L</span><span class="legend-name">Lanthanides · Operational Backbone</span></button>
+<button class="legend-item" data-filter-group="A"><span class="swatch" style="background:#E6B8B7"></span><span class="legend-num">A</span><span class="legend-name">Actinides · Governance, Risk, Public Trust</span></button>
+  </div>
+</section>
+
+<section class="maturity">
+  <h2>Maturity Levels</h2>
+  <dl>
+    <dt>Informational</dt><dd>Answers questions, surfaces information (Periods 1–2)</dd>
+    <dt>Transactional</dt><dd>Completes simple tasks end-to-end (Period 3)</dd>
+    <dt>Workflow</dt><dd>Runs multi-step processes across systems (Period 4)</dd>
+    <dt>Decision</dt><dd>Recommends decisions with evidence and explanations (Period 5)</dd>
+    <dt>Cross-Agency</dt><dd>Coordinates across programs and partners (Period 6)</dd>
+    <dt>Autonomous</dt><dd>Self-directs with strong governance and oversight (Period 7)</dd>
+  </dl>
+</section>
+
+<section class="howto">
+  <h2>How to Start</h2>
+  <ol class="howto-steps">
+    <li><strong>Pick a goal.</strong> One outcome. Not three.</li>
+    <li><strong>Choose 1–2 agents.</strong> Start where the friction is sharpest.</li>
+    <li><strong>Pilot in 30–60 days.</strong> Real users, real data, narrow scope.</li>
+    <li><strong>Measure impact.</strong> Cycle time, cost, satisfaction, or uptake — pick one.</li>
+    <li><strong>Scale.</strong> Add the next agent in the build order. Reuse the backbone.</li>
+  </ol>
+</section>
+
+
+<section class="narrative">
+  <h2>How to read this table</h2>
+  <p class="lead">This table reframes the 118 SLG AI agents as a periodic system — not a checklist. The position of each agent tells you what it does, how mature it needs to be, and how it relates to the agents around it.</p>
+
+  <h3>Two axes — domain and autonomy</h3>
+  <ul>
+    <li><strong>Columns (groups) = the WHAT.</strong> Each column is a service domain — Identity & Access, Benefits & Eligibility, Tax & Revenue, Public Safety, and so on. Read down a column to see how a domain progresses from informational chatbots to autonomous, governed systems.</li>
+    <li><strong>Rows (periods) = the autonomy &amp; risk profile.</strong> Period 1–2 agents answer questions. Period 3–4 agents complete transactions. Period 5 agents make recommendations. Period 6 agents coordinate across agencies. Period 7 agents act with significant autonomy and require the strongest governance.</li>
+  </ul>
+
+  <h3>The two special rows</h3>
+  <ul>
+    <li><strong>Lanthanides (yellow band, 57–71) — Operational Backbone.</strong> These are the shared engines — identity, eligibility rules, document OCR, payments rail, master data, messaging — that every other agent depends on. They're not user-facing, but they're load-bearing. Underinvest here and everything above gets brittle.</li>
+    <li><strong>Actinides (rose band, 89–103) — Governance, Risk &amp; Public Trust.</strong> Fraud detection, privacy impact, AI oversight, audit trail, equity impact, ethics review. These cut across every domain. They're not optional — they're the license to operate.</li>
+  </ul>
+
+  <h3>What leaders should be considering</h3>
+  <ul>
+    <li><strong>Build the floor before the ceiling.</strong> Agents in Periods 6–7 only work if the lanthanides underneath them are solid. Many states overinvest in flagship agents and underfund the shared identity, data, and eligibility engines that make those flagships possible.</li>
+    <li><strong>Governance runs in parallel, not sequentially.</strong> The actinides aren't a phase 3 deliverable — they need to stand up alongside the first transactional agent that goes live. Privacy, equity, and audit are entry tickets, not afterthoughts.</li>
+    <li><strong>Sequence by risk, not by enthusiasm.</strong> A Period 2 informational agent (HR Policy, Budget Guidance) carries low risk and can ship fast — these build organizational confidence. A Period 5–7 decision-support or autonomous agent (Eligibility Decision, Child Protection, Revenue Autonomy) needs evidence, governance scaffolding, and human-in-the-loop review before launch.</li>
+    <li><strong>Pick a portfolio, not a project.</strong> Use the Start with Your Goal above to assemble 5–8 agents that together advance one strategic outcome — for example, modernizing eligibility means combining a few transactional agents (SNAP, Medicaid Renewal), a decision agent (Eligibility Decision), backbone engines (Forms, OCR, Evidence Matching), and governance (Privacy Impact, Equity Impact). One agent in isolation rarely moves the needle.</li>
+    <li><strong>Align to federal moves.</strong> HR.1 is forcing states to modernize Medicaid &amp; SNAP; DOJ accessibility deadlines hit Apr 2026; NASCIO has named AI the #1 state CIO priority for 2026. This table is designed to map your roadmap to those forcing functions, not against them.</li>
+    <li><strong>Talk in symbols, not slideware.</strong> The two-letter symbols (Aa, Bk, Cz) make this a shared vocabulary across CIO, business owners, vendors, and legislators. It lowers the activation energy for governance conversations — "Bk needs a Dm before it ships" beats a 30-page PowerPoint.</li>
+  </ul>
+</section>
+
+<footer>118 agents · 7 periods · 18 groups · Lanthanides (operational backbone) · Actinides (governance &amp; risk)</footer>
+
+<div class="tooltip" id="tooltip" role="tooltip" aria-hidden="true"></div>
+
+<div class="panel-backdrop" id="panelBackdrop"></div>
+<div class="detail-panel" id="detailPanel" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="dpName">
+  <div class="dp-header">
+    <div class="dp-symbol-box" id="dpSymbolBox">
+      <div class="dp-atomic" id="dpAtomic"></div>
+      <div class="dp-symbol" id="dpSymbol"></div>
+    </div>
+    <div class="dp-title">
+      <h3 id="dpName"></h3>
+      <div class="dp-domain" id="dpDomain"></div>
+    </div>
+    <button class="dp-close" id="dpClose" aria-label="Close">×</button>
+  </div>
+  <div class="dp-value-section">
+    <div class="dp-value-block">
+      <div class="dp-value-label">What it does</div>
+      <div class="dp-value-text" id="dpWhat"></div>
+    </div>
+    <div class="dp-value-block">
+      <div class="dp-value-label">Outcome</div>
+      <div class="dp-value-text" id="dpOutcome"></div>
+    </div>
+    <div class="dp-value-block">
+      <div class="dp-value-label">Why it matters</div>
+      <div class="dp-value-text" id="dpWhy"></div>
+    </div>
+  </div>
+  <dl class="dp-body">
+    <dt>Atomic #</dt><dd id="dpAtomicFull"></dd>
+    <dt>Symbol</dt><dd id="dpSymbolFull"></dd>
+    <dt>Domain</dt><dd id="dpDomainFull"></dd>
+    <dt>Period</dt><dd id="dpPeriod"></dd>
+    <dt>Group</dt><dd id="dpGroup"></dd>
+    <dt>Maturity</dt><dd id="dpTier"></dd>
+  </dl>
+  <div class="dp-nav">
+    <button id="dpPrev">← Previous</button>
+    <span class="dp-counter" id="dpCounter"></span>
+    <button id="dpNext">Next →</button>
+  </div>
+</div>
+
+<script>
+(function() {
+  const cells = Array.from(document.querySelectorAll('.cell[data-atomic]'));
+  const VALUE_PROPS = {"1": {"what": "Answers identity access questions in plain English", "outcome": "Self-service for routine asks", "why": "Frees staff for higher-value work"}, "2": {"what": "Reaches constituents on their preferred channel", "outcome": "Higher take-up among underserved groups", "why": "Equity is now measured, not aspirational"}, "3": {"what": "Answers login support questions in plain English", "outcome": "Self-service for routine asks", "why": "Frees staff for higher-value work"}, "4": {"what": "Tells anyone what benefits they may qualify for", "outcome": "More eligible people apply", "why": "30%+ of eligible families never enroll"}, "5": {"what": "Answers hr policy questions in plain English", "outcome": "Self-service for routine asks", "why": "Frees staff for higher-value work"}, "6": {"what": "Answers budget guidance questions in plain English", "outcome": "Self-service for routine asks", "why": "Frees staff for higher-value work"}, "7": {"what": "Answers vendor registration questions in plain English", "outcome": "Self-service for routine asks", "why": "Frees staff for higher-value work"}, "8": {"what": "Answers it helpdesk questions in plain English", "outcome": "Self-service for routine asks", "why": "Frees staff for higher-value work"}, "9": {"what": "Answers agency routing questions in plain English", "outcome": "Self-service for routine asks", "why": "Frees staff for higher-value work"}, "10": {"what": "Answers federal navigation questions in plain English", "outcome": "Self-service for routine asks", "why": "Frees staff for higher-value work"}, "11": {"what": "Validates identity and eligibility data on submit", "outcome": "Fraudulent applications stop at the door", "why": "Cheaper to prevent than to claw back"}, "12": {"what": "Completes a SNAP application in minutes", "outcome": "Higher completion rate, lower abandonment", "why": "Application length drives most attrition"}, "13": {"what": "Completes onboarding tasks end-to-end", "outcome": "Shorter cycle times, less rework", "why": "Reduces backlog and abandonment"}, "14": {"what": "Completes expense coding tasks end-to-end", "outcome": "Shorter cycle times, less rework", "why": "Reduces backlog and abandonment"}, "15": {"what": "Completes rfp drafting tasks end-to-end", "outcome": "Shorter cycle times, less rework", "why": "Reduces backlog and abandonment"}, "16": {"what": "Completes data catalog tasks end-to-end", "outcome": "Shorter cycle times, less rework", "why": "Reduces backlog and abandonment"}, "17": {"what": "Routes any service request to the right program", "outcome": "Constituents stop bouncing between agencies", "why": "DOJ accessibility deadline (Apr 2026) demands this"}, "18": {"what": "Completes nonprofit referral tasks end-to-end", "outcome": "Shorter cycle times, less rework", "why": "Reduces backlog and abandonment"}, "19": {"what": "Runs account recovery processes across systems", "outcome": "Less manual handoff, faster throughput", "why": "Cuts coordination overhead"}, "20": {"what": "Pre-fills and submits Medicaid renewals", "outcome": "Eligible families don't lose coverage", "why": "HR.1 puts renewal accuracy under federal scrutiny"}, "21": {"what": "Renews licenses end-to-end with no office visit", "outcome": "Days → minutes for renewals", "why": "Highest-volume citizen interaction in many states"}, "22": {"what": "Runs tax filing processes across systems", "outcome": "Less manual handoff, faster throughput", "why": "Cuts coordination overhead"}, "23": {"what": "Runs health intake processes across systems", "outcome": "Less manual handoff, faster throughput", "why": "Cuts coordination overhead"}, "24": {"what": "Runs unemployment claim processes across systems", "outcome": "Less manual handoff, faster throughput", "why": "Cuts coordination overhead"}, "25": {"what": "Runs housing assistance processes across systems", "outcome": "Less manual handoff, faster throughput", "why": "Cuts coordination overhead"}, "26": {"what": "Runs childcare subsidy processes across systems", "outcome": "Less manual handoff, faster throughput", "why": "Cuts coordination overhead"}, "27": {"what": "Runs emergency alert processes across systems", "outcome": "Less manual handoff, faster throughput", "why": "Cuts coordination overhead"}, "28": {"what": "Auto-classifies and routes new cases on intake", "outcome": "Cases hit the right desk on day one", "why": "Misroutes drive 30%+ of backlog in most agencies"}, "29": {"what": "Runs payment setup processes across systems", "outcome": "Less manual handoff, faster throughput", "why": "Cuts coordination overhead"}, "30": {"what": "Captures and validates case documents at submission", "outcome": "No follow-up requests for missing items", "why": "Document chasing is the silent backlog driver"}, "31": {"what": "Runs leave request processes across systems", "outcome": "Less manual handoff, faster throughput", "why": "Cuts coordination overhead"}, "32": {"what": "Builds revenue and expense forecasts from live data", "outcome": "Surface budget surprises early, fewer mid-year corrections", "why": "Budget pressure is the #1 fiscal risk for states"}, "33": {"what": "Runs purchase order processes across systems", "outcome": "Less manual handoff, faster throughput", "why": "Cuts coordination overhead"}, "34": {"what": "Runs access provision processes across systems", "outcome": "Less manual handoff, faster throughput", "why": "Cuts coordination overhead"}, "35": {"what": "Runs shared services processes across systems", "outcome": "Less manual handoff, faster throughput", "why": "Cuts coordination overhead"}, "36": {"what": "Runs grant referral processes across systems", "outcome": "Less manual handoff, faster throughput", "why": "Cuts coordination overhead"}, "37": {"what": "Verifies a person is who they claim to be", "outcome": "Synthetic identity fraud blocked at scale", "why": "Fastest-growing fraud vector in benefits"}, "38": {"what": "Renders eligibility decisions with explanations", "outcome": "Days → hours for determinations", "why": "Eligibility delay is the top complaint in HHS"}, "39": {"what": "Recommends professional licensing decisions with evidence", "outcome": "More consistent outcomes", "why": "Reduces error, bias, and rework"}, "40": {"what": "Assembles audit-ready evidence on demand", "outcome": "Faster, cleaner audits with fewer findings", "why": "Cuts audit prep cost and remediation cycles"}, "41": {"what": "Recommends epidemiology decisions with evidence", "outcome": "More consistent outcomes", "why": "Reduces error, bias, and rework"}, "42": {"what": "Recommends reemployment decisions with evidence", "outcome": "More consistent outcomes", "why": "Reduces error, bias, and rework"}, "43": {"what": "Recommends social services plan decisions with evidence", "outcome": "More consistent outcomes", "why": "Reduces error, bias, and rework"}, "44": {"what": "Recommends child protection decisions with evidence", "outcome": "More consistent outcomes", "why": "Reduces error, bias, and rework"}, "45": {"what": "Recommends dispatch support decisions with evidence", "outcome": "More consistent outcomes", "why": "Reduces error, bias, and rework"}, "46": {"what": "Drafts notes, next steps, and decisions for each case", "outcome": "More cases per worker per day", "why": "Closes the staffing gap without new headcount"}, "47": {"what": "Recommends disbursement decisions with evidence", "outcome": "More consistent outcomes", "why": "Reduces error, bias, and rework"}, "48": {"what": "Recommends records compliance decisions with evidence", "outcome": "More consistent outcomes", "why": "Reduces error, bias, and rework"}, "49": {"what": "Recommends talent mobility decisions with evidence", "outcome": "More consistent outcomes", "why": "Reduces error, bias, and rework"}, "50": {"what": "Recommends fund allocations across programs and priorities", "outcome": "Tighter alignment of spend to outcomes", "why": "Forces hard prioritization with evidence, not politics"}, "51": {"what": "Recommends contract compliance decisions with evidence", "outcome": "More consistent outcomes", "why": "Reduces error, bias, and rework"}, "52": {"what": "Recommends data governance decisions with evidence", "outcome": "More consistent outcomes", "why": "Reduces error, bias, and rework"}, "53": {"what": "Recommends cross agency decisions with evidence", "outcome": "More consistent outcomes", "why": "Reduces error, bias, and rework"}, "54": {"what": "Recommends federal obligation decisions with evidence", "outcome": "More consistent outcomes", "why": "Reduces error, bias, and rework"}, "55": {"what": "Coordinates identity broker across programs and partners", "outcome": "One unified experience for constituents", "why": "Breaks down program silos"}, "56": {"what": "Coordinates needs based services across programs and partners", "outcome": "One unified experience for constituents", "why": "Breaks down program silos"}, "72": {"what": "Identifies revenue leakage across tax and fee streams", "outcome": "Recovers revenue early without raising rates", "why": "Closes the gap that audits find six months too late"}, "73": {"what": "Coordinates health exchange across programs and partners", "outcome": "One unified experience for constituents", "why": "Breaks down program silos"}, "74": {"what": "Coordinates jobs ecosystem across programs and partners", "outcome": "One unified experience for constituents", "why": "Breaks down program silos"}, "75": {"what": "Coordinates family stabilization across programs and partners", "outcome": "One unified experience for constituents", "why": "Breaks down program silos"}, "76": {"what": "Coordinates early childhood across programs and partners", "outcome": "One unified experience for constituents", "why": "Breaks down program silos"}, "77": {"what": "Coordinates emergency orchestrator across programs and partners", "outcome": "One unified experience for constituents", "why": "Breaks down program silos"}, "78": {"what": "Orchestrates a constituent's path across programs", "outcome": "Fewer handoffs, no dropped cases", "why": "Most backlogs hide in handoffs, not on desks"}, "79": {"what": "Coordinates treasury across programs and partners", "outcome": "One unified experience for constituents", "why": "Breaks down program silos"}, "80": {"what": "Coordinates knowledge records across programs and partners", "outcome": "One unified experience for constituents", "why": "Breaks down program silos"}, "81": {"what": "Coordinates workforce planning across programs and partners", "outcome": "One unified experience for constituents", "why": "Breaks down program silos"}, "82": {"what": "Coordinates strategic budget across programs and partners", "outcome": "One unified experience for constituents", "why": "Breaks down program silos"}, "83": {"what": "Coordinates procurement marketplace across programs and partners", "outcome": "One unified experience for constituents", "why": "Breaks down program silos"}, "84": {"what": "Coordinates platform modernization across programs and partners", "outcome": "One unified experience for constituents", "why": "Breaks down program silos"}, "85": {"what": "Coordinates interagency command across programs and partners", "outcome": "One unified experience for constituents", "why": "Breaks down program silos"}, "86": {"what": "Coordinates federal exchange across programs and partners", "outcome": "One unified experience for constituents", "why": "Breaks down program silos"}, "87": {"what": "Self-directs identity fabric operations with governance", "outcome": "Continuous optimization at scale", "why": "Operating-model shift, not just a feature"}, "88": {"what": "Single account for every benefit a person qualifies for", "outcome": "Apply once, get everything", "why": "Ends the per-program application maze"}, "104": {"what": "Self-directs revenue autonomy operations with governance", "outcome": "Continuous optimization at scale", "why": "Operating-model shift, not just a feature"}, "105": {"what": "Self-directs population health operations with governance", "outcome": "Continuous optimization at scale", "why": "Operating-model shift, not just a feature"}, "106": {"what": "Self-directs labor intelligence operations with governance", "outcome": "Continuous optimization at scale", "why": "Operating-model shift, not just a feature"}, "107": {"what": "Self-directs social care network operations with governance", "outcome": "Continuous optimization at scale", "why": "Operating-model shift, not just a feature"}, "108": {"what": "Self-directs youth success operations with governance", "outcome": "Continuous optimization at scale", "why": "Operating-model shift, not just a feature"}, "109": {"what": "Self-directs safety assurance operations with governance", "outcome": "Continuous optimization at scale", "why": "Operating-model shift, not just a feature"}, "110": {"what": "Proactively guides constituents through every life event", "outcome": "Anticipated service, not requested service", "why": "Sets the bar for digital government"}, "111": {"what": "Verifies every payment before it leaves the treasury", "outcome": "Improper payments cut at the source", "why": "Audit-grade controls without slowing legitimate payouts"}, "112": {"what": "Self-directs records autonomy operations with governance", "outcome": "Continuous optimization at scale", "why": "Operating-model shift, not just a feature"}, "113": {"what": "Self-directs human capital operations with governance", "outcome": "Continuous optimization at scale", "why": "Operating-model shift, not just a feature"}, "114": {"what": "Continuously rebalances spend, revenue, and risk", "outcome": "Real-time financial health across the enterprise", "why": "Moves fiscal management from quarterly to live"}, "115": {"what": "Self-directs vendor steward operations with governance", "outcome": "Continuous optimization at scale", "why": "Operating-model shift, not just a feature"}, "116": {"what": "Self-directs government os operations with governance", "outcome": "Continuous optimization at scale", "why": "Operating-model shift, not just a feature"}, "117": {"what": "Self-directs orchestration operations with governance", "outcome": "Continuous optimization at scale", "why": "Operating-model shift, not just a feature"}, "118": {"what": "Self-directs public interface operations with governance", "outcome": "Continuous optimization at scale", "why": "Operating-model shift, not just a feature"}, "57": {"what": "Shared identity engine engine reused across agents", "outcome": "One reliable capability, not 18 reinventions", "why": "Backbone every other agent depends on"}, "58": {"what": "Shared eligibility engine engine reused across agents", "outcome": "One reliable capability, not 18 reinventions", "why": "Backbone every other agent depends on"}, "59": {"what": "Shared forms engine engine reused across agents", "outcome": "One reliable capability, not 18 reinventions", "why": "Backbone every other agent depends on"}, "60": {"what": "Shared document ocr engine reused across agents", "outcome": "One reliable capability, not 18 reinventions", "why": "Backbone every other agent depends on"}, "61": {"what": "Shared evidence matching engine reused across agents", "outcome": "One reliable capability, not 18 reinventions", "why": "Backbone every other agent depends on"}, "62": {"what": "Shared notice generation engine reused across agents", "outcome": "One reliable capability, not 18 reinventions", "why": "Backbone every other agent depends on"}, "63": {"what": "Shared payments rail engine reused across agents", "outcome": "One reliable capability, not 18 reinventions", "why": "Backbone every other agent depends on"}, "64": {"what": "Shared master data engine reused across agents", "outcome": "One reliable capability, not 18 reinventions", "why": "Backbone every other agent depends on"}, "65": {"what": "Shared rules version engine reused across agents", "outcome": "One reliable capability, not 18 reinventions", "why": "Backbone every other agent depends on"}, "66": {"what": "Balances queues across teams and skills", "outcome": "Even workload, no starved queues", "why": "Backbone of any backlog reduction effort"}, "67": {"what": "Shared messaging engine reused across agents", "outcome": "One reliable capability, not 18 reinventions", "why": "Backbone every other agent depends on"}, "68": {"what": "Shared evidence store engine reused across agents", "outcome": "One reliable capability, not 18 reinventions", "why": "Backbone every other agent depends on"}, "69": {"what": "Shared address standard engine reused across agents", "outcome": "One reliable capability, not 18 reinventions", "why": "Backbone every other agent depends on"}, "70": {"what": "Shared provider registry engine reused across agents", "outcome": "One reliable capability, not 18 reinventions", "why": "Backbone every other agent depends on"}, "71": {"what": "Shared service authorization engine reused across agents", "outcome": "One reliable capability, not 18 reinventions", "why": "Backbone every other agent depends on"}, "89": {"what": "Flags fraud patterns across cases and payments", "outcome": "Recoveries up, payouts to bad actors down", "why": "Pays for the AI program in year one"}, "90": {"what": "Continuously monitors abuse monitoring", "outcome": "Risks surface before they hit headlines", "why": "Required for AI's license to operate"}, "91": {"what": "Continuously monitors privacy impact", "outcome": "Risks surface before they hit headlines", "why": "Required for AI's license to operate"}, "92": {"what": "Continuously monitors compliance monitoring", "outcome": "Risks surface before they hit headlines", "why": "Required for AI's license to operate"}, "93": {"what": "Continuously monitors ai oversight", "outcome": "Risks surface before they hit headlines", "why": "Required for AI's license to operate"}, "94": {"what": "Continuously monitors audit trail", "outcome": "Risks surface before they hit headlines", "why": "Required for AI's license to operate"}, "95": {"what": "Continuously monitors equity impact", "outcome": "Risks surface before they hit headlines", "why": "Required for AI's license to operate"}, "96": {"what": "Continuously monitors cyber risk", "outcome": "Risks surface before they hit headlines", "why": "Required for AI's license to operate"}, "97": {"what": "Continuously monitors safety review", "outcome": "Risks surface before they hit headlines", "why": "Required for AI's license to operate"}, "98": {"what": "Continuously monitors open records", "outcome": "Risks surface before they hit headlines", "why": "Required for AI's license to operate"}, "99": {"what": "Continuously monitors ethics review", "outcome": "Risks surface before they hit headlines", "why": "Required for AI's license to operate"}, "100": {"what": "Tracks constituent satisfaction in real time", "outcome": "Pain points surface in days, not annual surveys", "why": "You can't improve what you don't measure"}, "101": {"what": "Scores every case for risk to focus investigations", "outcome": "Investigators work the highest-impact cases", "why": "Risk-based triage is the only scalable path"}, "102": {"what": "Continuously monitors incident review", "outcome": "Risks surface before they hit headlines", "why": "Required for AI's license to operate"}, "103": {"what": "Continuously monitors public trust", "outcome": "Risks surface before they hit headlines", "why": "Required for AI's license to operate"}};
+
+  const GOAL_PLANS = {
+    fiscal: {
+      title: "Improve Fiscal Stewardship",
+      sequence: ["Workflow", "Decision", "Cross-Agency", "Autonomous"],
+      agents: [
+        { atomic: 32,  step: "Step 1", name: "Forecast",            outcome: "Surface budget surprises early" },
+        { atomic: 50,  step: "Step 2", name: "Allocation",          outcome: "Align spend to outcomes" },
+        { atomic: 40,  step: "Step 3", name: "Audit Support",       outcome: "Audit-ready evidence on demand" },
+        { atomic: 72,  step: "Step 4", name: "Revenue Risk",        outcome: "Recover leakage early" },
+        { atomic: 114, step: "Step 5", name: "Fiscal Intelligence", outcome: "Real-time financial health" }
+      ]
+    },
+    backlog: {
+      title: "Reduce Case Backlogs",
+      sequence: ["Backbone", "Workflow", "Decision", "Cross-Agency"],
+      agents: [
+        { atomic: 66, step: "Step 1", name: "Queue Management", outcome: "Even workload, no starved queues" },
+        { atomic: 28, step: "Step 2", name: "Case Intake",      outcome: "Right desk on day one" },
+        { atomic: 30, step: "Step 3", name: "Document Upload",  outcome: "No follow-ups for missing docs" },
+        { atomic: 46, step: "Step 4", name: "Case Copilot",     outcome: "More cases per worker per day" },
+        { atomic: 78, step: "Step 5", name: "Service Journey",  outcome: "Fewer dropped handoffs" }
+      ]
+    },
+    experience: {
+      title: "Improve Constituent Experience",
+      sequence: ["Informational", "Transactional", "Workflow", "Autonomous"],
+      agents: [
+        { atomic: 2,   step: "Step 1", name: "Community Interface",   outcome: "Reach people on their channel" },
+        { atomic: 17,  step: "Step 2", name: "No Wrong Door",         outcome: "One front door for services" },
+        { atomic: 21,  step: "Step 3", name: "License Renewal",       outcome: "Days → minutes for renewals" },
+        { atomic: 100, step: "Step 4", name: "Experience Monitoring", outcome: "Pain points surface in days" },
+        { atomic: 110, step: "Step 5", name: "Omni Journey",          outcome: "Proactive, life-event service" }
+      ]
+    },
+    uptake: {
+      title: "Increase Benefit Uptake",
+      sequence: ["Informational", "Transactional", "Workflow", "Decision", "Autonomous"],
+      agents: [
+        { atomic: 4,  step: "Step 1", name: "Benefits Screener",    outcome: "More eligible people apply" },
+        { atomic: 12, step: "Step 2", name: "SNAP Application",     outcome: "Higher completion rate" },
+        { atomic: 20, step: "Step 3", name: "Medicaid Renewal",     outcome: "Stop avoidable terminations" },
+        { atomic: 38, step: "Step 4", name: "Eligibility Decision", outcome: "Days → hours for determinations" },
+        { atomic: 88, step: "Step 5", name: "Universal Wallet",     outcome: "Apply once, get everything" }
+      ]
+    },
+    fraud: {
+      title: "Reduce Fraud & Risk",
+      sequence: ["Transactional", "Decision", "Governance", "Autonomous"],
+      agents: [
+        { atomic: 11,  step: "Step 1", name: "Verification Prep",  outcome: "Stop fraud at intake" },
+        { atomic: 37,  step: "Step 2", name: "Trusted Identity",   outcome: "Block synthetic identities" },
+        { atomic: 89,  step: "Step 3", name: "Fraud Detection",    outcome: "Catch patterns at scale" },
+        { atomic: 101, step: "Step 4", name: "Risk Scoring",       outcome: "Focus investigators on big wins" },
+        { atomic: 111, step: "Step 5", name: "Payment Assurance",  outcome: "Stop bad payouts before release" }
+      ]
+    }
+  };
+
+  const tooltip = document.getElementById('tooltip');
+  const search = document.getElementById('search');
+  const reset = document.getElementById('reset');
+  const legendBtns = Array.from(document.querySelectorAll('.legend-item'));
+  const goalBtns = Array.from(document.querySelectorAll('.goal-item'));
+  const buildPlan = document.getElementById('buildPlan');
+  const bpTitle = document.getElementById('bpTitle');
+  const bpSequence = document.getElementById('bpSequence');
+  const bpGrid = document.getElementById('bpGrid');
+  const bpClear = document.getElementById('bpClear');
+
+  function showTooltip(e, cell) {
+    const sym = cell.dataset.symbol;
+    const num = cell.dataset.atomic;
+    const name = cell.dataset.name;
+    const dom = cell.dataset.domain;
+    const tier = cell.dataset.tier;
+    const period = cell.dataset.period;
+    const vp = VALUE_PROPS[num] || {};
+    let html =
+      '<div class="tt-symbol">' + sym + ' · #' + num + '</div>' +
+      '<div class="tt-name">' + name + '</div>' +
+      '<div class="tt-meta">' + dom + ' · ' + tier + '</div>';
+    if (vp.what) {
+      html += '<div class="tt-section"><div class="tt-label">What</div>' +
+              '<div class="tt-value">' + vp.what + '</div></div>';
+    }
+    if (vp.outcome) {
+      html += '<div class="tt-section"><div class="tt-label">Outcome</div>' +
+              '<div class="tt-value">' + vp.outcome + '</div></div>';
+    }
+    if (vp.why) {
+      html += '<div class="tt-section"><div class="tt-label">Why it matters</div>' +
+              '<div class="tt-value">' + vp.why + '</div></div>';
+    }
+    tooltip.innerHTML = html;
+    tooltip.classList.add('show');
+    tooltip.setAttribute('aria-hidden', 'false');
+    moveTooltip(e);
+  }
+  function moveTooltip(e) {
+    const pad = 14;
+    const tw = tooltip.offsetWidth;
+    const th = tooltip.offsetHeight;
+    let x = e.clientX + pad;
+    let y = e.clientY + pad;
+    if (x + tw > window.innerWidth - 8) x = e.clientX - tw - pad;
+    if (y + th > window.innerHeight - 8) y = e.clientY - th - pad;
+    tooltip.style.left = x + 'px';
+    tooltip.style.top = y + 'px';
+  }
+  function hideTooltip() {
+    tooltip.classList.remove('show');
+    tooltip.setAttribute('aria-hidden', 'true');
+  }
+
+  // ---- Click-to-pin detail panel ----
+  const panel = document.getElementById('detailPanel');
+  const backdrop = document.getElementById('panelBackdrop');
+  const dpClose = document.getElementById('dpClose');
+  const dpPrev = document.getElementById('dpPrev');
+  const dpNext = document.getElementById('dpNext');
+  const dpName = document.getElementById('dpName');
+  const dpDomain = document.getElementById('dpDomain');
+  const dpAtomic = document.getElementById('dpAtomic');
+  const dpSymbol = document.getElementById('dpSymbol');
+  const dpSymbolBox = document.getElementById('dpSymbolBox');
+  const dpAtomicFull = document.getElementById('dpAtomicFull');
+  const dpSymbolFull = document.getElementById('dpSymbolFull');
+  const dpDomainFull = document.getElementById('dpDomainFull');
+  const dpPeriod = document.getElementById('dpPeriod');
+  const dpGroup = document.getElementById('dpGroup');
+  const dpTier = document.getElementById('dpTier');
+  const dpCounter = document.getElementById('dpCounter');
+
+  let pinnedCell = null;
+
+  function openPanel(cell) {
+    if (pinnedCell) pinnedCell.classList.remove('pinned');
+    pinnedCell = cell;
+    cell.classList.add('pinned');
+
+    const sym = cell.dataset.symbol;
+    const num = cell.dataset.atomic;
+    const name = cell.dataset.name;
+    const dom = cell.dataset.domain;
+    const tier = cell.dataset.tier;
+    const period = cell.dataset.period;
+    const group = cell.dataset.group;
+    const fill = cell.style.background;
+
+    dpName.textContent = name;
+    dpDomain.textContent = dom;
+    dpAtomic.textContent = num;
+    dpSymbol.textContent = sym;
+    dpSymbolBox.style.background = fill;
+    dpAtomicFull.textContent = num;
+    dpSymbolFull.textContent = sym;
+    dpDomainFull.textContent = dom;
+    dpPeriod.textContent = period;
+    dpGroup.textContent = (group === 'L') ? 'Lanthanides (operational backbone)'
+                        : (group === 'A') ? 'Actinides (governance & risk)'
+                        : 'Group ' + group;
+    dpTier.textContent = tier;
+
+    const vp = VALUE_PROPS[num] || {};
+    document.getElementById('dpWhat').textContent = vp.what || '—';
+    document.getElementById('dpOutcome').textContent = vp.outcome || '—';
+    document.getElementById('dpWhy').textContent = vp.why || '—';
+
+    const idx = cells.indexOf(cell);
+    dpCounter.textContent = (idx + 1) + ' of ' + cells.length;
+    dpPrev.disabled = (idx <= 0);
+    dpNext.disabled = (idx >= cells.length - 1);
+
+    panel.classList.add('show');
+    backdrop.classList.add('show');
+    panel.setAttribute('aria-hidden', 'false');
+    hideTooltip();
+    setTimeout(() => dpClose.focus(), 50);
+  }
+
+  function closePanel() {
+    panel.classList.remove('show');
+    backdrop.classList.remove('show');
+    panel.setAttribute('aria-hidden', 'true');
+    if (pinnedCell) {
+      pinnedCell.classList.remove('pinned');
+      const cell = pinnedCell;
+      pinnedCell = null;
+      cell.focus();
+    }
+  }
+
+  function navigatePanel(delta) {
+    if (!pinnedCell) return;
+    const idx = cells.indexOf(pinnedCell);
+    const next = cells[idx + delta];
+    if (next) openPanel(next);
+  }
+
+  cells.forEach(c => {
+    c.addEventListener('mouseenter', e => {
+      if (!panel.classList.contains('show')) showTooltip(e, c);
+    });
+    c.addEventListener('mousemove', e => {
+      if (!panel.classList.contains('show')) moveTooltip(e);
+    });
+    c.addEventListener('mouseleave', hideTooltip);
+    c.addEventListener('focus', e => {
+      if (panel.classList.contains('show')) return;
+      const r = c.getBoundingClientRect();
+      showTooltip({ clientX: r.left + r.width/2, clientY: r.bottom }, c);
+    });
+    c.addEventListener('blur', hideTooltip);
+    c.addEventListener('click', () => openPanel(c));
+    c.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openPanel(c);
+      }
+    });
+  });
+
+  dpClose.addEventListener('click', closePanel);
+  backdrop.addEventListener('click', closePanel);
+  dpPrev.addEventListener('click', () => navigatePanel(-1));
+  dpNext.addEventListener('click', () => navigatePanel(1));
+
+  document.addEventListener('keydown', e => {
+    if (!panel.classList.contains('show')) return;
+    if (e.key === 'Escape') closePanel();
+    else if (e.key === 'ArrowLeft') navigatePanel(-1);
+    else if (e.key === 'ArrowRight') navigatePanel(1);
+  });
+
+  function applyFilter(predicate) {
+    cells.forEach(c => {
+      if (predicate(c)) c.classList.remove('dimmed');
+      else c.classList.add('dimmed');
+    });
+  }
+  function clearHighlight() {
+    cells.forEach(c => c.classList.remove('highlighted'));
+  }
+  function clearFilter() {
+    cells.forEach(c => {
+      c.classList.remove('dimmed');
+      c.classList.remove('highlighted');
+    });
+    legendBtns.forEach(b => b.classList.remove('active'));
+    goalBtns.forEach(b => b.classList.remove('active'));
+    search.value = '';
+    if (typeof hideBuildPlan === 'function') hideBuildPlan();
+  }
+
+  goalBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const goalKey = btn.dataset.goal;
+      const wasActive = btn.classList.contains('active');
+      // clear
+      cells.forEach(c => { c.classList.remove('dimmed'); c.classList.remove('highlighted'); });
+      legendBtns.forEach(b => b.classList.remove('active'));
+      goalBtns.forEach(b => b.classList.remove('active'));
+      search.value = '';
+      if (wasActive) { hideBuildPlan(); return; }
+
+      btn.classList.add('active');
+      const plan = GOAL_PLANS[goalKey];
+      if (!plan) return;
+      renderBuildPlan(plan);
+
+      const set = new Set(plan.agents.map(a => String(a.atomic)));
+      cells.forEach(c => {
+        if (set.has(c.dataset.atomic)) c.classList.add('highlighted');
+        else c.classList.add('dimmed');
+      });
+    });
+  });
+
+  function renderBuildPlan(plan) {
+    bpTitle.textContent = "Top 5 agents · " + plan.title;
+    bpSequence.innerHTML = '<strong>Build order:</strong> ' + plan.sequence.join(' → ');
+    bpGrid.innerHTML = plan.agents.map(a => {
+      const cell = cells.find(c => c.dataset.atomic === String(a.atomic));
+      const sym = cell ? cell.dataset.symbol : '';
+      const period = cell ? cell.dataset.period : '';
+      const tier = cell ? cell.dataset.tier : '';
+      const fill = cell ? cell.style.background : '#eee';
+      return '<button class="bp-card" data-atomic="' + a.atomic + '">' +
+             '<div class="bp-card-head">' +
+               '<div class="bp-symbol" style="background:' + fill + '">' + sym + '</div>' +
+               '<div class="bp-step">' + a.step + '</div>' +
+             '</div>' +
+             '<div class="bp-name">' + a.name + '</div>' +
+             '<div class="bp-outcome">' + a.outcome + '</div>' +
+             '<div class="bp-period">Period ' + period + ' · ' + tier + '</div>' +
+             '</button>';
+    }).join('');
+    buildPlan.hidden = false;
+    Array.from(bpGrid.querySelectorAll('.bp-card')).forEach(card => {
+      card.addEventListener('click', () => {
+        const atomic = card.dataset.atomic;
+        const target = cells.find(c => c.dataset.atomic === atomic);
+        if (target) openPanel(target);
+      });
+    });
+  }
+
+  function hideBuildPlan() {
+    buildPlan.hidden = true;
+    bpGrid.innerHTML = '';
+  }
+
+  bpClear.addEventListener('click', () => {
+    goalBtns.forEach(b => b.classList.remove('active'));
+    cells.forEach(c => { c.classList.remove('dimmed'); c.classList.remove('highlighted'); });
+    hideBuildPlan();
+  });
+
+  legendBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const g = btn.dataset.filterGroup;
+      const wasActive = btn.classList.contains('active');
+      legendBtns.forEach(b => b.classList.remove('active'));
+      goalBtns.forEach(b => b.classList.remove('active'));
+      cells.forEach(c => c.classList.remove('highlighted'));
+      hideBuildPlan();
+      if (wasActive) { clearFilter(); return; }
+      btn.classList.add('active');
+      applyFilter(c => c.dataset.group === g);
+    });
+  });
+
+  search.addEventListener('input', () => {
+    const q = search.value.trim().toLowerCase();
+    legendBtns.forEach(b => b.classList.remove('active'));
+    goalBtns.forEach(b => b.classList.remove('active'));
+    cells.forEach(c => c.classList.remove('highlighted'));
+    hideBuildPlan();
+    if (!q) { cells.forEach(c => c.classList.remove('dimmed')); return; }
+    applyFilter(c =>
+      c.dataset.name.toLowerCase().includes(q) ||
+      c.dataset.symbol.toLowerCase().includes(q) ||
+      c.dataset.domain.toLowerCase().includes(q) ||
+      c.dataset.atomic === q
+    );
+  });
+
+  reset.addEventListener('click', clearFilter);
+})();
+</script>
+</body>
+</html>
