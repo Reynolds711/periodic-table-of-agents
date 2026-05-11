@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Healthcare (AMC) Periodic Table of Agents</title>
+<title>Periodic Table of Agents: AMC Edition</title>
 <meta name="viewport" content="width=1400">
 <style>
   :root {
@@ -103,6 +103,13 @@
   .dp-value-text { font-size: 13px; color: #222; line-height: 1.45; }
   .cell.pinned { outline: 3px solid var(--navy); outline-offset: 1px; z-index: 6; }
   .cell.highlighted { outline: 2px solid #1F3A5F; outline-offset: 1px; box-shadow: 0 0 0 4px rgba(31, 58, 95, .15); z-index: 4; }
+  .series-nav { background: var(--navy); color: white; padding: 10px 24px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; font-size: 12px; margin: -24px -24px 20px -24px; }
+  .series-nav .series-label { color: #a8bcd4; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; font-weight: 700; margin-right: 4px; white-space: nowrap; }
+  .series-nav a { color: #d6dfee; text-decoration: none; padding: 3px 10px; border-radius: 12px; border: 1px solid rgba(255,255,255,.2); transition: background .12s, color .12s; white-space: nowrap; }
+  .series-nav a:hover { background: rgba(255,255,255,.15); color: white; }
+  .series-nav .series-current { color: white; font-weight: 700; padding: 3px 10px; border-radius: 12px; background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.4); white-space: nowrap; }
+  .series-nav .series-soon { color: #6a84a0; padding: 3px 10px; border-radius: 12px; border: 1px solid rgba(255,255,255,.08); white-space: nowrap; cursor: default; }
+  .series-nav .sep { color: #4a6480; }
   footer { text-align: center; color: var(--muted); font-size: 11px; margin-top: 18px; }
   @media print { body { padding: 6px; min-width: 0; } .controls { display: none; } .cell:hover { transform: none; box-shadow: none; } .grid { box-shadow: none; } }
   .goals { margin: 8px auto 18px; max-width: 1400px; background: linear-gradient(135deg, #1F3A5F 0%, #2a4d7a 100%); color: white; padding: 22px 24px; border-radius: 10px; box-shadow: 0 2px 8px rgba(31,58,95,.18); }
@@ -139,15 +146,31 @@
 </style>
 </head>
 <body>
+<nav class="series-nav" aria-label="Periodic Table of Agents series">
+  <span class="series-label">Periodic Table of Agents</span>
+  <span class="sep">·</span>
+  <a href="https://reynolds711.github.io/periodic-table-of-agents/">← All Sectors</a>
+  <span class="sep">·</span>
+  <a href="https://reynolds711.github.io/periodic-table-of-agents/HED/">Higher Education</a>
+  <span class="sep">·</span>
+  <span class="series-current">Healthcare (AMC)</span>
+  <span class="sep">·</span>
+  <span class="series-soon">K–12 Education</span>
+  <span class="sep">·</span>
+  <span class="series-soon">State &amp; Local Gov.</span>
+</nav>
+
 <header>
-  <h1>AMC AI Agent Periodic Table</h1>
-  <p>Pick a strategic priority above to see your top 5 agents and build order — or explore all 118 agents below by domain (column) and maturity (row).</p>
+  <h1>Periodic Table of Agents: AMC Edition</h1>
+  <p>A strategic map for building agentic AI across the tripartite mission — clinical care, education, and research.</p>
+  <p style="margin-top:6px; font-size:13px; color:#777; font-style:normal;">Part of the <strong>Periodic Table of Agents</strong> series across industries: Higher Ed, K–12, Academic Medical Centers, and State &amp; Local Government.</p>
 </header>
 
 <div class="controls">
-  <input type="search" id="search" placeholder="Or search by agent name, symbol, or domain…" autocomplete="off">
+  <input type="search" id="search" placeholder="Search by agent name, symbol, or domain…" autocomplete="off">
   <button class="reset" id="reset">Reset filters</button>
 </div>
+<p style="text-align:center; color:var(--muted); font-size:13px; font-style:italic; margin: -8px auto 16px; max-width:700px;">Pick a strategic priority below to see your top 5 agents and build order — or explore all 118 agents by domain (column) and maturity (row).</p>
 
 <section class="goals">
   <h2>Start with Your Priority</h2>
@@ -269,7 +292,7 @@
   </ul>
 </section>
 
-<footer>118 agents · 7 periods · 18 groups · Lanthanides (operational backbone) · Actinides (governance &amp; public trust)</footer>
+<footer>118 agents · 7 periods · 18 groups · Lanthanides (operational backbone) · Actinides (governance &amp; public trust) · <a href="https://reynolds711.github.io/periodic-table-of-agents/" style="color:var(--muted); text-decoration:underline; text-underline-offset:2px;">Part of the Periodic Table of Agents series</a> · v1.0</footer>
 
 <div class="tooltip" id="tooltip" role="tooltip" aria-hidden="true"></div>
 
