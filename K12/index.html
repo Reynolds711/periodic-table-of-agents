@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>K-12 AI Agent Periodic Table</title>
+<title>Periodic Table of Agents: K–12 Edition</title>
 <meta name="viewport" content="width=1400">
 <style>
   :root {
@@ -103,6 +103,13 @@
   .dp-value-text { font-size: 13px; color: #222; line-height: 1.45; }
   .cell.pinned { outline: 3px solid var(--navy); outline-offset: 1px; z-index: 6; }
   .cell.highlighted { outline: 2px solid #1F3A5F; outline-offset: 1px; box-shadow: 0 0 0 4px rgba(31, 58, 95, .15); z-index: 4; }
+  .series-nav { background: var(--navy); color: white; padding: 10px 24px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; font-size: 12px; margin: -24px -24px 20px -24px; }
+  .series-nav .series-label { color: #a8bcd4; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; font-weight: 700; margin-right: 4px; white-space: nowrap; }
+  .series-nav a { color: #d6dfee; text-decoration: none; padding: 3px 10px; border-radius: 12px; border: 1px solid rgba(255,255,255,.2); transition: background .12s, color .12s; white-space: nowrap; }
+  .series-nav a:hover { background: rgba(255,255,255,.15); color: white; }
+  .series-nav .series-current { color: white; font-weight: 700; padding: 3px 10px; border-radius: 12px; background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.4); white-space: nowrap; }
+  .series-nav .series-soon { color: #6a84a0; padding: 3px 10px; border-radius: 12px; border: 1px solid rgba(255,255,255,.08); white-space: nowrap; cursor: default; }
+  .series-nav .sep { color: #4a6480; }
   footer { text-align: center; color: var(--muted); font-size: 11px; margin-top: 18px; }
   @media print { body { padding: 6px; min-width: 0; } .controls { display: none; } .cell:hover { transform: none; box-shadow: none; } .grid { box-shadow: none; } }
   .goals { margin: 8px auto 18px; max-width: 1400px; background: linear-gradient(135deg, #1F3A5F 0%, #2a4d7a 100%); color: white; padding: 22px 24px; border-radius: 10px; box-shadow: 0 2px 8px rgba(31,58,95,.18); }
@@ -139,15 +146,31 @@
 </style>
 </head>
 <body>
+<nav class="series-nav" aria-label="Periodic Table of Agents series">
+  <span class="series-label">Periodic Table of Agents</span>
+  <span class="sep">·</span>
+  <a href="https://reynolds711.github.io/periodic-table-of-agents/">← All Sectors</a>
+  <span class="sep">·</span>
+  <a href="https://reynolds711.github.io/periodic-table-of-agents/HED/">Higher Education</a>
+  <span class="sep">·</span>
+  <a href="https://reynolds711.github.io/periodic-table-of-agents/AMC/">Healthcare (AMC)</a>
+  <span class="sep">·</span>
+  <span class="series-current">K–12 Education</span>
+  <span class="sep">·</span>
+  <span class="series-soon">State &amp; Local Gov.</span>
+</nav>
+
 <header>
-  <h1>K-12 AI Agent Periodic Table</h1>
-  <p>Pick a strategic goal above to see your top 5 agents and build order — or explore all 118 agents below by domain (column) and maturity (row).</p>
+  <h1>Periodic Table of Agents: K–12 Edition</h1>
+  <p>A strategic map for building agentic AI across student outcomes, teacher support, and district operations.</p>
+  <p style="margin-top:6px; font-size:13px; color:#777; font-style:normal;">Part of the <strong>Periodic Table of Agents</strong> series across industries: Higher Ed, K–12, Academic Medical Centers, and State &amp; Local Government.</p>
 </header>
 
 <div class="controls">
-  <input type="search" id="search" placeholder="Or search by agent name, symbol, or domain…" autocomplete="off">
+  <input type="search" id="search" placeholder="Search by agent name, symbol, or domain…" autocomplete="off">
   <button class="reset" id="reset">Reset filters</button>
 </div>
+<p style="text-align:center; color:var(--muted); font-size:13px; font-style:italic; margin: -8px auto 16px; max-width:700px;">Pick a strategic goal below to see your top 5 agents and build order — or explore all 118 agents by domain (column) and maturity (row).</p>
 
 <section class="goals">
   <h2>Start with Your Goal</h2>
@@ -219,7 +242,7 @@
     <dt>Transactional</dt><dd>Completes simple tasks end-to-end (Period 3)</dd>
     <dt>Workflow</dt><dd>Runs multi-step processes across systems (Period 4)</dd>
     <dt>Decision</dt><dd>Recommends decisions with evidence and explanations (Period 5)</dd>
-    <dt>Cross-District</dt><dd>Coordinates across schools, programs, and partners (Period 6)</dd>
+    <dt>Cross-District</dt><dd>Coordinates across schools, programs, and partners (Period 6) — K–12 adaptation of the series' Cross-Sector tier</dd>
     <dt>Autonomous</dt><dd>Self-directs with strong governance and oversight (Period 7)</dd>
   </dl>
 </section>
@@ -237,32 +260,32 @@
 
 <section class="narrative">
   <h2>How to read this table</h2>
-  <p class="lead">This table reframes the 118 K-12 AI agents as a periodic system — not a checklist. The position of each agent tells you what it does, how mature it needs to be, and how it relates to the agents around it.</p>
+  <p class="lead">This table reframes the 118 K–12 AI agents as a periodic system — not a checklist. The position of each agent tells you what it does, how mature it needs to be, and how it relates to the agents around it.</p>
 
   <h3>Two axes — domain and autonomy</h3>
   <ul>
-    <li><strong>Columns (groups) = the WHAT.</strong> Each column is a K-12 function — Enrollment, Attendance, Counseling, Teaching &amp; Learning, Special Populations, Transportation, HR, Budget, Family &amp; Community, Safety, and so on. Read down a column to see how a function progresses from informational chatbots to autonomous, governed systems.</li>
+    <li><strong>Columns (groups) = the WHAT.</strong> Each column is a K–12 function — Enrollment, Attendance, Counseling, Teaching &amp; Learning, Special Populations, Transportation, HR, Budget, Family &amp; Community, Safety, and so on. Read down a column to see how a function progresses from informational chatbots to autonomous, governed systems.</li>
     <li><strong>Rows (periods) = the autonomy &amp; risk profile.</strong> Period 1–2 agents answer questions. Period 3–4 agents complete transactions. Period 5 agents make recommendations. Period 6 agents coordinate across schools and partners. Period 7 agents act with significant autonomy and require the strongest governance.</li>
   </ul>
 
   <h3>The two special rows</h3>
   <ul>
     <li><strong>Lanthanides (yellow band, 57–71) — Operational Backbone.</strong> Identity, eligibility rules, document OCR, payments rail, master data, SIS/LMS connectors, queue management. These are the shared engines every other agent depends on. They're not user-facing, but they're load-bearing. Underinvest here and everything above gets brittle.</li>
-    <li><strong>Actinides (rose band, 89–103) — Governance, Risk &amp; Public Trust.</strong> FERPA Guard, COPPA Compliance, fraud detection, equity impact, AI oversight, Title IX review, IDEA compliance, threat assessment. These cut across every domain. They're not optional — they're the institutional license to operate in K-12.</li>
+    <li><strong>Actinides (rose band, 89–103) — Governance, Risk &amp; Public Trust.</strong> FERPA Guard, COPPA Compliance, fraud detection, equity impact, AI oversight, Title IX review, IDEA compliance, threat assessment. These cut across every domain. They're not optional — they're the institutional license to operate in K–12.</li>
   </ul>
 
-  <h3>What K-12 leaders should be considering</h3>
+  <h3>What K–12 leaders should be considering</h3>
   <ul>
     <li><strong>Build the floor before the ceiling.</strong> Period 6–7 agents only work if the lanthanides underneath them are solid. Many districts overinvest in flagship agents (chatbots, tutors) and underfund the shared identity, master-data, and SIS/LMS connectors that make those flagships work at scale.</li>
-    <li><strong>Governance runs in parallel, not sequentially.</strong> The actinides aren't a phase 3 deliverable — FERPA, COPPA, equity, and threat assessment need to stand up alongside the first transactional agent that touches student data. In K-12, FERPA and student safety are bright-line risks that don't tolerate "we'll get to it."</li>
+    <li><strong>Governance runs in parallel, not sequentially.</strong> The actinides aren't a phase 3 deliverable — FERPA, COPPA, equity, and threat assessment need to stand up alongside the first transactional agent that touches student data. In K–12, FERPA and student safety are bright-line risks that don't tolerate "we'll get to it."</li>
     <li><strong>Sequence by risk, not by enthusiasm.</strong> A Period 2 informational agent (Login Help, Family Outreach) carries low risk and ships fast — it builds organizational confidence. A Period 5–7 decision-support or autonomous agent (Risk Radar, Adaptive Curriculum, IEP Orchestrator) needs evidence, governance scaffolding, and human-in-the-loop review before launch.</li>
     <li><strong>Pick a portfolio, not a project.</strong> Use the Start with Your Goal section above to assemble 5–8 agents that together advance one strategic outcome — for example, student wellbeing combines MTSS Intake, Attendance Triage, Risk Radar, Crisis Response, and Population Wellness, supported by Queue Management (backbone) and Equity Impact (governance). One agent in isolation rarely moves the needle.</li>
-    <li><strong>Align to the K-12 pressure stack.</strong> Chronic absenteeism, the post-pandemic learning recovery, mental health demand, special ed compliance scrutiny, ESSER cliff, the educator pipeline shortage, AI use policies, and rising cyber and FERPA exposure — this table is designed to map your roadmap to those forcing functions, not against them.</li>
+    <li><strong>Align to the K–12 pressure stack.</strong> Chronic absenteeism, the post-pandemic learning recovery, mental health demand, special ed compliance scrutiny, ESSER cliff, the educator pipeline shortage, AI use policies, and rising cyber and FERPA exposure — this table is designed to map your roadmap to those forcing functions, not against them.</li>
     <li><strong>Talk in symbols, not slideware.</strong> The two-letter symbols (Aa, Bk, Cz) make this a shared vocabulary across superintendent, principals, IT, special ed, and the board. It lowers the activation energy for governance conversations — "Bp needs a Dm before it ships" beats a 30-page deck.</li>
   </ul>
 </section>
 
-<footer>118 agents · 7 periods · 18 groups · Lanthanides (operational backbone) · Actinides (governance &amp; risk)</footer>
+<footer>118 agents · 7 periods · 18 groups · Lanthanides (operational backbone) · Actinides (governance &amp; public trust) · <a href="https://reynolds711.github.io/periodic-table-of-agents/" style="color:var(--muted); text-decoration:underline; text-underline-offset:2px;">Part of the Periodic Table of Agents series</a> · v1.0</footer>
 
 <div class="tooltip" id="tooltip" role="tooltip" aria-hidden="true"></div>
 
@@ -315,7 +338,7 @@
   const GOAL_PLANS = {
     achievement: {
       title: "Improve Student Achievement",
-      sequence: ["Workflow", "Decision", "Cross-District", "Autonomous"],
+      sequence: ["Workflow", "Decision", "Decision", "Cross-District", "Autonomous"],
       agents: [
         { atomic: 23, step: "Step 1", name: "Lesson Planner", outcome: "Teachers reclaim hours per week" },
         { atomic: 41, step: "Step 2", name: "Adaptive Tutor", outcome: "24/7 tutoring at zero marginal cost" },
@@ -326,18 +349,18 @@
     },
     teacher_time: {
       title: "Give Teachers Time Back",
-      sequence: ["Informational", "Transactional", "Workflow", "Cross-District"],
+      sequence: ["Workflow", "Transactional", "Workflow", "Decision", "Cross-District"],
       agents: [
         { atomic: 23, step: "Step 1", name: "Lesson Planner", outcome: "Standards-aligned lessons in minutes" },
         { atomic: 17, step: "Step 2", name: "Parent Comm.", outcome: "Personalized messages in family languages" },
-        { atomic: 35, step: "Step 3", name: "Family Translator", outcome: "40+ languages, one click" },
+        { atomic: 41, step: "Step 3", name: "Adaptive Tutor", outcome: "Offloads 1:1 re-teaching and homework help" },
         { atomic: 31, step: "Step 4", name: "Substitute Booking", outcome: "The 6 am scramble disappears" },
         { atomic: 81, step: "Step 5", name: "Workforce Planning", outcome: "Staffing aligned to enrollment" }
       ]
     },
     wellbeing: {
-      title: "Strengthen Student Wellbeing & Safety",
-      sequence: ["Workflow", "Decision", "Cross-District", "Autonomous"],
+      title: "Catch Students Early",
+      sequence: ["Workflow", "Decision", "Decision", "Cross-District", "Autonomous"],
       agents: [
         { atomic: 28, step: "Step 1", name: "MTSS Intake", outcome: "Right tier on day one" },
         { atomic: 39, step: "Step 2", name: "Attendance Triage", outcome: "Prioritized list every Monday" },
@@ -348,7 +371,7 @@
     },
     family: {
       title: "Engage Every Family",
-      sequence: ["Informational", "Transactional", "Workflow", "Cross-District"],
+      sequence: ["Informational", "Transactional", "Workflow", "Decision", "Cross-District"],
       agents: [
         { atomic: 2, step: "Step 1", name: "Family Outreach", outcome: "Reach families on their channel" },
         { atomic: 17, step: "Step 2", name: "Parent Comm.", outcome: "Personalized messages, family voice" },
@@ -359,7 +382,7 @@
     },
     operations: {
       title: "Run Schools Smarter",
-      sequence: ["Workflow", "Decision", "Cross-District", "Autonomous"],
+      sequence: ["Workflow", "Workflow", "Cross-District", "Cross-District", "Autonomous"],
       agents: [
         { atomic: 31, step: "Step 1", name: "Substitute Booking", outcome: "Coverage booked overnight" },
         { atomic: 32, step: "Step 2", name: "Budget Forecast", outcome: "Surprises surface early" },
@@ -449,7 +472,7 @@
     dpDomainFull.textContent = dom;
     dpPeriod.textContent = period;
     dpGroup.textContent = (group === 'L') ? 'Lanthanides (operational backbone)'
-                        : (group === 'A') ? 'Actinides (governance & risk)'
+                        : (group === 'A') ? 'Actinides (governance & public trust)'
                         : 'Group ' + group;
     dpTier.textContent = tier;
     const vp = VALUE_PROPS[num] || {};
