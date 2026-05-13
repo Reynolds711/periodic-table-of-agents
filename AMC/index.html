@@ -174,6 +174,29 @@
   .bdm-plan-header span { color: #666; font-size: 11.5px; font-weight: 600; }
   .bdm-description { color: #333; font-size: 12.5px; line-height: 1.45; }
 
+  .bdm-grid { grid-template-columns: repeat(3, 1fr); }
+  .bdm-item { display: flex; flex-direction: column; gap: 3px; min-height: 54px; }
+  .bdm-role { font-weight: 700; color: inherit; line-height: 1.2; }
+  .bdm-category { font-size: 10.5px; color: #666; text-transform: uppercase; letter-spacing: .04em; font-weight: 700; }
+  .bdm-item.active .bdm-category { color: rgba(255,255,255,.78); }
+  .bdm-plan { padding: 16px 18px; }
+  .bdm-description { margin-bottom: 12px; }
+  .bdm-insight-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 12px; }
+  .bdm-insight { background: white; border: 1px solid #dbe4f0; border-radius: 7px; padding: 11px 12px; }
+  .bdm-insight h4 { margin: 0 0 6px 0; color: var(--navy); font-size: 11px; text-transform: uppercase; letter-spacing: .04em; }
+  .bdm-insight ul { margin: 0; padding-left: 18px; color: #333; font-size: 12px; line-height: 1.4; }
+  .bdm-insight li { margin-bottom: 3px; }
+  .bdm-agent-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 12px; }
+  .bdm-agent-card { border: 1px solid #ddd; border-radius: 7px; background: #fff; padding: 9px 10px; cursor: pointer; text-align: left; font-family: inherit; transition: transform .12s, box-shadow .12s, border-color .12s; }
+  .bdm-agent-card:hover { border-color: var(--navy); transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,.10); }
+  .bdm-agent-head { display: flex; align-items: center; gap: 7px; margin-bottom: 4px; }
+  .bdm-agent-symbol { width: 26px; height: 26px; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; border: 1px solid rgba(0,0,0,.1); color: #111; flex-shrink: 0; }
+  .bdm-agent-name { font-size: 12px; font-weight: 700; line-height: 1.2; color: var(--navy); }
+  .bdm-agent-meta { font-size: 10.5px; color: #666; line-height: 1.25; }
+  .bdm-pill-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .bdm-pill { background: #edf3fb; color: var(--navy); border: 1px solid #d5e2f2; border-radius: 999px; padding: 4px 9px; font-size: 11px; font-weight: 600; }
+
+
 </style>
 </head>
 <body>
@@ -262,12 +285,36 @@
 
 
 <section class="bdm-filter" aria-label="Explore by business decision maker">
-  <h2>Explore by Business Decision Maker</h2>
-  <p class="bdm-sub">Select an academic medical center leadership role to highlight agents aligned to that role’s strategic priorities.</p>
+  <h2>Start with the Decision Maker</h2>
+  <p class="bdm-sub">Select an academic medical center leader to see their operating pressure, priority outcomes, relevant domains, and recommended top agents.</p>
   <div class="bdm-grid">
-    <button class="bdm-item" data-bdm="ceo">CEO / Health System President</button><button class="bdm-item" data-bdm="dean">Dean / Academic Affairs</button><button class="bdm-item" data-bdm="cmo">Chief Medical Officer</button><button class="bdm-item" data-bdm="cno">Chief Nursing Officer</button><button class="bdm-item" data-bdm="cio">CIO / CMIO</button><button class="bdm-item" data-bdm="cfo">CFO</button><button class="bdm-item" data-bdm="chro">CHRO</button><button class="bdm-item" data-bdm="research">Chief Research Officer</button><button class="bdm-item" data-bdm="trials">Clinical Trials Leader</button><button class="bdm-item" data-bdm="education">Medical Education / GME</button><button class="bdm-item" data-bdm="quality">Quality &amp; Safety Leader</button><button class="bdm-item" data-bdm="population">Population Health Leader</button><button class="bdm-item" data-bdm="revenue">Revenue Cycle Leader</button><button class="bdm-item" data-bdm="patient">Patient Experience Leader</button><button class="bdm-item" data-bdm="compliance">Compliance / Risk Leader</button>
+    <button class="bdm-item" data-bdm="ceo"><span class="bdm-category">Enterprise</span><span class="bdm-role">CEO / Health System President</span></button>
+    <button class="bdm-item" data-bdm="dean"><span class="bdm-category">Academic</span><span class="bdm-role">Dean / Academic Affairs</span></button>
+    <button class="bdm-item" data-bdm="cmo"><span class="bdm-category">Clinical</span><span class="bdm-role">Chief Medical Officer</span></button>
+    <button class="bdm-item" data-bdm="cno"><span class="bdm-category">Clinical Operations</span><span class="bdm-role">Chief Nursing Officer</span></button>
+    <button class="bdm-item" data-bdm="cio"><span class="bdm-category">Digital / IT</span><span class="bdm-role">CIO / CMIO</span></button>
+    <button class="bdm-item" data-bdm="cfo"><span class="bdm-category">Financial</span><span class="bdm-role">CFO</span></button>
+    <button class="bdm-item" data-bdm="chro"><span class="bdm-category">Workforce</span><span class="bdm-role">CHRO</span></button>
+    <button class="bdm-item" data-bdm="research"><span class="bdm-category">Research</span><span class="bdm-role">Chief Research Officer</span></button>
+    <button class="bdm-item" data-bdm="trials"><span class="bdm-category">Research</span><span class="bdm-role">Clinical Trials Leader</span></button>
+    <button class="bdm-item" data-bdm="education"><span class="bdm-category">Education</span><span class="bdm-role">Medical Education / GME</span></button>
+    <button class="bdm-item" data-bdm="quality"><span class="bdm-category">Quality</span><span class="bdm-role">Quality &amp; Safety Leader</span></button>
+    <button class="bdm-item" data-bdm="population"><span class="bdm-category">Population Health</span><span class="bdm-role">Population Health Leader</span></button>
+    <button class="bdm-item" data-bdm="revenue"><span class="bdm-category">Financial</span><span class="bdm-role">Revenue Cycle Leader</span></button>
+    <button class="bdm-item" data-bdm="patient"><span class="bdm-category">Experience</span><span class="bdm-role">Patient Experience Leader</span></button>
+    <button class="bdm-item" data-bdm="compliance"><span class="bdm-category">Risk</span><span class="bdm-role">Compliance / Risk Leader</span></button>
   </div>
-  <div class="bdm-plan" id="bdmPlan" hidden><div class="bdm-plan-header"><h3 id="bdmTitle">Recommended agents</h3><span id="bdmCount"></span></div><div id="bdmDescription" class="bdm-description"></div></div>
+  <div class="bdm-plan" id="bdmPlan" hidden>
+    <div class="bdm-plan-header"><h3 id="bdmTitle">Recommended agents</h3><span id="bdmCount"></span></div>
+    <div id="bdmDescription" class="bdm-description"></div>
+    <div id="bdmPills" class="bdm-pill-row"></div>
+    <div class="bdm-insight-grid">
+      <div class="bdm-insight"><h4>Primary Goals</h4><ul id="bdmGoals"></ul></div>
+      <div class="bdm-insight"><h4>What Keeps Them Up</h4><ul id="bdmPressure"></ul></div>
+      <div class="bdm-insight"><h4>Likely First Conversation</h4><ul id="bdmConversation"></ul></div>
+    </div>
+    <div class="bdm-agent-grid" id="bdmAgentGrid"></div>
+  </div>
 </section>
 <section class="legend">
   <h2>Domains (click to filter)</h2>
@@ -611,7 +658,7 @@
     });
   }
   function clearFilter() {
-    cells.forEach(c => { c.classList.remove('dimmed'); c.classList.remove('highlighted'); });
+    cells.forEach(c => { c.classList.remove('dimmed'); c.classList.remove('highlighted'); c.classList.remove('pinned'); });
     legendBtns.forEach(b => b.classList.remove('active'));
     goalBtns.forEach(b => b.classList.remove('active'));
     search.value = '';
@@ -622,7 +669,7 @@
     btn.addEventListener('click', () => {
       const goalKey = btn.dataset.goal;
       const wasActive = btn.classList.contains('active');
-      cells.forEach(c => { c.classList.remove('dimmed'); c.classList.remove('highlighted'); });
+      cells.forEach(c => { c.classList.remove('dimmed'); c.classList.remove('highlighted'); c.classList.remove('pinned'); });
       legendBtns.forEach(b => b.classList.remove('active'));
       goalBtns.forEach(b => b.classList.remove('active'));
       search.value = '';
@@ -675,7 +722,7 @@
 
   bpClear.addEventListener('click', () => {
     goalBtns.forEach(b => b.classList.remove('active'));
-    cells.forEach(c => { c.classList.remove('dimmed'); c.classList.remove('highlighted'); });
+    cells.forEach(c => { c.classList.remove('dimmed'); c.classList.remove('highlighted'); c.classList.remove('pinned'); });
     hideBuildPlan();
   });
 
@@ -685,7 +732,7 @@
       const wasActive = btn.classList.contains('active');
       legendBtns.forEach(b => b.classList.remove('active'));
       goalBtns.forEach(b => b.classList.remove('active'));
-      cells.forEach(c => c.classList.remove('highlighted'));
+      cells.forEach(c => { c.classList.remove('highlighted'); c.classList.remove('pinned'); });
       hideBuildPlan();
       if (wasActive) { clearFilter(); return; }
       btn.classList.add('active');
@@ -697,7 +744,7 @@
     const q = search.value.trim().toLowerCase();
     legendBtns.forEach(b => b.classList.remove('active'));
     goalBtns.forEach(b => b.classList.remove('active'));
-    cells.forEach(c => c.classList.remove('highlighted'));
+    cells.forEach(c => { c.classList.remove('highlighted'); c.classList.remove('pinned'); });
     hideBuildPlan();
     if (!q) { cells.forEach(c => c.classList.remove('dimmed')); return; }
     applyFilter(c =>
@@ -713,27 +760,68 @@
 
 
 const bdmFilters = {
-  ceo:{label:'CEO / Health System President', priorities:'Enterprise strategy, quality, margin, patient trust, workforce resilience, and tripartite mission alignment.', groups:['3','4','7','8','11','14','16','17','18']},
-  dean:{label:'Dean / Academic Affairs', priorities:'Medical education, faculty affairs, research growth, learner outcomes, and academic reputation.', groups:['5','6','7','8','9','13']},
-  cmo:{label:'Chief Medical Officer', priorities:'Clinical outcomes, safety, care coordination, documentation burden, and physician effectiveness.', groups:['3','4','10','11','12','17','18']},
-  cno:{label:'Chief Nursing Officer', priorities:'Care delivery, staffing, discharge flow, patient experience, quality, and workforce wellbeing.', groups:['3','4','10','11','13','17']},
-  cio:{label:'CIO / CMIO', priorities:'Digital health platforms, identity, EHR integration, data governance, AI enablement, and clinical workflow modernization.', groups:['1','3','12','16','18']},
-  cfo:{label:'CFO', priorities:'Margin improvement, revenue cycle, denials, supply chain, pharmacy cost, workforce cost, and operational efficiency.', groups:['2','13','14','15','16']},
-  chro:{label:'CHRO', priorities:'Hiring, onboarding, credentialing, workforce planning, faculty affairs, and retention.', groups:['6','13','18']},
-  research:{label:'Chief Research Officer', priorities:'Grant development, research operations, evidence synthesis, compliance, and discovery productivity.', groups:['7','8','9','16','18']},
-  trials:{label:'Clinical Trials Leader', priorities:'Trial feasibility, eligibility, recruitment, accrual, monitoring, and trial network coordination.', groups:['8','3','7','11','17','18']},
-  education:{label:'Medical Education / GME', priorities:'UME/GME curriculum, competency tracking, faculty effort, learner support, and adaptive education.', groups:['5','6','9','13']},
-  quality:{label:'Quality & Safety Leader', priorities:'Safety surveillance, readmission reduction, quality reporting, equity, and regulatory readiness.', groups:['4','3','10','11','18']},
-  population:{label:'Population Health Leader', priorities:'Risk stratification, outreach, care gaps, equity, and longitudinal care management.', groups:['10','11','17','3','4']},
-  revenue:{label:'Revenue Cycle Leader', priorities:'Coding, charge capture, denials, documentation support, payments, and fiscal intelligence.', groups:['12','14','2','16']},
-  patient:{label:'Patient Experience Leader', priorities:'Communication, language access, access navigation, service recovery, and engagement intelligence.', groups:['2','10','17','18']},
-  compliance:{label:'Compliance / Risk Leader', priorities:'Audit readiness, regulatory reporting, privacy, risk surveillance, public trust, and safe AI governance.', groups:['1','12','16','18']}
+  ceo:{label:'CEO / Health System President', category:'Enterprise', description:'Owns enterprise performance across the tripartite mission: clinical care, research, education, workforce resilience, digital modernization, and financial sustainability.', groups:['3','4','7','8','11','14','16','17','18'], agents:['39','40','44','82','116'], goals:['Align AI investment to system strategy','Improve quality and patient trust','Protect margin while advancing the academic mission'], pressure:['Margin compression and access constraints','Workforce burnout and retention','Fragmented data across clinical, academic, and research operations'], conversation:['Start with enterprise priority: quality, access, margin, research growth, or workforce','Show 3–5 agent bets that can scale across missions','Anchor governance in safety, compliance, and measurable ROI']},
+  dean:{label:'Dean / Academic Affairs', category:'Academic Leadership', description:'Owns the academic mission: faculty productivity, learner outcomes, curriculum quality, research reputation, accreditation, and institutional prestige.', groups:['5','6','7','8','9','13'], agents:['41','42','73','97','98'], goals:['Strengthen UME/GME outcomes','Improve faculty productivity and effort visibility','Connect education, research, and clinical learning systems'], pressure:['Faculty administrative burden','Accreditation and competency tracking complexity','Competition for learners, faculty, grants, and reputation'], conversation:['Lead with learner and faculty experience','Connect agents to competency, curriculum, and research productivity','Position AI as academic enablement, not just automation']},
+  cmo:{label:'Chief Medical Officer', category:'Clinical Leadership', description:'Owns clinical quality, safety, physician performance, documentation burden, and variation reduction across the enterprise.', groups:['3','4','10','11','12','17','18'], agents:['21','39','46','48','102'], goals:['Reduce clinician burnout','Improve outcomes and safety','Standardize evidence-based care'], pressure:['Physician attrition and documentation overload','Avoidable readmissions, adverse events, and care variation','Quality metrics, public reporting, and regulatory scrutiny'], conversation:['Start with clinician workflow pain','Prioritize inbox, documentation, care planning, and safety surveillance agents','Tie value to time saved, reduced variation, and improved quality metrics']},
+  cno:{label:'Chief Nursing Officer', category:'Clinical Operations', description:'Owns nursing practice, staffing resilience, discharge flow, bedside experience, and safe care delivery.', groups:['3','4','10','11','13','17'], agents:['28','35','40','46','81'], goals:['Improve discharge readiness and flow','Support staffing and workforce planning','Improve patient and family communication'], pressure:['Staffing shortages and burnout','Discharge delays and bed capacity constraints','Patient experience and safety risks at the bedside'], conversation:['Lead with nurse workload and flow constraints','Show discharge, translator, care coordination, and workforce planning agents','Connect impact to capacity, retention, and safety']},
+  cio:{label:'CIO / CMIO', category:'Digital / IT Leadership', description:'Owns digital platforms, identity, EHR integration, data governance, cybersecurity, and AI enablement for safe clinical and academic workflows.', groups:['1','3','12','16','18'], agents:['52','70','84','93','116'], goals:['Modernize the health data platform','Enable governed AI at scale','Reduce friction across EHR, identity, and workflow systems'], pressure:['AI demand outpacing governance and integration capacity','Cybersecurity, privacy, and identity risk','Legacy data silos and EHR workflow constraints'], conversation:['Start with platform readiness and governance','Prioritize EHR connector, data governance, AI oversight, and platform modernization agents','Frame agents as a safe orchestration layer across systems']},
+  cfo:{label:'CFO', category:'Financial Leadership', description:'Owns financial performance, cost discipline, revenue cycle, denials, supply chain exposure, and sustainable reinvestment in the academic mission.', groups:['2','13','14','15','16'], agents:['14','32','50','82','114'], goals:['Improve margin and revenue integrity','Reduce denials and leakage','Forecast cost, capacity, and workforce pressure'], pressure:['Margin compression and reimbursement pressure','Denials, under-coding, and revenue leakage','Labor, pharmacy, and supply chain cost volatility'], conversation:['Lead with measurable ROI and payback period','Prioritize charge capture, denials, margin, and fiscal intelligence agents','Connect AI to operating discipline rather than experimentation']},
+  chro:{label:'CHRO', category:'Workforce Leadership', description:'Owns hiring, onboarding, credentialing, workforce planning, retention, employee experience, and faculty/staff mobility.', groups:['6','13','18'], agents:['13','31','49','81','113'], goals:['Improve hiring and onboarding speed','Strengthen workforce planning','Reduce administrative burden on managers and clinicians'], pressure:['Hard-to-fill clinical and technical roles','Retention and burnout risk','Credentialing and onboarding delays'], conversation:['Start with workforce bottlenecks','Show onboarding, credentialing, hiring, and workforce planning agents','Tie impact to time-to-productivity and retention']},
+  research:{label:'Chief Research Officer', category:'Research Leadership', description:'Owns research growth, grant productivity, discovery operations, compliance, translational infrastructure, and investigator enablement.', groups:['7','8','9','16','18'], agents:['25','43','45','75','97'], goals:['Increase grant productivity','Accelerate discovery and evidence synthesis','Improve research compliance and operational throughput'], pressure:['Grant competition and investigator burden','Fragmented research operations and data access','IRB, privacy, and compliance complexity'], conversation:['Lead with investigator productivity','Prioritize grant drafting, grant matching, evidence synthesis, and IRB compliance agents','Show how AI reduces administrative drag without compromising oversight']},
+  trials:{label:'Clinical Trials Leader', category:'Research Operations', description:'Owns trial feasibility, recruitment, eligibility matching, accrual, monitoring, sponsor coordination, and trial network performance.', groups:['8','3','7','11','17','18'], agents:['26','44','76','108','97'], goals:['Increase trial accrual','Improve eligibility matching','Reduce trial startup and coordination delays'], pressure:['Missed accrual targets','Manual chart review and eligibility matching','Sponsor timelines and regulatory scrutiny'], conversation:['Start with accrual and feasibility gaps','Show trial recruitment, eligibility, network, and autonomy agents','Connect to sponsor performance and patient access to therapies']},
+  education:{label:'Medical Education / GME', category:'Education Leadership', description:'Owns curriculum, learner progression, competency tracking, faculty effort, accreditation readiness, and adaptive learning experiences.', groups:['5','6','9','13'], agents:['23','41','73','98','105'], goals:['Improve learner progression and competency visibility','Support faculty teaching effort','Modernize curriculum with adaptive learning'], pressure:['Manual competency tracking','Curriculum change and accreditation pressure','Faculty time constraints'], conversation:['Lead with competency and curriculum workflows','Prioritize adaptive learning, curriculum coordination, and ACGME compliance agents','Frame AI as learner support and faculty leverage']},
+  quality:{label:'Quality & Safety Leader', category:'Quality Leadership', description:'Owns quality measurement, patient safety, readmission reduction, surveillance, equity, regulatory readiness, and continuous improvement.', groups:['4','3','10','11','18'], agents:['22','39','40','54','102'], goals:['Improve safety surveillance','Reduce preventable harm and readmissions','Streamline quality reporting'], pressure:['Lagging indicators and manual reporting','Adverse events and variation in care','Equity, safety, and regulatory scrutiny'], conversation:['Start with specific quality metric pain','Show sepsis, readmission, risk surveillance, and adverse event agents','Tie value to earlier intervention and reporting efficiency']},
+  population:{label:'Population Health Leader', category:'Population Health', description:'Owns risk stratification, care gaps, outreach, equity, chronic disease management, and longitudinal patient engagement.', groups:['10','11','17','3','4'], agents:['29','47','79','85','111'], goals:['Close care gaps','Improve outreach and engagement','Stratify risk earlier and more accurately'], pressure:['Rising chronic disease burden','Disconnected outreach and care management workflows','Equity gaps across populations'], conversation:['Lead with high-risk cohorts and care gaps','Prioritize outreach, risk stratification, population hub, and engagement agents','Connect AI to proactive care rather than reactive intervention']},
+  revenue:{label:'Revenue Cycle Leader', category:'Financial Operations', description:'Owns coding, documentation alignment, claims, denials, payment workflows, prior authorization, and revenue integrity.', groups:['12','14','2','16'], agents:['6','14','30','32','50'], goals:['Reduce denials and rework','Improve documentation-to-coding alignment','Accelerate revenue cycle throughput'], pressure:['Denials growth and payer friction','Documentation gaps impacting reimbursement','Manual claim follow-up and coding workflows'], conversation:['Start with denial categories and revenue leakage','Show coding Q&A, charge capture, chart closure, and denial agents','Tie value to clean claims, cash acceleration, and reduced rework']},
+  patient:{label:'Patient Experience Leader', category:'Experience Leadership', description:'Owns access, communication, navigation, language support, service recovery, and trust across patient and family journeys.', groups:['2','10','17','18'], agents:['4','9','17','35','85'], goals:['Improve access and navigation','Reduce communication friction','Strengthen trust and service recovery'], pressure:['Access frustration and scheduling complexity','Language barriers and fragmented communication','Public ratings, complaints, and trust erosion'], conversation:['Start with the patient journey pain point','Prioritize scheduling, helpline, communication, translator, and engagement agents','Connect experience improvements to access, retention, and trust']},
+  compliance:{label:'Compliance / Risk Leader', category:'Risk Leadership', description:'Owns privacy, audit readiness, regulatory reporting, AI governance, clinical risk, research compliance, and institutional trust.', groups:['1','12','16','18'], agents:['90','91','93','94','97'], goals:['Improve audit readiness','Govern AI safely','Reduce privacy, compliance, and operational risk'], pressure:['AI adoption without consistent controls','HIPAA, research, and audit exposure','Fragmented evidence trails and policy interpretation'], conversation:['Start with risk posture and governance model','Prioritize HIPAA guard, AI oversight, audit trail, and IRB compliance agents','Frame AI governance as an accelerator, not a blocker']}
 };
 function getAgentCells(){ return Array.from(document.querySelectorAll('.cell[data-group][data-atomic]')); }
-function applyBdmFilter(key){ const config=bdmFilters[key]; if(!config) return; const agentCells=getAgentCells(); document.querySelectorAll('.bdm-item').forEach(btn=>btn.classList.toggle('active',btn.dataset.bdm===key)); document.querySelectorAll('.goal-item,.legend-item').forEach(btn=>btn.classList.remove('active')); const searchInput=document.getElementById('search'); if(searchInput) searchInput.value=''; const buildPlanEl=document.getElementById('buildPlan'); if(buildPlanEl) buildPlanEl.hidden=true; let matchedCount=0; agentCells.forEach(cell=>{ const isMatch=config.groups.includes(cell.dataset.group); cell.classList.toggle('dimmed',!isMatch); cell.classList.toggle('highlighted',isMatch); if(isMatch) matchedCount++; }); const plan=document.getElementById('bdmPlan'), title=document.getElementById('bdmTitle'), count=document.getElementById('bdmCount'), desc=document.getElementById('bdmDescription'); if(plan&&title&&count&&desc){ plan.hidden=false; title.textContent=config.label; count.textContent=`${matchedCount} aligned agents`; desc.textContent=config.priorities; } }
+function renderList(id, items){ const el=document.getElementById(id); if(!el) return; el.innerHTML=''; (items||[]).forEach(item=>{ const li=document.createElement('li'); li.textContent=item; el.appendChild(li); }); }
+function findAgentByAtomic(atomic){ return document.querySelector(`.cell[data-atomic="${atomic}"]`); }
+function clearBdm(){ document.querySelectorAll('.bdm-item').forEach(btn=>btn.classList.remove('active')); const p=document.getElementById('bdmPlan'); if(p) p.hidden=true; const pills=document.getElementById('bdmPills'); if(pills) pills.innerHTML=''; const grid=document.getElementById('bdmAgentGrid'); if(grid) grid.innerHTML=''; }
+function makeAgentCard(cell){
+  const btn=document.createElement('button'); btn.className='bdm-agent-card'; btn.type='button';
+  const symbol=cell.dataset.symbol||''; const name=cell.dataset.name||''; const meta=`${cell.dataset.domain||''} · ${cell.dataset.tier||''}`;
+  const bg=cell.style.background||'#fff';
+  btn.innerHTML=`<div class="bdm-agent-head"><span class="bdm-agent-symbol" style="background:${bg}">${symbol}</span><span class="bdm-agent-name">${name}</span></div><div class="bdm-agent-meta">${meta}</div>`;
+  btn.addEventListener('click',()=>{ cell.scrollIntoView({behavior:'smooth',block:'center',inline:'center'}); cell.click(); });
+  return btn;
+}
+function applyBdmFilter(key){
+  const config=bdmFilters[key]; if(!config) return;
+  const agentCells=getAgentCells();
+  document.querySelectorAll('.bdm-item').forEach(btn=>btn.classList.toggle('active',btn.dataset.bdm===key));
+  document.querySelectorAll('.goal-item,.legend-item').forEach(btn=>btn.classList.remove('active'));
+  const searchInput=document.getElementById('search'); if(searchInput) searchInput.value='';
+  const buildPlanEl=document.getElementById('buildPlan'); if(buildPlanEl) buildPlanEl.hidden=true;
+  const prioritySet=new Set(config.agents||[]);
+  let matchedCount=0;
+  agentCells.forEach(cell=>{
+    const domainMatch=config.groups.includes(cell.dataset.group);
+    const agentMatch=prioritySet.has(cell.dataset.atomic);
+    const isMatch=domainMatch || agentMatch;
+    cell.classList.toggle('dimmed',!isMatch);
+    cell.classList.toggle('highlighted',isMatch);
+    cell.classList.toggle('pinned',agentMatch);
+    if(domainMatch) matchedCount++;
+  });
+  const plan=document.getElementById('bdmPlan'), title=document.getElementById('bdmTitle'), count=document.getElementById('bdmCount'), desc=document.getElementById('bdmDescription');
+  if(plan&&title&&count&&desc){
+    plan.hidden=false;
+    title.textContent=config.label;
+    count.textContent=`${matchedCount} aligned agents`;
+    desc.textContent=config.description;
+  }
+  const pills=document.getElementById('bdmPills');
+  if(pills){ pills.innerHTML=''; config.groups.forEach(g=>{ const label=document.querySelector(`.legend-item[data-filter-group="${g}"] .legend-name`); const pill=document.createElement('span'); pill.className='bdm-pill'; pill.textContent=label?label.textContent:`Group ${g}`; pills.appendChild(pill); }); }
+  renderList('bdmGoals',config.goals); renderList('bdmPressure',config.pressure); renderList('bdmConversation',config.conversation);
+  const agentGrid=document.getElementById('bdmAgentGrid');
+  if(agentGrid){ agentGrid.innerHTML=''; (config.agents||[]).map(findAgentByAtomic).filter(Boolean).forEach(cell=>agentGrid.appendChild(makeAgentCard(cell))); }
+}
 document.querySelectorAll('.bdm-item').forEach(button=>button.addEventListener('click',()=>applyBdmFilter(button.dataset.bdm)));
 const bdmResetObserver = document.getElementById('reset');
-if (bdmResetObserver) bdmResetObserver.addEventListener('click',()=>{ document.querySelectorAll('.bdm-item').forEach(btn=>btn.classList.remove('active')); const p=document.getElementById('bdmPlan'); if(p) p.hidden=true; });
+if (bdmResetObserver) bdmResetObserver.addEventListener('click',()=>{ clearBdm(); getAgentCells().forEach(cell=>cell.classList.remove('pinned')); });
 
 </script>
 </body>
