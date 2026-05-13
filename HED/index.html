@@ -642,9 +642,70 @@
   .bdm-plan-header span { color: #666; font-size: 11.5px; font-weight: 600; }
   .bdm-description { color: #333; font-size: 12.5px; line-height: 1.45; }
 
+
+
+  /* Series navigation band */
+  .series-nav {
+    background: var(--navy);
+    color: white;
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    font-size: 12px;
+    margin: -24px -24px 20px -24px;
+  }
+  .series-nav .series-label {
+    color: #a8bcd4;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    font-weight: 700;
+    margin-right: 4px;
+    white-space: nowrap;
+  }
+  .series-nav a {
+    color: #d6dfee;
+    text-decoration: none;
+    padding: 3px 10px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,.2);
+    transition: background .12s, color .12s;
+    white-space: nowrap;
+  }
+  .series-nav a:hover {
+    background: rgba(255,255,255,.15);
+    color: white;
+  }
+  .series-nav .series-current {
+    color: white;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 12px;
+    background: rgba(255,255,255,.18);
+    border: 1px solid rgba(255,255,255,.4);
+    white-space: nowrap;
+  }
+  .series-nav .sep { color: #4a6480; }
+
 </style>
 </head>
 <body>
+<nav class="series-nav" aria-label="Periodic Table of Agents series">
+  <span class="series-label">Periodic Table of Agents</span>
+  <span class="sep">·</span>
+  <a href="https://reynolds711.github.io/periodic-table-of-agents/">← All Sectors</a>
+  <span class="sep">·</span>
+  <span class="series-current">Higher Education</span>
+  <span class="sep">·</span>
+  <a href="https://reynolds711.github.io/periodic-table-of-agents/AMC/">Healthcare (AMC)</a>
+  <span class="sep">·</span>
+  <a href="https://reynolds711.github.io/periodic-table-of-agents/K12/">K–12 Education</a>
+  <span class="sep">·</span>
+  <a href="https://reynolds711.github.io/periodic-table-of-agents/SLG/">State &amp; Local Gov.</a>
+</nav>
+
 <header>
   <h1>Periodic Table of Agents: HED Edition</h1>
   <p class="header-lead"><strong>A strategic map for building agentic AI in higher education.</strong></p>
