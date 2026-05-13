@@ -596,6 +596,52 @@
     max-width: 68px;
   }
 
+  /* Domain labels in top group row */
+  .cell.label.domain-label {
+    height: 46px;
+    padding: 4px 3px;
+    flex-direction: column;
+    line-height: 1.05;
+    font-size: 10px;
+  }
+  .cell.label.domain-label span {
+    display: block;
+    margin-top: 3px;
+    font-size: 8px;
+    font-weight: 500;
+    color: rgba(255,255,255,.84);
+    line-height: 1.05;
+  }
+  .bdm-filter {
+    margin: 18px auto 8px;
+    max-width: 1400px;
+    background: var(--card-bg);
+    padding: 18px 20px;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+  }
+  .bdm-filter h2 {
+    margin: 0 0 4px 0;
+    font-size: 15px;
+    color: var(--navy);
+    letter-spacing: .02em;
+    text-transform: uppercase;
+  }
+  .bdm-sub { margin: 0 0 14px 0; color: var(--muted); font-size: 13px; }
+  .bdm-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  .bdm-item {
+    background: #f7f7f5; border: 1px solid #ddd; border-radius: 7px;
+    padding: 9px 10px; font-family: inherit; font-size: 12px; color: #222;
+    cursor: pointer; text-align: left;
+  }
+  .bdm-item:hover { border-color: var(--navy); background: #eef3fa; }
+  .bdm-item.active { background: var(--navy); color: white; border-color: var(--navy); }
+  .bdm-plan { margin-top: 14px; padding: 12px 14px; border-radius: 7px; background: #f7f9fc; border: 1px solid #dbe4f0; }
+  .bdm-plan-header { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 4px; }
+  .bdm-plan-header h3 { margin: 0; color: var(--navy); font-size: 13px; }
+  .bdm-plan-header span { color: #666; font-size: 11.5px; font-weight: 600; }
+  .bdm-description { color: #333; font-size: 12.5px; line-height: 1.45; }
+
 </style>
 </head>
 <body>
@@ -642,7 +688,7 @@
 
 <div class="grid-wrap">
   <div class="grid" id="grid">
-<div class="row header-row"><div class="cell label">&nbsp;</div><div class="cell label">Group 1</div><div class="cell label">Group 2</div><div class="cell label">Group 3</div><div class="cell label">Group 4</div><div class="cell label">Group 5</div><div class="cell label">Group 6</div><div class="cell label">Group 7</div><div class="cell label">Group 8</div><div class="cell label">Group 9</div><div class="cell label">Group 10</div><div class="cell label">Group 11</div><div class="cell label">Group 12</div><div class="cell label">Group 13</div><div class="cell label">Group 14</div><div class="cell label">Group 15</div><div class="cell label">Group 16</div><div class="cell label">Group 17</div><div class="cell label">Group 18</div></div>
+<div class="row header-row"><div class="cell label">&nbsp;</div><div class="cell label domain-label">1<br><span>Identity</span></div><div class="cell label domain-label">2<br><span>Admissions</span></div><div class="cell label domain-label">3<br><span>Financial Aid</span></div><div class="cell label domain-label">4<br><span>Advising</span></div><div class="cell label domain-label">5<br><span>Teaching</span></div><div class="cell label domain-label">6<br><span>Wellness</span></div><div class="cell label domain-label">7<br><span>Career</span></div><div class="cell label domain-label">8<br><span>Research</span></div><div class="cell label domain-label">9<br><span>Library</span></div><div class="cell label domain-label">10<br><span>Case Mgmt</span></div><div class="cell label domain-label">11<br><span>Student Accts</span></div><div class="cell label domain-label">12<br><span>Registrar</span></div><div class="cell label domain-label">13<br><span>HR &amp; Faculty</span></div><div class="cell label domain-label">14<br><span>Finance</span></div><div class="cell label domain-label">15<br><span>Procurement</span></div><div class="cell label domain-label">16<br><span>IT &amp; Data</span></div><div class="cell label domain-label">17<br><span>Advancement</span></div><div class="cell label domain-label">18<br><span>Compliance</span></div></div>
 <div class="row"><div class="cell period-label">Period 1</div><div class="cell g1" style="background:#DCEEFB" data-group="1" data-period="1" data-name="Identity Access Agent" data-domain="Identity &amp; Access" data-tier="Informational" data-symbol="Ia" data-atomic="1" tabindex="0"><div class="atomic">1</div><div class="symbol">Ia</div><div class="name">Identity Access Agent</div></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell g18" style="background:#DECBE4" data-group="18" data-period="1" data-name="Community Connect Agent" data-domain="Compliance / Federal" data-tier="Informational" data-symbol="Cc" data-atomic="2" tabindex="0"><div class="atomic">2</div><div class="symbol">Cc</div><div class="name">Community Connect Agent</div></div></div>
 <div class="row"><div class="cell period-label">Period 2</div><div class="cell g1" style="background:#DCEEFB" data-group="1" data-period="2" data-name="Login Support Agent" data-domain="Identity &amp; Access" data-tier="Informational" data-symbol="Ls" data-atomic="3" tabindex="0"><div class="atomic">3</div><div class="symbol">Ls</div><div class="name">Login Support Agent</div></div><div class="cell g2" style="background:#BFE3F5" data-group="2" data-period="2" data-name="Aid Estimator Agent" data-domain="Admissions &amp; Enrollment" data-tier="Informational" data-symbol="Ae" data-atomic="4" tabindex="0"><div class="atomic">4</div><div class="symbol">Ae</div><div class="name">Aid Estimator Agent</div></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell g13" style="background:#FFE4B5" data-group="13" data-period="2" data-name="HR Policy Agent" data-domain="HR &amp; Faculty Affairs" data-tier="Informational" data-symbol="Hp" data-atomic="5" tabindex="0"><div class="atomic">5</div><div class="symbol">Hp</div><div class="name">HR Policy Agent</div></div><div class="cell g14" style="background:#F2D7A0" data-group="14" data-period="2" data-name="Budget Guidance Agent" data-domain="Budget &amp; Finance" data-tier="Informational" data-symbol="Bg" data-atomic="6" tabindex="0"><div class="atomic">6</div><div class="symbol">Bg</div><div class="name">Budget Guidance Agent</div></div><div class="cell g15" style="background:#E5D8BD" data-group="15" data-period="2" data-name="Vendor Registration Agent" data-domain="Procurement" data-tier="Informational" data-symbol="Vr" data-atomic="7" tabindex="0"><div class="atomic">7</div><div class="symbol">Vr</div><div class="name">Vendor Registration Agent</div></div><div class="cell g16" style="background:#B3CDE3" data-group="16" data-period="2" data-name="IT Helpdesk Agent" data-domain="IT &amp; Data" data-tier="Informational" data-symbol="He" data-atomic="8" tabindex="0"><div class="atomic">8</div><div class="symbol">He</div><div class="name">IT Helpdesk Agent</div></div><div class="cell g17" style="background:#CCEBC5" data-group="17" data-period="2" data-name="Alumni Connect Agent" data-domain="Alumni &amp; Advancement" data-tier="Informational" data-symbol="Ac" data-atomic="9" tabindex="0"><div class="atomic">9</div><div class="symbol">Ac</div><div class="name">Alumni Connect Agent</div></div><div class="cell g18" style="background:#DECBE4" data-group="18" data-period="2" data-name="Federal Aid Navigator" data-domain="Compliance / Federal" data-tier="Informational" data-symbol="Fa" data-atomic="10" tabindex="0"><div class="atomic">10</div><div class="symbol">Fa</div><div class="name">Federal Aid Navigator</div></div></div>
 <div class="row"><div class="cell period-label">Period 3</div><div class="cell g1" style="background:#DCEEFB" data-group="1" data-period="3" data-name="Identity Verify Agent" data-domain="Identity &amp; Access" data-tier="Transactional" data-symbol="Iv" data-atomic="11" tabindex="0"><div class="atomic">11</div><div class="symbol">Iv</div><div class="name">Identity Verify Agent</div></div><div class="cell g2" style="background:#BFE3F5" data-group="2" data-period="3" data-name="FAFSA Assist Agent" data-domain="Admissions &amp; Enrollment" data-tier="Transactional" data-symbol="Fb" data-atomic="12" tabindex="0"><div class="atomic">12</div><div class="symbol">Fb</div><div class="name">FAFSA Assist Agent</div></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell g13" style="background:#FFE4B5" data-group="13" data-period="3" data-name="Onboarding Agent" data-domain="HR &amp; Faculty Affairs" data-tier="Transactional" data-symbol="On" data-atomic="13" tabindex="0"><div class="atomic">13</div><div class="symbol">On</div><div class="name">Onboarding Agent</div></div><div class="cell g14" style="background:#F2D7A0" data-group="14" data-period="3" data-name="Expense Coding Agent" data-domain="Budget &amp; Finance" data-tier="Transactional" data-symbol="Ec" data-atomic="14" tabindex="0"><div class="atomic">14</div><div class="symbol">Ec</div><div class="name">Expense Coding Agent</div></div><div class="cell g15" style="background:#E5D8BD" data-group="15" data-period="3" data-name="RFP Drafting Agent" data-domain="Procurement" data-tier="Transactional" data-symbol="Rd" data-atomic="15" tabindex="0"><div class="atomic">15</div><div class="symbol">Rd</div><div class="name">RFP Drafting Agent</div></div><div class="cell g16" style="background:#B3CDE3" data-group="16" data-period="3" data-name="Data Catalog Agent" data-domain="IT &amp; Data" data-tier="Transactional" data-symbol="Dc" data-atomic="16" tabindex="0"><div class="atomic">16</div><div class="symbol">Dc</div><div class="name">Data Catalog Agent</div></div><div class="cell g17" style="background:#CCEBC5" data-group="17" data-period="3" data-name="Donor Outreach Agent" data-domain="Alumni &amp; Advancement" data-tier="Transactional" data-symbol="Do" data-atomic="17" tabindex="0"><div class="atomic">17</div><div class="symbol">Do</div><div class="name">Donor Outreach Agent</div></div><div class="cell g18" style="background:#DECBE4" data-group="18" data-period="3" data-name="Compliance Reporting Agent" data-domain="Compliance / Federal" data-tier="Transactional" data-symbol="Cr" data-atomic="18" tabindex="0"><div class="atomic">18</div><div class="symbol">Cr</div><div class="name">Compliance Reporting Agent</div></div></div>
@@ -657,6 +703,15 @@
   </div>
 </div>
 
+
+<section class="bdm-filter" aria-label="Explore by business decision maker">
+  <h2>Explore by Business Decision Maker</h2>
+  <p class="bdm-sub">Select a higher education leadership role to highlight agents aligned to that role’s strategic priorities.</p>
+  <div class="bdm-grid">
+    <button class="bdm-item" data-bdm="president">President / Chancellor</button><button class="bdm-item" data-bdm="provost">Provost / Chief Academic Officer</button><button class="bdm-item" data-bdm="dean">Dean</button><button class="bdm-item" data-bdm="cfo">CFO</button><button class="bdm-item" data-bdm="cio">CIO</button><button class="bdm-item" data-bdm="ciso">CISO</button><button class="bdm-item" data-bdm="student-affairs">VP Student Affairs</button><button class="bdm-item" data-bdm="enrollment">VP Enrollment Management</button><button class="bdm-item" data-bdm="research">VP Research</button><button class="bdm-item" data-bdm="hr">CHRO / Faculty Affairs</button><button class="bdm-item" data-bdm="advancement">Advancement / Development</button><button class="bdm-item" data-bdm="alumni">Alumni Relations</button><button class="bdm-item" data-bdm="athletics">Athletics Director</button><button class="bdm-item" data-bdm="facilities">Facilities / Campus Operations</button><button class="bdm-item" data-bdm="ir">Institutional Research / Data</button>
+  </div>
+  <div class="bdm-plan" id="bdmPlan" hidden><div class="bdm-plan-header"><h3 id="bdmTitle">Recommended agents</h3><span id="bdmCount"></span></div><div id="bdmDescription" class="bdm-description"></div></div>
+</section>
 <section class="legend">
   <h2>Domains (click to filter)</h2>
   <div class="legend-grid">
@@ -1126,6 +1181,32 @@
   });
 
   reset.addEventListener('click', clearFilter);
+})();
+</script>
+
+<script>
+(function(){
+  const bdmFilters={
+    "president":{label:"President / Chancellor",priorities:"Institutional strategy, retention, revenue growth, public trust, risk management, and workforce alignment.",groups:["2","3","4","8","14","17","18"]},
+    "provost":{label:"Provost / Chief Academic Officer",priorities:"Academic quality, faculty productivity, curriculum innovation, student success, and research growth.",groups:["4","5","6","7","8","9","12"]},
+    "dean":{label:"Dean",priorities:"Program health, enrollment, faculty workload, student outcomes, research productivity, and budget stewardship.",groups:["2","4","5","8","13","14"]},
+    "cfo":{label:"CFO",priorities:"Budget planning, resource allocation, procurement, contracts, fiscal sustainability, and operational efficiency.",groups:["3","11","14","15"]},
+    "cio":{label:"CIO",priorities:"IT modernization, identity, data platforms, AI enablement, enterprise integration, and service delivery.",groups:["1","9","10","16"]},
+    "ciso":{label:"CISO",priorities:"Cybersecurity, identity governance, compliance, threat response, and safe AI adoption.",groups:["1","16","18"]},
+    "student-affairs":{label:"VP Student Affairs",priorities:"Student wellbeing, engagement, retention, conduct, access to services, and campus belonging.",groups:["4","6","7","10","18"]},
+    "enrollment":{label:"VP Enrollment Management",priorities:"Demand generation, admissions throughput, yield, financial aid clarity, and student onboarding.",groups:["2","3","4","10"]},
+    "research":{label:"VP Research",priorities:"Grant discovery, proposal development, compliance, award management, and research productivity.",groups:["8","9","15","18"]},
+    "hr":{label:"CHRO / Faculty Affairs",priorities:"Talent acquisition, HR service delivery, faculty affairs, policy navigation, and workforce planning.",groups:["13","14","18"]},
+    "advancement":{label:"Advancement / Development",priorities:"Donor engagement, campaign execution, gift strategy, stewardship, and revenue growth.",groups:["17","14"]},
+    "alumni":{label:"Alumni Relations",priorities:"Alumni engagement, lifelong learning, events, affinity communities, and donor pipeline development.",groups:["17","7"]},
+    "athletics":{label:"Athletics Director",priorities:"Student-athlete success, compliance, fan engagement, sponsorships, operations, and partnerships.",groups:["6","7","14","17","18"]},
+    "facilities":{label:"Facilities / Campus Operations",priorities:"Space utilization, maintenance, safety, capital planning, sustainability, and service responsiveness.",groups:["14","15","16","18"]},
+    "ir":{label:"Institutional Research / Data",priorities:"Institutional intelligence, reporting, forecasting, student outcomes analytics, and decision support.",groups:["2","3","4","8","14","16","18"]}
+  };
+  function agentCells(){return Array.from(document.querySelectorAll('.cell[data-group][data-atomic]'));}
+  function clearBdm(){document.querySelectorAll('.bdm-item').forEach(b=>b.classList.remove('active')); const p=document.getElementById('bdmPlan'); if(p)p.hidden=true;}
+  window.applyBdmFilter=function(key){const cfg=bdmFilters[key]; if(!cfg)return; document.querySelectorAll('.bdm-item').forEach(b=>b.classList.toggle('active',b.dataset.bdm===key)); document.querySelectorAll('.goal-item,.legend-item').forEach(b=>b.classList.remove('active')); const si=document.getElementById('search'); if(si)si.value=''; const bp=document.getElementById('buildPlan'); if(bp)bp.hidden=true; let n=0; agentCells().forEach(c=>{const m=cfg.groups.includes(c.dataset.group); c.classList.toggle('dimmed',!m); c.classList.toggle('highlighted',m); if(m)n++;}); const p=document.getElementById('bdmPlan'),t=document.getElementById('bdmTitle'),cnt=document.getElementById('bdmCount'),d=document.getElementById('bdmDescription'); if(p&&t&&cnt&&d){p.hidden=false;t.textContent=cfg.label;cnt.textContent=`${n} aligned agents`;d.textContent=cfg.priorities;}};
+  document.addEventListener('DOMContentLoaded',()=>{document.querySelectorAll('.bdm-item').forEach(b=>b.addEventListener('click',()=>window.applyBdmFilter(b.dataset.bdm))); const reset=document.getElementById('reset'); if(reset) reset.addEventListener('click',()=>setTimeout(()=>{clearBdm();agentCells().forEach(c=>c.classList.remove('dimmed','highlighted'));},0));});
 })();
 </script>
 </body>
