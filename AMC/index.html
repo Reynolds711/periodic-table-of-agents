@@ -143,6 +143,37 @@
   .howto-steps { margin: 0; padding-left: 22px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; list-style: decimal; font-size: 12.5px; color: #333; line-height: 1.4; }
   .howto-steps li { padding-right: 8px; }
   .howto-steps strong { color: var(--navy); display: block; margin-bottom: 2px; }
+
+
+  .cell.label.domain-label {
+    height: 46px;
+    padding: 4px 3px;
+    flex-direction: column;
+    line-height: 1.05;
+    font-size: 10px;
+  }
+  .cell.label.domain-label span {
+    display: block;
+    margin-top: 3px;
+    font-size: 8px;
+    font-weight: 500;
+    color: rgba(255,255,255,.84);
+    line-height: 1.05;
+  }
+  .bdm-filter { margin: 18px auto 8px; max-width: 1400px; background: var(--card-bg); padding: 18px 20px; border-radius: 8px; box-shadow: var(--shadow); }
+  .bdm-filter h2 { margin: 0 0 4px 0; font-size: 15px; color: var(--navy); letter-spacing: .02em; text-transform: uppercase; }
+  .bdm-sub { margin: 0 0 14px 0; color: var(--muted); font-size: 13px; }
+  .bdm-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  .bdm-item { background: #f7f7f5; border: 1px solid #ddd; border-radius: 7px; padding: 9px 10px; font-family: inherit; font-size: 12px; color: #222; cursor: pointer; text-align: left; }
+  .bdm-item:hover { border-color: var(--navy); background: #eef3fa; }
+  .bdm-item.active { background: var(--navy); color: white; border-color: var(--navy); }
+  .bdm-plan { margin-top: 14px; padding: 12px 14px; border-radius: 7px; background: #f7f9fc; border: 1px solid #dbe4f0; }
+  .bdm-plan[hidden] { display: none; }
+  .bdm-plan-header { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 4px; }
+  .bdm-plan-header h3 { margin: 0; color: var(--navy); font-size: 13px; }
+  .bdm-plan-header span { color: #666; font-size: 11.5px; font-weight: 600; }
+  .bdm-description { color: #333; font-size: 12.5px; line-height: 1.45; }
+
 </style>
 </head>
 <body>
@@ -194,7 +225,27 @@
 
 <div class="grid-wrap">
   <div class="grid" id="grid">
-<div class="row header-row"><div class="cell label">&nbsp;</div><div class="cell label">Group 1</div><div class="cell label">Group 2</div><div class="cell label">Group 3</div><div class="cell label">Group 4</div><div class="cell label">Group 5</div><div class="cell label">Group 6</div><div class="cell label">Group 7</div><div class="cell label">Group 8</div><div class="cell label">Group 9</div><div class="cell label">Group 10</div><div class="cell label">Group 11</div><div class="cell label">Group 12</div><div class="cell label">Group 13</div><div class="cell label">Group 14</div><div class="cell label">Group 15</div><div class="cell label">Group 16</div><div class="cell label">Group 17</div><div class="cell label">Group 18</div></div>
+<div class="row header-row">
+  <div class="cell label">&nbsp;</div>
+  <div class="cell label domain-label">1<br><span>Identity</span></div>
+  <div class="cell label domain-label">2<br><span>Access</span></div>
+  <div class="cell label domain-label">3<br><span>Clinical</span></div>
+  <div class="cell label domain-label">4<br><span>Quality</span></div>
+  <div class="cell label domain-label">5<br><span>Education</span></div>
+  <div class="cell label domain-label">6<br><span>Faculty</span></div>
+  <div class="cell label domain-label">7<br><span>Research Ops</span></div>
+  <div class="cell label domain-label">8<br><span>Trials</span></div>
+  <div class="cell label domain-label">9<br><span>Knowledge</span></div>
+  <div class="cell label domain-label">10<br><span>Care Coord</span></div>
+  <div class="cell label domain-label">11<br><span>Pop Health</span></div>
+  <div class="cell label domain-label">12<br><span>Records</span></div>
+  <div class="cell label domain-label">13<br><span>Workforce</span></div>
+  <div class="cell label domain-label">14<br><span>Revenue</span></div>
+  <div class="cell label domain-label">15<br><span>Pharmacy</span></div>
+  <div class="cell label domain-label">16<br><span>IT &amp; Data</span></div>
+  <div class="cell label domain-label">17<br><span>Patient Exp</span></div>
+  <div class="cell label domain-label">18<br><span>Compliance</span></div>
+</div><div class="cell label">Group 1</div><div class="cell label">Group 2</div><div class="cell label">Group 3</div><div class="cell label">Group 4</div><div class="cell label">Group 5</div><div class="cell label">Group 6</div><div class="cell label">Group 7</div><div class="cell label">Group 8</div><div class="cell label">Group 9</div><div class="cell label">Group 10</div><div class="cell label">Group 11</div><div class="cell label">Group 12</div><div class="cell label">Group 13</div><div class="cell label">Group 14</div><div class="cell label">Group 15</div><div class="cell label">Group 16</div><div class="cell label">Group 17</div><div class="cell label">Group 18</div></div>
 <div class="row"><div class="cell period-label">Period 1</div><div class="cell g1" style="background:#DCEEFB" data-group="1" data-period="1" data-name="Login Help Agent" data-domain="Identity &amp; Access" data-tier="Informational" data-symbol="Lo" data-atomic="1" tabindex="0"><div class="atomic">1</div><div class="symbol">Lo</div><div class="name">Login Help Agent</div></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell g18" style="background:#DECBE4" data-group="18" data-period="1" data-name="Patient FAQ Agent" data-domain="Compliance &amp; Risk" data-tier="Informational" data-symbol="Fq" data-atomic="2" tabindex="0"><div class="atomic">2</div><div class="symbol">Fq</div><div class="name">Patient FAQ Agent</div></div></div>
 <div class="row"><div class="cell period-label">Period 2</div><div class="cell g1" style="background:#DCEEFB" data-group="1" data-period="2" data-name="Account Lookup Agent" data-domain="Identity &amp; Access" data-tier="Informational" data-symbol="Lu" data-atomic="3" tabindex="0"><div class="atomic">3</div><div class="symbol">Lu</div><div class="name">Account Lookup Agent</div></div><div class="cell g2" style="background:#BFE3F5" data-group="2" data-period="2" data-name="Scheduling Q&amp;A Agent" data-domain="Patient Access &amp; Scheduling" data-tier="Informational" data-symbol="Sc" data-atomic="4" tabindex="0"><div class="atomic">4</div><div class="symbol">Sc</div><div class="name">Scheduling Q&amp;A Agent</div></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell g13" style="background:#FFE4B5" data-group="13" data-period="2" data-name="HR Policy Agent" data-domain="Workforce &amp; HR" data-tier="Informational" data-symbol="Hr" data-atomic="5" tabindex="0"><div class="atomic">5</div><div class="symbol">Hr</div><div class="name">HR Policy Agent</div></div><div class="cell g14" style="background:#F2D7A0" data-group="14" data-period="2" data-name="Coding Q&amp;A Agent" data-domain="Revenue Cycle &amp; Finance" data-tier="Informational" data-symbol="Co" data-atomic="6" tabindex="0"><div class="atomic">6</div><div class="symbol">Co</div><div class="name">Coding Q&amp;A Agent</div></div><div class="cell g15" style="background:#E5D8BD" data-group="15" data-period="2" data-name="Formulary Q&amp;A Agent" data-domain="Supply Chain &amp; Pharmacy" data-tier="Informational" data-symbol="Rx" data-atomic="7" tabindex="0"><div class="atomic">7</div><div class="symbol">Rx</div><div class="name">Formulary Q&amp;A Agent</div></div><div class="cell g16" style="background:#B3CDE3" data-group="16" data-period="2" data-name="IT Helpdesk Agent" data-domain="IT &amp; Data" data-tier="Informational" data-symbol="Hk" data-atomic="8" tabindex="0"><div class="atomic">8</div><div class="symbol">Hk</div><div class="name">IT Helpdesk Agent</div></div><div class="cell g17" style="background:#CCEBC5" data-group="17" data-period="2" data-name="Patient Helpline Agent" data-domain="Patient &amp; Family Experience" data-tier="Informational" data-symbol="Hl" data-atomic="9" tabindex="0"><div class="atomic">9</div><div class="symbol">Hl</div><div class="name">Patient Helpline Agent</div></div><div class="cell g18" style="background:#DECBE4" data-group="18" data-period="2" data-name="Compliance Q&amp;A Agent" data-domain="Compliance &amp; Risk" data-tier="Informational" data-symbol="Cp" data-atomic="10" tabindex="0"><div class="atomic">10</div><div class="symbol">Cp</div><div class="name">Compliance Q&amp;A Agent</div></div></div>
 <div class="row"><div class="cell period-label">Period 3</div><div class="cell g1" style="background:#DCEEFB" data-group="1" data-period="3" data-name="Identity Verify Agent" data-domain="Identity &amp; Access" data-tier="Transactional" data-symbol="Iv" data-atomic="11" tabindex="0"><div class="atomic">11</div><div class="symbol">Iv</div><div class="name">Identity Verify Agent</div></div><div class="cell g2" style="background:#BFE3F5" data-group="2" data-period="3" data-name="Registration Assist Agent" data-domain="Patient Access &amp; Scheduling" data-tier="Transactional" data-symbol="Rg" data-atomic="12" tabindex="0"><div class="atomic">12</div><div class="symbol">Rg</div><div class="name">Registration Assist Agent</div></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell empty"></div><div class="cell g13" style="background:#FFE4B5" data-group="13" data-period="3" data-name="Onboarding Agent" data-domain="Workforce &amp; HR" data-tier="Transactional" data-symbol="Ob" data-atomic="13" tabindex="0"><div class="atomic">13</div><div class="symbol">Ob</div><div class="name">Onboarding Agent</div></div><div class="cell g14" style="background:#F2D7A0" data-group="14" data-period="3" data-name="Charge Capture Agent" data-domain="Revenue Cycle &amp; Finance" data-tier="Transactional" data-symbol="Bl" data-atomic="14" tabindex="0"><div class="atomic">14</div><div class="symbol">Bl</div><div class="name">Charge Capture Agent</div></div><div class="cell g15" style="background:#E5D8BD" data-group="15" data-period="3" data-name="Purchase Request Agent" data-domain="Supply Chain &amp; Pharmacy" data-tier="Transactional" data-symbol="Pq" data-atomic="15" tabindex="0"><div class="atomic">15</div><div class="symbol">Pq</div><div class="name">Purchase Request Agent</div></div><div class="cell g16" style="background:#B3CDE3" data-group="16" data-period="3" data-name="Data Catalog Agent" data-domain="IT &amp; Data" data-tier="Transactional" data-symbol="Cg" data-atomic="16" tabindex="0"><div class="atomic">16</div><div class="symbol">Cg</div><div class="name">Data Catalog Agent</div></div><div class="cell g17" style="background:#CCEBC5" data-group="17" data-period="3" data-name="Patient Communication Agent" data-domain="Patient &amp; Family Experience" data-tier="Transactional" data-symbol="Tx" data-atomic="17" tabindex="0"><div class="atomic">17</div><div class="symbol">Tx</div><div class="name">Patient Communication Agent</div></div><div class="cell g18" style="background:#DECBE4" data-group="18" data-period="3" data-name="Compliance Reporting Agent" data-domain="Compliance &amp; Risk" data-tier="Transactional" data-symbol="Cr" data-atomic="18" tabindex="0"><div class="atomic">18</div><div class="symbol">Cr</div><div class="name">Compliance Reporting Agent</div></div></div>
@@ -209,6 +260,15 @@
   </div>
 </div>
 
+
+<section class="bdm-filter" aria-label="Explore by business decision maker">
+  <h2>Explore by Business Decision Maker</h2>
+  <p class="bdm-sub">Select an academic medical center leadership role to highlight agents aligned to that role’s strategic priorities.</p>
+  <div class="bdm-grid">
+    <button class="bdm-item" data-bdm="ceo">CEO / Health System President</button><button class="bdm-item" data-bdm="dean">Dean / Academic Affairs</button><button class="bdm-item" data-bdm="cmo">Chief Medical Officer</button><button class="bdm-item" data-bdm="cno">Chief Nursing Officer</button><button class="bdm-item" data-bdm="cio">CIO / CMIO</button><button class="bdm-item" data-bdm="cfo">CFO</button><button class="bdm-item" data-bdm="chro">CHRO</button><button class="bdm-item" data-bdm="research">Chief Research Officer</button><button class="bdm-item" data-bdm="trials">Clinical Trials Leader</button><button class="bdm-item" data-bdm="education">Medical Education / GME</button><button class="bdm-item" data-bdm="quality">Quality &amp; Safety Leader</button><button class="bdm-item" data-bdm="population">Population Health Leader</button><button class="bdm-item" data-bdm="revenue">Revenue Cycle Leader</button><button class="bdm-item" data-bdm="patient">Patient Experience Leader</button><button class="bdm-item" data-bdm="compliance">Compliance / Risk Leader</button>
+  </div>
+  <div class="bdm-plan" id="bdmPlan" hidden><div class="bdm-plan-header"><h3 id="bdmTitle">Recommended agents</h3><span id="bdmCount"></span></div><div id="bdmDescription" class="bdm-description"></div></div>
+</section>
 <section class="legend">
   <h2>Domains (click to filter)</h2>
   <div class="legend-grid">
@@ -650,6 +710,31 @@
 
   reset.addEventListener('click', clearFilter);
 })();
+
+
+const bdmFilters = {
+  ceo:{label:'CEO / Health System President', priorities:'Enterprise strategy, quality, margin, patient trust, workforce resilience, and tripartite mission alignment.', groups:['3','4','7','8','11','14','16','17','18']},
+  dean:{label:'Dean / Academic Affairs', priorities:'Medical education, faculty affairs, research growth, learner outcomes, and academic reputation.', groups:['5','6','7','8','9','13']},
+  cmo:{label:'Chief Medical Officer', priorities:'Clinical outcomes, safety, care coordination, documentation burden, and physician effectiveness.', groups:['3','4','10','11','12','17','18']},
+  cno:{label:'Chief Nursing Officer', priorities:'Care delivery, staffing, discharge flow, patient experience, quality, and workforce wellbeing.', groups:['3','4','10','11','13','17']},
+  cio:{label:'CIO / CMIO', priorities:'Digital health platforms, identity, EHR integration, data governance, AI enablement, and clinical workflow modernization.', groups:['1','3','12','16','18']},
+  cfo:{label:'CFO', priorities:'Margin improvement, revenue cycle, denials, supply chain, pharmacy cost, workforce cost, and operational efficiency.', groups:['2','13','14','15','16']},
+  chro:{label:'CHRO', priorities:'Hiring, onboarding, credentialing, workforce planning, faculty affairs, and retention.', groups:['6','13','18']},
+  research:{label:'Chief Research Officer', priorities:'Grant development, research operations, evidence synthesis, compliance, and discovery productivity.', groups:['7','8','9','16','18']},
+  trials:{label:'Clinical Trials Leader', priorities:'Trial feasibility, eligibility, recruitment, accrual, monitoring, and trial network coordination.', groups:['8','3','7','11','17','18']},
+  education:{label:'Medical Education / GME', priorities:'UME/GME curriculum, competency tracking, faculty effort, learner support, and adaptive education.', groups:['5','6','9','13']},
+  quality:{label:'Quality & Safety Leader', priorities:'Safety surveillance, readmission reduction, quality reporting, equity, and regulatory readiness.', groups:['4','3','10','11','18']},
+  population:{label:'Population Health Leader', priorities:'Risk stratification, outreach, care gaps, equity, and longitudinal care management.', groups:['10','11','17','3','4']},
+  revenue:{label:'Revenue Cycle Leader', priorities:'Coding, charge capture, denials, documentation support, payments, and fiscal intelligence.', groups:['12','14','2','16']},
+  patient:{label:'Patient Experience Leader', priorities:'Communication, language access, access navigation, service recovery, and engagement intelligence.', groups:['2','10','17','18']},
+  compliance:{label:'Compliance / Risk Leader', priorities:'Audit readiness, regulatory reporting, privacy, risk surveillance, public trust, and safe AI governance.', groups:['1','12','16','18']}
+};
+function getAgentCells(){ return Array.from(document.querySelectorAll('.cell[data-group][data-atomic]')); }
+function applyBdmFilter(key){ const config=bdmFilters[key]; if(!config) return; const agentCells=getAgentCells(); document.querySelectorAll('.bdm-item').forEach(btn=>btn.classList.toggle('active',btn.dataset.bdm===key)); document.querySelectorAll('.goal-item,.legend-item').forEach(btn=>btn.classList.remove('active')); const searchInput=document.getElementById('search'); if(searchInput) searchInput.value=''; const buildPlanEl=document.getElementById('buildPlan'); if(buildPlanEl) buildPlanEl.hidden=true; let matchedCount=0; agentCells.forEach(cell=>{ const isMatch=config.groups.includes(cell.dataset.group); cell.classList.toggle('dimmed',!isMatch); cell.classList.toggle('highlighted',isMatch); if(isMatch) matchedCount++; }); const plan=document.getElementById('bdmPlan'), title=document.getElementById('bdmTitle'), count=document.getElementById('bdmCount'), desc=document.getElementById('bdmDescription'); if(plan&&title&&count&&desc){ plan.hidden=false; title.textContent=config.label; count.textContent=`${matchedCount} aligned agents`; desc.textContent=config.priorities; } }
+document.querySelectorAll('.bdm-item').forEach(button=>button.addEventListener('click',()=>applyBdmFilter(button.dataset.bdm)));
+const bdmResetObserver = document.getElementById('reset');
+if (bdmResetObserver) bdmResetObserver.addEventListener('click',()=>{ document.querySelectorAll('.bdm-item').forEach(btn=>btn.classList.remove('active')); const p=document.getElementById('bdmPlan'); if(p) p.hidden=true; });
+
 </script>
 </body>
 </html>
