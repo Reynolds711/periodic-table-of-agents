@@ -70,10 +70,14 @@
     html, body { margin: 0; padding: 0; }
     body { font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif; background: var(--cp-bg); color: var(--cp-text); padding: 24px; min-width: 1400px; }
     button, input { font-family: inherit; }
-    .series-nav { background: #1F3A5F; color: var(--cp-accent-fg); padding: 10px 24px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 12px; margin: -24px -24px 20px -24px; }
-    .series-nav .series-label { color: var(--cp-accent-fg); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; font-weight: 700; margin-right: 4px; white-space: nowrap; opacity: .82; }
-    .series-nav .series-current { color: var(--cp-accent-fg); font-weight: 700; padding: 3px 10px; border-radius: 12px; background: var(--cp-sheen); border: 1px solid var(--cp-sheen); white-space: nowrap; }
-    .series-nav .sep { color: var(--cp-accent-fg); opacity: .52; }
+    .series-nav { background: #1F3A5F; color: var(--cp-accent-fg); padding: 12px 24px; display: flex; align-items: center; gap: 7px; flex-wrap: wrap; font-size: 12px; margin: -24px -24px 20px -24px; box-shadow: 0 1px 0 var(--cp-sheen); }
+    .series-nav .series-label { color: var(--cp-accent-fg); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; font-weight: 800; margin-right: 6px; white-space: nowrap; opacity: .95; }
+    .series-nav a,
+    .series-nav a:visited { color: var(--cp-accent-fg); text-decoration: none; opacity: .82; padding: 3px 7px; border-radius: 999px; white-space: nowrap; transition: opacity .15s ease, background .15s ease, transform .12s ease; }
+    .series-nav a:hover,
+    .series-nav a:focus-visible { opacity: 1; background: var(--cp-sheen); outline: 0; transform: translateY(-1px); }
+    .series-nav .series-current { color: var(--cp-accent-fg); font-weight: 800; padding: 4px 12px; border-radius: 999px; background: var(--cp-sheen); border: 1px solid var(--cp-sheen); white-space: nowrap; box-shadow: inset 0 1px 0 var(--cp-sheen); }
+    .series-nav .sep { color: var(--cp-accent-fg); opacity: .38; }
     header { text-align: center; margin-bottom: 18px; }
     header h1 { font-size: 28px; margin: 0 0 4px 0; color: var(--cp-accent); letter-spacing: -.01em; }
     header p { margin: 0; color: var(--cp-text-muted); font-size: 14px; }
