@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Periodic Table of Agents</title>
+  <link rel="icon" href="data:," />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet" />
@@ -179,6 +180,9 @@
     }
     .disclaimer p { font-size: 13px; color: var(--muted); line-height: 1.65; }
     .disclaimer strong { color: var(--navy); font-weight: 600; }
+    .disclaimer .secondary-link { margin-top: 10px; font-size: 12px; opacity: 0.78; }
+    .disclaimer .secondary-link a { color: var(--muted); text-decoration: none; border-bottom: 1px solid rgba(107,122,141,0.32); }
+    .disclaimer .secondary-link a:hover { color: var(--navy-mid); border-bottom-color: var(--navy-mid); }
 
     footer { background: var(--navy); padding: 36px 24px; text-align: center; }
     footer p { font-size: 13px; color: rgba(255,255,255,0.4); line-height: 1.7; }
@@ -318,6 +322,7 @@
 
     <div class="disclaimer">
       <p><strong>A note on scope.</strong> These tables are frameworks, not forecasts. They reflect current deployment patterns and emerging capabilities as of mid-2025. Agent maturity varies significantly by institution, vendor, and use case. The goal is orientation, not prescription. Treat the table as a starting map, not a finished one.</p>
+      <p class="secondary-link">Related internal enablement map: <a href="./ClawPilot/">ClawPilot Skills periodic table</a>.</p>
     </div>
 
   </div>
