@@ -70,7 +70,7 @@
     html, body { margin: 0; padding: 0; }
     body { font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif; background: var(--cp-bg); color: var(--cp-text); padding: 24px; min-width: 1400px; }
     button, input { font-family: inherit; }
-    .series-nav { background: #1F3A5F; color: var(--cp-accent-fg); padding: 12px 24px; display: flex; align-items: center; gap: 7px; flex-wrap: wrap; font-size: 12px; margin: -24px -24px 20px -24px; box-shadow: 0 1px 0 var(--cp-sheen); }
+    .series-nav { background: var(--cp-accent); color: var(--cp-accent-fg); padding: 12px 24px; display: flex; align-items: center; gap: 7px; flex-wrap: wrap; font-size: 12px; margin: -24px -24px 20px -24px; box-shadow: 0 1px 0 var(--cp-sheen); }
     .series-nav .series-label { color: var(--cp-accent-fg); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; font-weight: 800; margin-right: 6px; white-space: nowrap; opacity: .95; }
     .series-nav a,
     .series-nav a:visited { color: var(--cp-accent-fg); text-decoration: none; opacity: .82; padding: 3px 7px; border-radius: 999px; white-space: nowrap; transition: opacity .15s ease, background .15s ease, transform .12s ease; }
@@ -88,7 +88,7 @@
     .controls input[type="search"] { flex: 1; padding: 8px 12px; border: 1px solid var(--cp-border); border-radius: 6px; font-size: 14px; background: var(--cp-surface); color: var(--cp-text); }
     .controls button.reset { padding: 8px 14px; background: var(--cp-accent); color: var(--cp-accent-fg); border: 0; border-radius: 6px; cursor: pointer; font-size: 13px; }
     .controls button.reset:hover { background: var(--cp-accent-hover); }
-    .goals { margin: 8px auto 18px; max-width: 1400px; background: #1F3A5F; color: var(--cp-accent-fg); padding: 22px 24px; border-radius: 10px; box-shadow: var(--cp-shadow); }
+    .goals { margin: 8px auto 18px; max-width: 1400px; background: var(--cp-accent); color: var(--cp-accent-fg); padding: 22px 24px; border-radius: 10px; box-shadow: var(--cp-shadow); }
     .goals h2 { margin: 0 0 4px 0; font-size: 18px; color: var(--cp-accent-fg); letter-spacing: .01em; }
     .goals .ph-sub { margin: 0 0 14px 0; color: var(--cp-accent-fg); opacity: .84; font-size: 13px; font-style: italic; }
     .goals-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
@@ -112,7 +112,55 @@
     .bp-name { font-weight: 700; font-size: 12.5px; color: var(--cp-accent); line-height: 1.25; }
     .bp-outcome { font-size: 11.5px; color: var(--cp-text-muted); line-height: 1.35; }
     .bp-period { font-size: 10.5px; color: var(--cp-text-soft); margin-top: 2px; font-weight: 600; }
-    .bp-clear { margin-top: 12px; background: transparent; border: 1px solid var(--cp-border); color: var(--cp-text-muted); padding: 5px 12px; border-radius: 5px; cursor: pointer; font-size: 11.5px; }
+    .bp-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+    .bp-clear { background: transparent; border: 1px solid var(--cp-border); color: var(--cp-text-muted); padding: 5px 12px; border-radius: 5px; cursor: pointer; font-size: 11.5px; }
+    .bp-clear:hover { border-color: var(--cp-accent); color: var(--cp-accent); }
+    .work-system-shell, .orchestrator-layer, .trust-layer { margin: 18px auto; max-width: 1400px; background: var(--cp-surface); padding: 18px 20px; border-radius: 10px; border: 1px solid var(--cp-border); box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14); }
+    .ws-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; margin-bottom: 14px; }
+    .ws-eyebrow, .chip-label { color: var(--cp-accent); font-size: 10.5px; text-transform: uppercase; letter-spacing: .06em; font-weight: 800; margin-bottom: 4px; }
+    .ws-header h2, .orchestrator-layer h2, .trust-layer h2 { margin: 0 0 4px; font-size: 18px; color: var(--cp-accent); }
+    .ws-header p, .orchestrator-layer p, .trust-layer p { margin: 0; color: var(--cp-text-muted); font-size: 12.5px; line-height: 1.45; }
+    .ws-legend { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; max-width: 520px; }
+    .flow-chip, .task-mode, .review-pill, .mini-pill { display: inline-flex; align-items: center; gap: 4px; border: 1px solid var(--cp-border); background: var(--cp-surface-soft); color: var(--cp-text); border-radius: 999px; padding: 4px 8px; font-size: 10.5px; font-weight: 650; white-space: nowrap; }
+    .task-entry { border: 1px solid var(--cp-border); background: var(--cp-surface-soft); border-radius: 10px; padding: 14px; margin-bottom: 14px; }
+    .task-entry h3, .workflow-panel h3, .orchestrator-layer h3, .trust-layer h3 { margin: 0 0 4px; color: var(--cp-accent); font-size: 14px; }
+    .task-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 12px; }
+    .task-card { text-align: left; border: 1px solid var(--cp-border); border-radius: 8px; background: var(--cp-surface); color: var(--cp-text); padding: 12px; cursor: pointer; transition: transform .12s ease, border-color .12s ease, box-shadow .12s ease; }
+    .task-card:hover, .task-card.active { transform: translateY(-2px); border-color: var(--cp-accent); box-shadow: 0 0 0 3px var(--cp-highlight); }
+    .task-card strong { display: block; color: var(--cp-accent); font-size: 13px; margin-bottom: 4px; }
+    .task-card span { display: block; color: var(--cp-text-muted); font-size: 11.5px; line-height: 1.35; }
+    .workflow-panel { border: 1px solid var(--cp-border); background: var(--cp-surface); border-radius: 10px; padding: 16px; }
+    .workflow-panel[hidden] { display: none; }
+    .workflow-top { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; margin-bottom: 12px; }
+    .workflow-title-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .workflow-sequence { margin-top: 6px; color: var(--cp-text-muted); font-size: 12px; }
+    .workflow-sequence strong { color: var(--cp-accent); }
+    .workflow-actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+    .ws-button { border: 1px solid var(--cp-accent); background: var(--cp-accent); color: var(--cp-accent-fg); border-radius: 6px; padding: 7px 10px; font-size: 12px; cursor: pointer; }
+    .ws-button.secondary { background: var(--cp-surface); color: var(--cp-accent); }
+    .flow-steps { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; }
+    .flow-step { position: relative; border: 1px solid var(--cp-border); border-radius: 8px; background: var(--cp-surface-soft); padding: 11px; color: var(--cp-text); text-align: left; cursor: pointer; min-height: 156px; }
+    .flow-step:not(:last-child)::after { content: "→"; position: absolute; right: -11px; top: 50%; transform: translateY(-50%); color: var(--cp-accent); font-weight: 900; z-index: 2; background: var(--cp-surface); border: 1px solid var(--cp-border); border-radius: 999px; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; }
+    .flow-step:hover { border-color: var(--cp-accent); box-shadow: 0 0 0 3px var(--cp-highlight); }
+    .flow-step .step-head { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .flow-step .step-symbol { width: 32px; height: 32px; border-radius: 6px; border: 1px solid var(--cp-border); display: flex; align-items: center; justify-content: center; font-weight: 800; color: var(--cp-text); flex-shrink: 0; }
+    .flow-step .step-index { color: var(--cp-text-soft); font-size: 10px; text-transform: uppercase; letter-spacing: .04em; font-weight: 800; }
+    .flow-step .step-name { color: var(--cp-accent); font-size: 12px; line-height: 1.2; font-weight: 800; }
+    .step-desc, .step-output, .step-why { color: var(--cp-text-muted); font-size: 11.5px; line-height: 1.35; margin-top: 6px; }
+    .step-output strong, .step-why strong { color: var(--cp-accent); }
+    .guided .flow-step { background: var(--cp-accent-soft); }
+    .guided .step-why { display: block; }
+    .step-why { display: none; }
+    .cell .flow-markers { position: absolute; bottom: 2px; left: 4px; right: 4px; display: flex; justify-content: center; gap: 2px; font-size: 9px; line-height: 1; opacity: .82; }
+    .cell.orchestrator-skill { box-shadow: inset 0 0 0 2px var(--cp-accent); }
+    .cell.flow-member { box-shadow: 0 0 0 3px var(--cp-highlight); }
+    .cell.guided-next { outline: 3px solid var(--cp-warning); outline-offset: 1px; }
+    .orchestrator-grid, .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 12px; }
+    .orchestrator-card, .trust-card { border: 1px solid var(--cp-border); background: var(--cp-surface-soft); border-radius: 8px; padding: 12px; }
+    .orchestrator-card .mapped-symbol { display: inline-flex; align-items: center; justify-content: center; min-width: 32px; height: 28px; border-radius: 6px; border: 1px solid var(--cp-border); color: var(--cp-text); font-weight: 800; margin-bottom: 8px; }
+    .call-chain { margin-top: 8px; color: var(--cp-text-muted); font-size: 11.5px; line-height: 1.35; }
+    .governance-strip { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .cell.approval-required { border-style: dashed; }
     .quick-guide { max-width: 1400px; margin: 0 auto 14px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
     .quick-guide div { background: var(--cp-surface); border-radius: 8px; padding: 12px 14px; box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14); border-left: 4px solid var(--cp-accent); }
     .quick-guide strong { display: block; color: var(--cp-accent); font-size: 13px; margin-bottom: 3px; }
@@ -257,7 +305,42 @@
     <div class="build-plan" id="buildPlan" hidden>
       <div class="bp-header"><h3 id="bpTitle"></h3><div class="bp-sequence" id="bpSequence"></div></div>
       <div class="bp-grid" id="bpGrid"></div>
-      <button class="bp-clear" id="bpClear">Clear plan</button>
+      <div class="bp-actions"><button class="bp-clear" id="bpViewSystem">View Work System</button><button class="bp-clear" id="bpClear">Clear plan</button></div>
+    </div>
+  </section>
+  <section class="work-system-shell" aria-label="Work System Map">
+    <div class="ws-header">
+      <div>
+        <div class="ws-eyebrow">Next-generation work system map</div>
+        <h2>Start with the Job to Be Done</h2>
+        <p>Tasks are the entry point. Select a job to see how work flows through skill chains, outputs, orchestration, governance, and human review.</p>
+      </div>
+      <div class="ws-legend" aria-label="Flow signal legend">
+        <span class="flow-chip">→ outputs to next skill</span>
+        <span class="flow-chip">🔁 recurring loop</span>
+        <span class="flow-chip">✅ human review</span>
+        <span class="flow-chip">⚡ automatable</span>
+        <span class="flow-chip">🧠 decision required</span>
+      </div>
+    </div>
+    <div class="task-entry">
+      <h3>Task-first entry mode</h3>
+      <p>Select the job first; the table highlights the required skills and the workflow panel explains the recommended build order, outputs, and review gates.</p>
+      <div class="task-grid" id="taskGrid"></div>
+    </div>
+    <div class="workflow-panel" id="workflowPanel" hidden>
+      <div class="workflow-top">
+        <div>
+          <div class="workflow-title-row"><h3 id="workflowTitle"></h3><span class="task-mode" id="workflowMode"></span></div>
+          <p id="workflowSummary"></p>
+          <div class="workflow-sequence" id="workflowSequence"></div>
+        </div>
+        <div class="workflow-actions">
+          <button class="ws-button secondary" id="workflowView">View Work System</button>
+          <button class="ws-button" id="guidedBuild">Show me how to build this</button>
+        </div>
+      </div>
+      <div class="flow-steps" id="flowSteps"></div>
     </div>
   </section>
   <section class="quick-guide" aria-label="How to use this map">
@@ -265,7 +348,18 @@
     <div><strong>2. Review the skill stack</strong><span>The recommended skills appear in sequence, moving from foundational fluency to orchestration and advanced governed systems. Starred elements link to aligned Skill Shack recipes.</span></div>
     <div><strong>3. Read the map</strong><span>Columns = competencies. Rows = complexity. Bottom bands = foundation resources plus trust and scale controls.</span></div>
   </section>
+  <section class="orchestrator-layer" aria-label="Orchestrator layer">
+    <h2>Orchestrator Layer</h2>
+    <p>These are not just atomic skills. They route work, invoke other skills, manage handoffs, and keep outputs moving toward reviewable action.</p>
+    <div class="orchestrator-grid" id="orchestratorGrid"></div>
+  </section>
   <div class="grid-wrap"><div class="grid" id="grid"></div></div>
+  <section class="trust-layer" aria-label="Trust and governance layer">
+    <h2>Trust + Governance Layer</h2>
+    <p>Work systems become safe to run when outbound actions, CRM updates, private data, auditability, and exceptions are visible before execution.</p>
+    <div class="trust-grid" id="trustGrid"></div>
+    <div class="governance-strip" id="governanceStrip"></div>
+  </section>
   <section class="legend"><h2>Competency groups</h2><div class="legend-grid" id="legendGrid"></div></section>
   <section class="maturity"><h2>Complexity periods</h2><dl id="maturityList"></dl></section>
   <section class="narrative">
@@ -305,7 +399,7 @@ Use this structure:
   <div class="detail-panel" id="detailPanel" role="dialog" aria-modal="true" aria-labelledby="dpTitle">
     <div class="dp-header"><div class="dp-symbol-box" id="dpSymbolBox"><div class="dp-atomic" id="dpAtomic"></div><div class="dp-symbol" id="dpSymbol"></div></div><div class="dp-title"><h3 id="dpTitle"></h3><div class="dp-domain" id="dpDomain"></div></div><button class="dp-close" id="dpClose" aria-label="Close detail panel">×</button></div>
     <div class="dp-value-section"><div class="dp-value-block"><div class="dp-value-label">Skill outcome</div><div class="dp-value-text" id="dpOutcome"></div></div><div class="dp-value-block"><div class="dp-value-label">Why it matters</div><div class="dp-value-text" id="dpWhy"></div></div></div>
-    <dl class="dp-body"><dt>Atomic #</dt><dd id="dpAtomicFull"></dd><dt>Symbol</dt><dd id="dpSymbolFull"></dd><dt>Competency</dt><dd id="dpDomainFull"></dd><dt>Period</dt><dd id="dpPeriod"></dd><dt>Group</dt><dd id="dpGroup"></dd><dt>Systems</dt><dd id="dpSystems"></dd><dt>Skill tags</dt><dd id="dpSkills"></dd><dt id="dpLinkLabel">Resource</dt><dd id="dpLink"></dd></dl>
+    <dl class="dp-body"><dt>Atomic #</dt><dd id="dpAtomicFull"></dd><dt>Symbol</dt><dd id="dpSymbolFull"></dd><dt>Competency</dt><dd id="dpDomainFull"></dd><dt>Period</dt><dd id="dpPeriod"></dd><dt>Group</dt><dd id="dpGroup"></dd><dt>Systems</dt><dd id="dpSystems"></dd><dt>Skill tags</dt><dd id="dpSkills"></dd><dt>Produces</dt><dd id="dpProduces"></dd><dt>Triggers next</dt><dd id="dpTriggers"></dd><dt>Human mode</dt><dd id="dpHumanMode"></dd><dt>Governance</dt><dd id="dpGovernance"></dd><dt id="dpLinkLabel">Resource</dt><dd id="dpLink"></dd></dl>
     <div class="dp-nav"><button id="dpPrev">← Previous</button><span class="dp-counter" id="dpCounter"></span><button id="dpNext">Next →</button></div>
   </div>
   <footer>ClawPilot + Scout seller skill stack · Periodic-table format · Built for Microsoft seller enablement</footer>
@@ -325,22 +419,195 @@ const DATA = {"groups":[{"n":1,"id":"hygiene","title":"Business Hygiene","subtit
   const bpSequence = document.getElementById('bpSequence');
   const bpGrid = document.getElementById('bpGrid');
   const bpClear = document.getElementById('bpClear');
+  const bpViewSystem = document.getElementById('bpViewSystem');
+  const taskGrid = document.getElementById('taskGrid');
+  const workflowPanel = document.getElementById('workflowPanel');
+  const workflowTitle = document.getElementById('workflowTitle');
+  const workflowMode = document.getElementById('workflowMode');
+  const workflowSummary = document.getElementById('workflowSummary');
+  const workflowSequence = document.getElementById('workflowSequence');
+  const workflowView = document.getElementById('workflowView');
+  const guidedBuild = document.getElementById('guidedBuild');
+  const flowSteps = document.getElementById('flowSteps');
+  const orchestratorGrid = document.getElementById('orchestratorGrid');
+  const trustGrid = document.getElementById('trustGrid');
+  const governanceStrip = document.getElementById('governanceStrip');
   const tooltip = document.getElementById('tooltip');
   const backdrop = document.getElementById('backdrop');
   const panel = document.getElementById('detailPanel');
+  const WORK_SYSTEMS = [
+    { id: 'prepare-exec-meeting', pathId: 'exec-meeting', title: 'Prepare Exec Meeting', mode: 'Prep + leadership update', summary: 'Build the brief, agenda, narrative, asks, and follow-up system for an executive conversation.', symbols: ['Ap','Ab','Ag','Nb','Eu','Le','Fm','Ma'], steps: [
+      ['Ap','Read account pulse','Current context, account shifts, and open issues','Sets the facts before the narrative starts.'],
+      ['Ab','Build the account brief','Executive-ready brief with stakeholders, context, and risks','Creates shared situational awareness.'],
+      ['Ag','Frame the agenda','Meeting objective, discussion path, and decision moments','Turns context into a usable meeting shape.'],
+      ['Nb','Draft the narrative','Customer story, value framing, proof points, and asks','Connects business context to the message.'],
+      ['Eu','Shape leadership update','What changed, why it matters, risks, and decisions needed','Makes the output consumable by leadership.'],
+      ['Le','Escalate decisions','Clear executive asks and escalation path','Separates human judgment from automatable prep.'],
+      ['Fm','Create follow-up queue','Owners, next actions, due points, and response drafts','Keeps the meeting from becoming a dead-end.'],
+      ['Ma','Move into meeting command','Reusable operating rhythm and review cadence','Turns the meeting into a managed workstream.']
+    ]},
+    { id: 'build-pipeline', pathId: 'create-pipeline', title: 'Build Pipeline', mode: 'Signal reading + execution', summary: 'Move from territory insight to whitespace, prospecting, narrative, outreach, and meeting creation.', symbols: ['Td','Ws','Ps','Nb','Or','Mp'], steps: [
+      ['Td','Define the territory system','Segment focus, account clusters, and coverage thesis','Sets the playing field.'],
+      ['Ws','Find whitespace','Target account list, gaps, and opportunity hypotheses','Converts territory into where-to-play choices.'],
+      ['Ps','Prioritize prospects','Ranked pursuit list and prospecting motion','Turns whitespace into action.'],
+      ['Nb','Create the customer narrative','Message, proof, and value framing by segment','Gives outreach a reason to exist.'],
+      ['Or','Run reviewed outreach','Outbound drafts, touch plan, and approval gate','Moves from prep to external action safely.'],
+      ['Mp','Capture meeting pulse','Meeting signals, follow-up tasks, and next pursuit step','Feeds learning back into pipeline creation.']
+    ]},
+    { id: 'draft-customer-narrative', pathId: 'craft-deal', title: 'Draft Customer Narrative', mode: 'Artifact + human review', summary: 'Turn account context, stakeholders, value proof, and source grounding into a reusable customer narrative.', symbols: ['Ci','St','Vo','Nb','Pn','Br','Sr','Ht'], steps: [
+      ['Ci','Ingest context','Relevant customer notes, docs, meeting signals, and account facts','Grounds the story in trusted inputs.'],
+      ['St','Map stakeholders','Decision makers, champions, blockers, and gaps','Clarifies who the story must persuade.'],
+      ['Vo','Optimize value','Value hypothesis, outcome claims, and proof requirements','Keeps the narrative tied to business value.'],
+      ['Nb','Build narrative','Proposal language, deck spine, and messaging themes','Creates the core artifact.'],
+      ['Pn','Navigate proposal','Proposal structure, sections, and evidence map','Turns story into a deliverable.'],
+      ['Br','Package review','Business review pack or executive-ready summary','Makes the artifact usable in the field.'],
+      ['Sr','Check source grounding','Citations, confidence notes, and unsupported claims','Prevents hallucinated or weak claims.'],
+      ['Ht','Route human review','Final approval notes and decision checklist','Keeps judgment with the seller.']
+    ]},
+    { id: 'run-forecast', pathId: 'healthy-business', title: 'Run Forecast', mode: 'Operating rhythm', summary: 'Move from MSX signals to forecast narrative, commit hygiene, leadership visibility, and audit trail.', symbols: ['Mx','Pi','Fn','Fc','Fo','La','At'], steps: [
+      ['Mx','Read MSX signals','Pipeline movement, stale data, hygiene gaps, and risks','Starts with system truth.'],
+      ['Pi','Interpret pipeline indicators','Coverage, slippage, gaps, and risk flags','Turns data into judgment cues.'],
+      ['Fn','Draft forecast narrative','Commit story, risk explanation, and next action plan','Makes forecast explainable.'],
+      ['Fc','Clarify forecast commit','Commit category, confidence, and action needed','Separates signal from decision.'],
+      ['Fo','Optimize forecast','Scenario view, blockers, and correction actions','Improves reliability over time.'],
+      ['La','Prepare leadership command','Leader-ready summary and asks','Feeds management rhythm.'],
+      ['At','Preserve audit trail','Decision history, source trail, and updates made','Keeps the system accountable.']
+    ]},
+    { id: 'meeting-intelligence', pathId: 'exec-meeting', title: 'Run Meeting Intelligence', mode: 'Recurring loop', summary: 'Convert meeting signals into recap, tasks, CRM hygiene suggestions, relationship signals, and future prep.', symbols: ['Mp','Mo','Fm','Tm','Ot','Mg','Sr','Ht'], steps: [
+      ['Mp','Read meeting pulse','Attendance, themes, open asks, and signals','Captures the raw meeting signal.'],
+      ['Mo','Orchestrate meeting flow','Summary, routed skills, and follow-up plan','Calls the right downstream skills.'],
+      ['Fm','Create follow-up actions','Draft replies, owner list, and next steps','Turns signal into execution.'],
+      ['Tm','Use Teams signals','Thread context, chat follow-up, and collaboration cues','Connects meeting and Teams work.'],
+      ['Ot','Route Outlook actions','Drafts, inbox tasks, and review-ready responses','Moves follow-up into communication channels.'],
+      ['Mg','Ground in Microsoft 365 Graph','Calendar, email, chat, and file context','Keeps prep and follow-up connected.'],
+      ['Sr','Check source grounding','Traceable references and confidence notes','Avoids unsupported meeting memory.'],
+      ['Ht','Require review','Human approval before sends, filings, or CRM writes','Protects external and system actions.']
+    ]},
+    { id: 'plan-consumption', pathId: 'plan-consumption', title: 'Plan Consumption', mode: 'Adoption + optimization', summary: 'Convert usage signals into adoption planning, blocker removal, expansion paths, and telemetry-backed action.', symbols: ['Ca','Cu','Ux','Cp','Au','Cs','Us','Cf'], steps: [
+      ['Ca','Read consumption awareness','Current usage posture and adoption risk','Starts from product reality.'],
+      ['Cu','Draft consumption plan','Adoption plays, owners, milestones, and blockers','Creates an execution map.'],
+      ['Ux','Find usage expansion','Expansion candidates and workload opportunities','Connects adoption to growth.'],
+      ['Cp','Run consumption program','Program rhythm, customer actions, and checkpoints','Turns plan into cadence.'],
+      ['Au','Optimize adoption','Blocker removal and next best adoption moves','Improves outcomes over time.'],
+      ['Cs','Move into consumption command','Leadership-visible consumption operating view','Scales the motion.'],
+      ['Us','Ground in telemetry','Usage evidence and trend signals','Keeps claims backed by data.'],
+      ['Cf','Score confidence','Confidence level and uncertainty notes','Shows where human judgment is needed.']
+    ]},
+    { id: 'renew-expand', pathId: 'renew-expand', title: 'Renew and Expand', mode: 'Risk + growth loop', summary: 'Diagnose renewal risk, frame value, surface expansion options, and prepare executive alignment.', symbols: ['Rx','Rg','Ra','Rw','Ex','Ga','Cm','Ht'], steps: [
+      ['Rx','X-ray renewal risk','Risk drivers, timing, and account signals','Makes renewal exposure visible.'],
+      ['Rg','Build renewal growth brief','Value recap and growth thesis','Frames renewal as expansion, not paperwork.'],
+      ['Ra','Create renewal action plan','Owners, blockers, and next moves','Turns risk into action.'],
+      ['Rw','Run renewal workbench','Renewal operating view and cadence','Maintains momentum.'],
+      ['Ex','Find expansion radar','Expansion candidates and adjacent workloads','Adds upside to retention.'],
+      ['Ga','Move into growth command','Growth operating rhythm and leadership view','Connects renewal to broader account growth.'],
+      ['Cm','Review commercial command','Commercial terms, value, and negotiation points','Requires business judgment.'],
+      ['Ht','Require human review','Approval checkpoint before customer-visible or commercial action','Protects sensitive decisions.']
+    ]},
+    { id: 'partner-motion', pathId: 'partner-motion', title: 'Build Partner Motion', mode: 'Co-sell + GTM', summary: 'Package partner roles, co-sell path, GTM message, registration, and marketplace follow-through.', symbols: ['Pk','Cr','Go','Pt','Pc','Dl','Ge'], steps: [
+      ['Pk','Create partner kit','Partner role, offer alignment, and enablement package','Gives partners reusable assets.'],
+      ['Cr','Register co-sell motion','Co-sell registration and opportunity linkage','Connects field motion to systems.'],
+      ['Go','Build GTM partner OS','Joint GTM plan, campaign motion, and account fit','Turns partner intent into execution.'],
+      ['Pt','Move into partner command','Partner operating cadence and accountability','Keeps collaboration moving.'],
+      ['Pc','Use Partner Center','Partner system dependency and marketplace route','Grounds work in the right platform.'],
+      ['Dl','Respect data boundaries','Customer and partner data handling constraints','Keeps sharing safe.'],
+      ['Ge','Check regional policy','Regional approvals and exception paths','Adapts the motion by market.']
+    ]},
+    { id: 'grow-seller-skills', pathId: 'skill-growth', title: 'Grow Seller Skills', mode: 'Enablement loop', summary: 'Assess seller capability, recommend practice, coach behavior, and evaluate skill growth over time.', symbols: ['Ss','Sc','Lc','Co','Ct','Ea','Sh','Ev','Mn'], steps: [
+      ['Ss','Orchestrate skill path','Skill stack and build order for the seller motion','Chooses the right learning path.'],
+      ['Sc','Coach skill gaps','Gap diagnosis and practice recommendation','Targets improvement.'],
+      ['Lc','Create learning capsule','Focused learning asset or prompt pack','Makes practice lightweight.'],
+      ['Co','Operate competency','Applied task repetition and coaching loop','Moves learning into work.'],
+      ['Ct','Tutor the coachable moment','Contextual guidance during execution','Supports in-flow learning.'],
+      ['Ea','Advise enablement','Enablement path and manager coaching signal','Connects individual growth to team scaling.'],
+      ['Sh','Link Skill Shack','Existing recipes and reusable learning assets','Avoids rebuilding what exists.'],
+      ['Ev','Evaluate outcomes','Evidence of skill lift and quality checks','Measures whether learning worked.'],
+      ['Mn','Show manager visibility','Manager-ready view of progress and coaching needs','Closes the coaching loop.']
+    ]}
+  ];
+  const ORCHESTRATORS = [
+    { title: 'Skills Orchestrator', symbol: 'Ss', role: 'Routes a job to the right skill chain and decides whether ClawPilot, Scout, or a missing skill is the next move.', calls: ['Signal triage','Task atlas','Artifact factory','Human approval'] },
+    { title: 'Meeting Orchestrator', symbol: 'Mo', role: 'Turns a meeting into prep, recap, follow-up, CRM hygiene suggestions, and next-meeting readiness.', calls: ['Meeting Pulse','Agenda Builder','Follow-up Manager','Source Grounding'] },
+    { title: 'Workstream Tracker', symbol: 'Oo', role: 'Maintains the state of a push across tasks, owners, decisions, blockers, drafts, and leadership rhythm.', calls: ['Operating Cadence','Leadership Command','Audit Trail','Exception Routing'] },
+    { title: 'Inbox Classifier', symbol: 'Ot', role: 'Routes inbox items into respond, delegate, watch, file, capture, or escalate while preserving review gates.', calls: ['Outlook Action Layer','Follow-up Manager','Data Boundaries','Human-in-the-Loop'] }
+  ];
+  const TRUST_CONTROLS = [
+    { title: 'Approval Gates', symbols: ['Av','Ht'], desc: 'Human confirmation before outbound messages, CRM writes, filing, or external sharing.' },
+    { title: 'Data Boundaries', symbols: ['Dl','Rb'], desc: 'Clear separation of private data, source context, role access, and reusable artifacts.' },
+    { title: 'Audit Logging', symbols: ['At','Sr'], desc: 'Source grounding, decision history, confidence notes, and traceable updates.' },
+    { title: 'External Action Controls', symbols: ['Es','Ge'], desc: 'Exception routing, regional policy, and review for outreach, expense, and customer-visible actions.' }
+  ];
   let activeGoal = null;
+  let activeTask = null;
   let activeGroup = null;
+  let guidedMode = false;
   let pinnedIndex = -1;
   let visibleCells = [];
 
   function esc(value) { return String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch])); }
-  function itemSearchText(item) { return [item.sym, item.name, item.family, item.desc, ...(item.systems || []), ...(item.skills || [])].join(' ').toLowerCase(); }
+  function findTask(id) { return WORK_SYSTEMS.find(task => task.id === id); }
+  function taskForPath(pathId) { return WORK_SYSTEMS.find(task => task.pathId === pathId) || null; }
+  function activeSymbols() {
+    if (activeTask) return activeTask.symbols;
+    const path = activeGoal ? paths.find(p => p.id === activeGoal) : null;
+    return path ? path.symbols : [];
+  }
+  function stepFor(symbol) {
+    const task = activeTask || taskForPath(activeGoal);
+    const step = task?.steps.find(s => s[0] === symbol);
+    if (step) return { task, step };
+    for (const system of WORK_SYSTEMS) {
+      const found = system.steps.find(s => s[0] === symbol);
+      if (found) return { task: system, step: found };
+    }
+    return { task: null, step: null };
+  }
+  function skillMeta(item) {
+    const { task, step } = stepFor(item.sym);
+    const output = step ? step[2] : outputFor(item);
+    const stepIndex = task && step ? task.steps.findIndex(s => s[0] === item.sym) : -1;
+    const next = stepIndex >= 0 && stepIndex < task.steps.length - 1 ? task.steps[stepIndex + 1] : null;
+    const governanceSymbols = new Set(['Av','At','Rb','Dl','Ai','Cf','Sr','Es','Ge','Mn','Ev','Ad','Am','Ht','Sg','Or','Ot','Cr']);
+    const decisionSymbols = new Set(['Le','Pr','Ro','Fc','Cm','Cl','Es','Ht']);
+    const recurringSymbols = new Set(['Mp','Mo','Fm','Po','Fo','Oo','Ma','La','Cs','Ga']);
+    const humanMode = decisionSymbols.has(item.sym) ? '🧠 decision required' : governanceSymbols.has(item.sym) ? '🔁 human-in-loop' : '⚡ automatable';
+    const governanceText = governanceSymbols.has(item.sym) ? 'Approval, data boundary, audit, or exception control applies before action.' : 'Standard source grounding and review expectations apply when used in a work system.';
+    return {
+      output,
+      trigger: next ? next[0] + ' · ' + next[1] : 'Review, reuse, or feed back into the workstream',
+      humanMode,
+      governance: governanceText,
+      recurring: recurringSymbols.has(item.sym),
+      approval: governanceSymbols.has(item.sym) || humanMode !== '⚡ automatable'
+    };
+  }
+  function outputFor(item) {
+    if (item.sym === 'Nb') return 'Proposal, deck spine, messaging, and customer narrative';
+    if (item.sym === 'Mo' || item.sym === 'Mp' || item.sym === 'Ma') return 'Recap, tasks, meeting signals, CRM hygiene suggestions, and future prep';
+    if (item.sym === 'Ps' || item.sym === 'Ws' || item.sym === 'Td') return 'Account lists, whitespace map, target hypotheses, and pipeline actions';
+    if (item.sym === 'Or' || item.sym === 'Ot') return 'Reviewed outreach drafts, inbox actions, and communication queue';
+    if (item.sym === 'Eu' || item.sym === 'La') return 'Leadership update, decision asks, risks, and next actions';
+    return item.desc;
+  }
+  function markerHtml(item) {
+    const meta = skillMeta(item);
+    const markers = ['<span title="Outputs to next skill">→</span>'];
+    if (meta.recurring) markers.push('<span title="Recurring loop">🔁</span>');
+    if (meta.approval) markers.push('<span title="Requires human review">✅</span>');
+    markers.push(meta.humanMode.startsWith('⚡') ? '<span title="Automatable">⚡</span>' : meta.humanMode.startsWith('🧠') ? '<span title="Decision required">🧠</span>' : '<span title="Human-in-loop">🔁</span>');
+    return '<div class="flow-markers">' + markers.join('') + '</div>';
+  }
+  function itemSearchText(item) {
+    const meta = skillMeta(item);
+    return [item.sym, item.name, item.family, item.desc, meta.output, meta.trigger, meta.humanMode, meta.governance, ...(item.systems || []), ...(item.skills || [])].join(' ').toLowerCase();
+  }
   function groupClass(item) { const group = groupByTitle.get(item.family); return group ? 'g' + group.n : (item.family === 'Foundation resource' ? 'series-cell' : 'governance-cell'); }
   function periodFor(symbol) { for (const row of mainLayout) { if (row.placements.some(([, sym]) => sym === symbol)) return row.period; } return null; }
   function tile(item, extra = '') {
     const period = periodFor(item.sym);
     const group = groupByTitle.get(item.family);
-    return '<div class="cell ' + groupClass(item) + ' ' + extra + '" data-symbol="' + esc(item.sym) + '" data-name="' + esc(item.name) + '" data-domain="' + esc(item.family) + '" data-atomic="' + item.n + '" data-group="' + esc(group ? group.n : '') + '" data-period="' + esc(period || '') + '" tabindex="0"><div class="atomic">' + item.n + '</div>' + (item.link ? '<div class="skill-star" title="Linked to Skill Shack">★</div>' : '') + '<div class="symbol">' + esc(item.sym) + '</div><div class="name">' + esc(item.name) + '</div></div>';
+    const orchestration = ORCHESTRATORS.some(orchestrator => orchestrator.symbol === item.sym) ? ' orchestrator-skill' : '';
+    const approval = skillMeta(item).approval ? ' approval-required' : '';
+    return '<div class="cell ' + groupClass(item) + ' ' + extra + orchestration + approval + '" data-symbol="' + esc(item.sym) + '" data-name="' + esc(item.name) + '" data-domain="' + esc(item.family) + '" data-atomic="' + item.n + '" data-group="' + esc(group ? group.n : '') + '" data-period="' + esc(period || '') + '" tabindex="0"><div class="atomic">' + item.n + '</div>' + (item.link ? '<div class="skill-star" title="Linked to Skill Shack">★</div>' : '') + '<div class="symbol">' + esc(item.sym) + '</div><div class="name">' + esc(item.name) + '</div>' + markerHtml(item) + '</div>';
   }
   function empty() { return '<div class="cell empty"></div>'; }
   function pointer(range, label, cls) { return '<div class="cell pointer ' + cls + '"><div class="range">' + range + '</div><div class="ptr-label">' + label + ' ↓</div></div>'; }
@@ -365,12 +632,27 @@ const DATA = {"groups":[{"n":1,"id":"hygiene","title":"Business Hygiene","subtit
   function renderGoals() {
     goalsGrid.innerHTML = paths.map(path => '<button class="goal-item" data-goal="' + esc(path.id) + '"><span class="goal-label">' + esc(path.title) + '</span><span class="goal-blurb">' + esc(path.desc) + '</span></button>').join('');
   }
+  function renderTasks() {
+    taskGrid.innerHTML = WORK_SYSTEMS.map(task => '<button class="task-card" data-task="' + esc(task.id) + '"><strong>' + esc(task.title) + '</strong><span>' + esc(task.summary) + '</span><span class="task-mode">' + esc(task.mode) + '</span></button>').join('');
+  }
+  function renderOrchestrators() {
+    orchestratorGrid.innerHTML = ORCHESTRATORS.map(orchestrator => {
+      const item = itemBySymbol.get(orchestrator.symbol);
+      return '<article class="orchestrator-card"><span class="mapped-symbol ' + (item ? groupClass(item) : '') + '">' + esc(orchestrator.symbol) + '</span><h3>' + esc(orchestrator.title) + '</h3><p>' + esc(orchestrator.role) + '</p><div class="call-chain"><span class="chip-label">Calls</span><br>' + esc(orchestrator.calls.join(' → ')) + '</div></article>';
+    }).join('');
+  }
+  function renderTrustLayer() {
+    trustGrid.innerHTML = TRUST_CONTROLS.map(control => '<article class="trust-card"><h3>' + esc(control.title) + '</h3><p>' + esc(control.desc) + '</p><div class="call-chain">' + control.symbols.map(sym => '<button class="mini-pill" data-symbol="' + esc(sym) + '">' + esc(sym) + '</button>').join(' ') + '</div></article>').join('');
+    governanceStrip.innerHTML = '<span class="flow-chip">Av Approval Gates</span><span class="flow-chip">Dl Data Boundaries</span><span class="flow-chip">At Audit Trail</span><span class="flow-chip">Es Exception Routing</span><span class="flow-chip">Ht Human-in-the-Loop</span>';
+  }
   function renderLegend() {
     document.getElementById('legendGrid').innerHTML = groups.map(group => '<button class="legend-item" data-group="' + group.n + '"><span class="swatch g' + group.n + '"></span><span class="legend-num">' + group.n + '</span><span class="legend-name">' + esc(group.title) + '</span></button>').join('');
     document.getElementById('maturityList').innerHTML = periods.map(period => '<dt>Period ' + period.n + '</dt><dd><strong>' + esc(period.title) + ':</strong> ' + esc(period.subtitle) + '</dd>').join('') + '<dt>Foundation</dt><dd>Corporate systems, existing Skill Shack assets, and Microsoft resources that make skill execution possible.</dd><dt>Trust &amp; Scale</dt><dd>Approvals, privacy, governance, telemetry, and enterprise controls that allow skill stacks to scale safely.</dd>';
   }
   function showPlan(path) {
     activeGoal = path.id;
+    activeTask = null;
+    guidedMode = false;
     buildPlan.hidden = false;
     bpTitle.textContent = 'Skill stack · ' + path.title;
     bpSequence.innerHTML = '<strong>Build order:</strong> ' + path.symbols.map(sym => itemBySymbol.get(sym)?.sym || sym).join(' → ');
@@ -380,21 +662,53 @@ const DATA = {"groups":[{"n":1,"id":"hygiene","title":"Business Hygiene","subtit
       return '<button class="bp-card" data-symbol="' + esc(item.sym) + '"><div class="bp-card-head"><span class="bp-symbol ' + groupClass(item) + '">' + esc(item.sym) + '</span><div><div class="bp-step">Step ' + (index + 1) + (item.link ? ' · Skill Shack ★' : '') + '</div><div class="bp-name">' + esc(item.name) + '</div></div></div><div class="bp-outcome">' + esc(item.desc) + '</div><div class="bp-period">' + esc(item.family) + '</div></button>';
     }).join('');
     document.querySelectorAll('.goal-item').forEach(btn => btn.classList.toggle('active', btn.dataset.goal === path.id));
+    document.querySelectorAll('.task-card').forEach(btn => btn.classList.remove('active'));
     applyFilters();
+  }
+  function showTask(task) {
+    activeTask = task;
+    activeGoal = null;
+    guidedMode = false;
+    buildPlan.hidden = true;
+    workflowPanel.hidden = false;
+    workflowPanel.classList.remove('guided');
+    workflowTitle.textContent = task.title;
+    workflowMode.textContent = task.mode;
+    workflowSummary.textContent = task.summary;
+    workflowSequence.innerHTML = '<strong>Skill chain:</strong> ' + task.symbols.join(' → ');
+    renderFlowSteps(task);
+    document.querySelectorAll('.task-card').forEach(btn => btn.classList.toggle('active', btn.dataset.task === task.id));
+    document.querySelectorAll('.goal-item').forEach(btn => btn.classList.remove('active'));
+    applyFilters();
+  }
+  function renderWorkSystemForGoal() {
+    const task = activeTask || taskForPath(activeGoal);
+    if (task) showTask(task);
+  }
+  function renderFlowSteps(task) {
+    flowSteps.innerHTML = task.steps.map((step, index) => {
+      const [sym, desc, output, why] = step;
+      const item = itemBySymbol.get(sym);
+      if (!item) return '';
+      const meta = skillMeta(item);
+      return '<button class="flow-step" data-symbol="' + esc(sym) + '"><div class="step-head"><span class="step-symbol ' + groupClass(item) + '">' + esc(sym) + '</span><div><div class="step-index">Step ' + (index + 1) + '</div><div class="step-name">' + esc(item.name) + '</div></div></div><div class="step-desc">' + esc(desc) + '</div><div class="step-output"><strong>Output:</strong> ' + esc(output) + '</div><div class="step-output"><strong>Next:</strong> ' + esc(meta.trigger) + '</div><div class="step-why"><strong>Why here:</strong> ' + esc(why) + '</div><div class="review-pill">' + esc(meta.humanMode) + '</div></button>';
+    }).join('');
   }
   function applyFilters() {
     const query = search.value.trim().toLowerCase();
-    const path = activeGoal ? paths.find(p => p.id === activeGoal) : null;
-    const pathSet = new Set(path ? path.symbols : []);
+    const symbols = activeSymbols();
+    const pathSet = new Set(symbols);
     visibleCells = Array.from(document.querySelectorAll('.cell[data-symbol]'));
     visibleCells.forEach((cell, index) => {
       const item = itemBySymbol.get(cell.dataset.symbol);
       const matchesSearch = !query || itemSearchText(item).includes(query);
       const matchesGroup = !activeGroup || cell.dataset.group === String(activeGroup);
-      const inPath = !path || pathSet.has(item.sym);
+      const inPath = !pathSet.size || pathSet.has(item.sym);
       const active = matchesSearch && matchesGroup && inPath;
       cell.classList.toggle('dimmed', !active);
-      cell.classList.toggle('highlighted', Boolean(path && pathSet.has(item.sym)));
+      cell.classList.toggle('highlighted', Boolean(pathSet.size && pathSet.has(item.sym)));
+      cell.classList.toggle('flow-member', Boolean(activeTask && pathSet.has(item.sym)));
+      cell.classList.toggle('guided-next', Boolean(guidedMode && symbols[0] === item.sym));
       cell.classList.toggle('pinned', index === pinnedIndex);
     });
     document.querySelectorAll('.legend-item').forEach(btn => btn.classList.toggle('active', btn.dataset.group === String(activeGroup)));
@@ -410,7 +724,8 @@ const DATA = {"groups":[{"n":1,"id":"hygiene","title":"Business Hygiene","subtit
   }
   function showTooltip(event, cell) {
     const item = itemBySymbol.get(cell.dataset.symbol);
-    tooltip.innerHTML = '<div class="tt-symbol">' + esc(item.sym) + ' · ' + item.n + '</div><div class="tt-name">' + esc(item.name) + '</div><div class="tt-meta">' + esc(item.family) + '</div><div class="tt-section"><div class="tt-label">Skill outcome</div><div class="tt-value">' + esc(item.desc) + '</div></div>';
+    const meta = skillMeta(item);
+    tooltip.innerHTML = '<div class="tt-symbol">' + esc(item.sym) + ' · ' + item.n + '</div><div class="tt-name">' + esc(item.name) + '</div><div class="tt-meta">' + esc(item.family) + '</div><div class="tt-section"><div class="tt-label">Skill outcome</div><div class="tt-value">' + esc(item.desc) + '</div></div><div class="tt-section"><div class="tt-label">Produces</div><div class="tt-value">' + esc(meta.output) + '</div></div><div class="tt-section"><div class="tt-label">Triggers next</div><div class="tt-value">' + esc(meta.trigger) + '</div></div><div class="tt-section"><div class="tt-label">Human mode</div><div class="tt-value">' + esc(meta.humanMode) + '</div></div>';
     tooltip.classList.add('show');
     moveTooltip(event);
   }
@@ -444,6 +759,11 @@ const DATA = {"groups":[{"n":1,"id":"hygiene","title":"Business Hygiene","subtit
     document.getElementById('dpGroup').textContent = group ? group.n + ' · ' + group.title : 'Series row';
     document.getElementById('dpSystems').textContent = item.systems.join(', ');
     document.getElementById('dpSkills').textContent = item.skills.join(', ');
+    const meta = skillMeta(item);
+    document.getElementById('dpProduces').textContent = meta.output;
+    document.getElementById('dpTriggers').textContent = meta.trigger;
+    document.getElementById('dpHumanMode').textContent = meta.humanMode;
+    document.getElementById('dpGovernance').textContent = meta.governance;
     const linkLabel = document.getElementById('dpLinkLabel');
     const link = document.getElementById('dpLink');
     if (item.link) { linkLabel.style.display = ''; link.style.display = ''; link.innerHTML = '<a href="' + esc(item.link) + '" target="_blank" rel="noopener">Open aligned Skill Shack recipe/category</a>' + (item.skillShackTitle ? '<br><span style="color: var(--cp-text-muted); font-size: 12px;">' + esc(item.skillShackTitle) + ' · ' + esc(item.skillShackPath || '') + '</span>' : ''); } else { linkLabel.style.display = 'none'; link.style.display = 'none'; link.textContent = ''; }
@@ -456,12 +776,19 @@ const DATA = {"groups":[{"n":1,"id":"hygiene","title":"Business Hygiene","subtit
     applyFilters();
   }
   function closePanel() { panel.classList.remove('show'); backdrop.classList.remove('show'); pinnedIndex = -1; applyFilters(); }
-  renderGoals(); renderLegend(); renderGrid();
+  renderGoals(); renderTasks(); renderOrchestrators(); renderTrustLayer(); renderLegend(); renderGrid();
   document.querySelectorAll('.goal-item').forEach(btn => btn.addEventListener('click', () => showPlan(paths.find(path => path.id === btn.dataset.goal))));
+  taskGrid.addEventListener('click', event => { const btn = event.target.closest('[data-task]'); if (btn) showTask(findTask(btn.dataset.task)); });
+  workflowView.addEventListener('click', () => renderWorkSystemForGoal());
+  guidedBuild.addEventListener('click', () => { if (!activeTask) renderWorkSystemForGoal(); guidedMode = true; workflowPanel.classList.add('guided'); applyFilters(); });
+  flowSteps.addEventListener('click', event => { const btn = event.target.closest('[data-symbol]'); if (btn) openPanelBySymbol(btn.dataset.symbol); });
+  orchestratorGrid.addEventListener('click', event => { const symbol = event.target.closest('[data-symbol]')?.dataset.symbol || event.target.closest('.orchestrator-card')?.querySelector('.mapped-symbol')?.textContent; if (symbol && itemBySymbol.has(symbol.trim())) openPanelBySymbol(symbol.trim()); });
+  trustGrid.addEventListener('click', event => { const btn = event.target.closest('[data-symbol]'); if (btn) openPanelBySymbol(btn.dataset.symbol); });
   document.getElementById('legendGrid').addEventListener('click', event => { const btn = event.target.closest('[data-group]'); if (!btn) return; activeGroup = activeGroup === btn.dataset.group ? null : btn.dataset.group; applyFilters(); });
   search.addEventListener('input', applyFilters);
-  reset.addEventListener('click', () => { search.value = ''; activeGroup = null; activeGoal = null; buildPlan.hidden = true; document.querySelectorAll('.goal-item').forEach(btn => btn.classList.remove('active')); applyFilters(); });
-  bpClear.addEventListener('click', () => { activeGoal = null; buildPlan.hidden = true; document.querySelectorAll('.goal-item').forEach(btn => btn.classList.remove('active')); applyFilters(); });
+  reset.addEventListener('click', () => { search.value = ''; activeGroup = null; activeGoal = null; activeTask = null; guidedMode = false; buildPlan.hidden = true; workflowPanel.hidden = true; workflowPanel.classList.remove('guided'); document.querySelectorAll('.goal-item, .task-card').forEach(btn => btn.classList.remove('active')); applyFilters(); });
+  bpClear.addEventListener('click', () => { activeGoal = null; activeTask = null; guidedMode = false; buildPlan.hidden = true; workflowPanel.hidden = true; workflowPanel.classList.remove('guided'); document.querySelectorAll('.goal-item, .task-card').forEach(btn => btn.classList.remove('active')); applyFilters(); });
+  bpViewSystem.addEventListener('click', renderWorkSystemForGoal);
   bpGrid.addEventListener('click', event => { const btn = event.target.closest('[data-symbol]'); if (btn) openPanelBySymbol(btn.dataset.symbol); });
   document.getElementById('dpClose').addEventListener('click', closePanel);
   backdrop.addEventListener('click', closePanel);
