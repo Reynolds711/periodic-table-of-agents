@@ -453,6 +453,74 @@ const catalogs = [
       goal("growth", "Accelerate Category and Revenue Growth", "Merchandising, product, pricing, finance, and consumer insight", [[3,2],[7,4],[12,4],[15,5],[3,7]]),
     ],
   },
+  {
+    folder: "ISD-Seller-Enablement",
+    title: "ISD / Seller Enablement",
+    lead: "A periodic table of agents for internal seller development, field enablement, sales execution, coaching, partner motion, and business rhythm.",
+    context: "ISD and seller enablement",
+    nav: "ISD / Seller Enablement",
+    domains: [
+      d("Seller", "Seller Readiness", "LMS, Viva Learning, enablement portals", "Manager coaching, content governance", ["Readiness guide", "Seller assist", "Skill capture", "Learning workflow", "Readiness signal", "Readiness bridge", "Seller readiness OS"]),
+      d("Account", "Account Strategy", "CRM, MSX, account plans, M365", "Customer confidentiality, plan ownership", ["Account guide", "Brief assist", "Signal capture", "Account workflow", "Whitespace insight", "Account bridge", "Account command"]),
+      d("Pipeline", "Pipeline Creation", "CRM, marketing, LinkedIn, partner systems", "Consent, attribution, manager review", ["Pipeline guide", "Prospect assist", "Lead capture", "Pipeline workflow", "Demand signal", "Pipeline bridge", "Growth command"]),
+      d("Discovery", "Discovery & Qualification", "CRM, meeting notes, call intelligence", "Customer consent, source discipline", ["Discovery guide", "Question assist", "Need capture", "Qualification workflow", "Fit signal", "Discovery bridge", "Qualification OS"]),
+      d("Deal", "Deal Crafting", "CRM, CPQ, proposals, pricing", "Commercial policy, approval controls", ["Deal guide", "Proposal assist", "Close-plan capture", "Deal workflow", "Blocker signal", "Deal bridge", "Deal command"]),
+      d("Value", "Value & Business Case", "Value tools, ROI models, customer data", "Assumption transparency, customer validation", ["Value guide", "ROI assist", "Evidence capture", "Business-case workflow", "Value signal", "Value bridge", "Value command"]),
+      d("Demo", "Demo & Solution Fit", "Demo environments, architecture, docs", "Truthful representation, technical review", ["Demo guide", "Solution assist", "Requirement capture", "Demo workflow", "Fit signal", "Solution bridge", "Solution command"]),
+      d("Partner", "Partner & Co-sell", "Partner Center, CRM, co-sell tools", "Partner agreements, data sharing", ["Partner guide", "Co-sell assist", "Referral capture", "Partner workflow", "Coverage signal", "Partner bridge", "Co-sell command"]),
+      d("Exec", "Executive Engagement", "M365, briefing docs, relationship maps", "Sensitive context, executive review", ["Exec guide", "Briefing assist", "Relationship capture", "Exec workflow", "Influence signal", "Exec bridge", "Executive rhythm"]),
+      d("Compete", "Competitive Strategy", "Competitive intel, CRM, enablement sites", "Approved messaging, source validation", ["Compete guide", "Positioning assist", "Intel capture", "Compete workflow", "Threat signal", "Compete bridge", "Competitive command"]),
+      d("Adoption", "Adoption & Consumption", "Usage telemetry, success plans, Viva", "Customer privacy, data quality", ["Adoption guide", "Success assist", "Usage capture", "Adoption workflow", "Consumption signal", "Adoption bridge", "Customer success OS"]),
+      d("Renewal", "Renewal & Expansion", "CRM, renewal tools, success plans", "Commercial policy, customer approvals", ["Renewal guide", "Expansion assist", "Risk capture", "Renewal workflow", "Retention signal", "Renewal bridge", "Expansion command"]),
+      d("Forecast", "Forecast & Inspection", "CRM, pipeline, forecast tools", "Inspection discipline, manager review", ["Forecast guide", "Inspection assist", "Update capture", "Forecast workflow", "Slippage signal", "Forecast bridge", "Forecast command"]),
+      d("Manager", "Manager Coaching", "CRM, coaching notes, performance data", "Employee privacy, fair coaching", ["Coaching guide", "Manager assist", "Coaching capture", "Coaching workflow", "Skill signal", "Manager bridge", "Coaching OS"]),
+      d("Content", "Enablement Content", "SharePoint, Loop, decks, learning content", "Content freshness, source ownership", ["Content guide", "Deck assist", "Content intake", "Content workflow", "Reuse signal", "Content bridge", "Enablement library"]),
+      d("Community", "Communities & Events", "Teams, Viva Engage, event systems", "Community norms, moderation", ["Community guide", "Event assist", "Ask capture", "Community workflow", "Engagement signal", "Community bridge", "Field community OS"]),
+      d("Ops", "Sales Operations", "MSX, CRM, BI, planning systems", "Data stewardship, governance", ["Ops guide", "Hygiene assist", "Activity capture", "Ops workflow", "Health signal", "Ops bridge", "Sales operating system"]),
+      d("Trust", "Governance & Trust", "GRC, privacy, security, policy", "Responsible AI, auditability, human review", ["Policy guide", "Trust assist", "Audit capture", "Control workflow", "Risk signal", "Governance bridge", "Trust command"]),
+    ],
+    goals: [
+      goal("seller-readiness", "Accelerate Seller Readiness", "Skills, enablement content, coaching, and field community", [[1,2],[15,4],[14,4],[16,5],[1,7]]),
+      goal("pipeline", "Create Higher-Quality Pipeline", "Targeting, discovery, qualification, partner motion, and demand", [[3,2],[4,4],[8,4],[13,5],[3,7]]),
+      goal("deal-execution", "Improve Deal Execution", "Close plans, value, solution fit, executive engagement, and blockers", [[5,2],[6,4],[7,4],[9,5],[5,7]]),
+      goal("healthy-business", "Run a Healthier Sales Business", "Forecast, inspection, hygiene, renewals, and operating rhythm", [[13,2],[17,4],[12,4],[13,5],[17,7]]),
+      goal("trust", "Govern Seller AI Responsibly", "Content, policy, customer data, coaching boundaries, and auditability", [[18,2],[15,4],[17,5],[18,6],[18,7]]),
+    ],
+  },
+  {
+    folder: "Professional-Services-Legal",
+    title: "Professional Services / Legal",
+    lead: "A periodic table of agents for consulting, legal, accounting, advisory, client delivery, matter operations, and knowledge reuse.",
+    context: "professional services and legal",
+    nav: "Professional Services / Legal",
+    domains: [
+      d("Client", "Client Intake & Service", "CRM, intake portals, M365", "Confidentiality, conflict checks", ["Client guide", "Intake assist", "Request capture", "Client workflow", "Need signal", "Client bridge", "Client service OS"]),
+      d("Matter", "Matter & Engagement Management", "Matter systems, project tools, time systems", "Matter owner review, scope control", ["Matter guide", "Engagement assist", "Scope capture", "Matter workflow", "Budget signal", "Matter bridge", "Engagement command"]),
+      d("Knowledge", "Knowledge Management", "DMS, SharePoint, precedent libraries", "Privilege, source attribution", ["Knowledge guide", "Research assist", "Precedent capture", "Knowledge workflow", "Reuse signal", "Knowledge bridge", "Firm intelligence"]),
+      d("Proposal", "Proposal & Pursuit", "CRM, proposal stores, pricing", "Approved claims, client confidentiality", ["Proposal guide", "Pursuit assist", "RFP capture", "Proposal workflow", "Win signal", "Pursuit bridge", "Proposal command"]),
+      d("Delivery", "Client Delivery", "Project tools, M365, deliverable stores", "Quality review, client approvals", ["Delivery guide", "Workplan assist", "Status capture", "Delivery workflow", "Risk signal", "Delivery bridge", "Delivery command"]),
+      d("Legal", "Legal Research & Advisory", "Research platforms, DMS, matter systems", "Attorney review, jurisdiction checks", ["Research guide", "Memo assist", "Citation capture", "Advisory workflow", "Issue signal", "Research bridge", "Advisory command"]),
+      d("Discovery", "Discovery & Evidence", "eDiscovery, DMS, review platforms", "Privilege, chain of custody", ["Discovery guide", "Review assist", "Evidence capture", "Discovery workflow", "Privilege signal", "Discovery bridge", "Evidence command"]),
+      d("Contracts", "Contracts & Obligations", "CLM, DMS, ERP", "Legal approval, obligation tracking", ["Contract guide", "Clause assist", "Obligation capture", "Contract workflow", "Risk signal", "Contract bridge", "Obligation OS"]),
+      d("Tax", "Tax & Accounting", "Tax research, ERP, workpapers", "Professional standards, review", ["Tax guide", "Workpaper assist", "Evidence capture", "Tax workflow", "Exposure signal", "Tax bridge", "Accounting command"]),
+      d("Risk", "Risk & Compliance", "GRC, conflicts, independence systems", "Independence, conflicts, auditability", ["Risk guide", "Conflict assist", "Control capture", "Risk workflow", "Independence signal", "Risk bridge", "Risk command"]),
+      d("Finance", "Pricing, Billing & Revenue", "ERP, time, billing, pricing tools", "Billing rules, approval policy", ["Billing guide", "Pricing assist", "Time capture", "Billing workflow", "Margin signal", "Finance bridge", "Revenue command"]),
+      d("Talent", "Talent & Staffing", "HRIS, skills, staffing, LMS", "Employee privacy, fair staffing", ["Talent guide", "Staffing assist", "Skill capture", "Staffing workflow", "Capacity signal", "Talent bridge", "Talent command"]),
+      d("Quality", "Quality & Review", "Review tools, DMS, QA systems", "Partner review, professional standards", ["Quality guide", "Review assist", "Issue capture", "QA workflow", "Quality signal", "Quality bridge", "Quality command"]),
+      d("Data", "Data, Analytics & Insights", "BI, lakehouse, CRM, matter data", "Data lineage, metric governance", ["Data guide", "Analytics assist", "Data request", "Insight workflow", "Pattern signal", "Data bridge", "Practice intelligence"]),
+      d("Practice", "Practice Development", "CRM, knowledge, market intel", "Approved messaging, client sensitivity", ["Practice guide", "Market assist", "Insight capture", "Practice workflow", "Demand signal", "Practice bridge", "Practice command"]),
+      d("Partner", "Alliance & Referral Network", "Partner systems, CRM, referral tools", "Referral ethics, data sharing", ["Partner guide", "Referral assist", "Intro capture", "Alliance workflow", "Network signal", "Partner bridge", "Network OS"]),
+      d("Security", "Security & Confidentiality", "DLP, identity, records, SOC", "Least privilege, client data controls", ["Security guide", "DLP assist", "Evidence capture", "Security workflow", "Threat signal", "Security bridge", "Confidentiality command"]),
+      d("Trust", "Governance & Professional Responsibility", "GRC, legal, privacy, records", "Professional responsibility, auditability", ["Ethics guide", "Governance assist", "Audit capture", "Control workflow", "Trust signal", "Governance bridge", "Trust command"]),
+    ],
+    goals: [
+      goal("client-delivery", "Improve Client Delivery", "Matter setup, workplans, quality, staffing, and status", [[2,2],[5,4],[12,4],[13,5],[5,7]]),
+      goal("knowledge", "Reuse Firm Knowledge Safely", "Research, precedents, knowledge libraries, and source discipline", [[3,2],[3,4],[6,4],[14,5],[3,7]]),
+      goal("legal", "Accelerate Legal and Advisory Work", "Research, discovery, contracts, risk, and review", [[6,2],[7,4],[8,4],[10,5],[6,7]]),
+      goal("growth", "Win Better Pursuits", "Client intake, proposal, practice development, pricing, and alliances", [[1,2],[4,4],[15,4],[11,5],[4,7]]),
+      goal("trust", "Protect Professional Trust", "Confidentiality, conflicts, quality, ethics, and governance", [[17,2],[10,4],[18,4],[18,6],[18,7]]),
+    ],
+  },
 ];
 
 function escapeHtml(value) {
@@ -461,10 +529,47 @@ function escapeHtml(value) {
   }[c]));
 }
 
-function symbolFor(text, period, group) {
-  const words = text.replace(/&/g, " ").split(/[^A-Za-z0-9]+/).filter(Boolean);
-  const base = (words[0]?.[0] || "A") + (words[1]?.[0] || words[0]?.[1] || "g");
-  return `${base}${period}`.slice(0, 3).replace(/[^A-Za-z0-9]/g, "") || `A${group}`;
+function normalizeSymbol(value) {
+  const letters = String(value || "").replace(/[^A-Za-z]/g, "");
+  if (!letters) return "";
+  return letters[0].toUpperCase() + (letters[1] ? letters[1].toLowerCase() : "");
+}
+
+function symbolFor(text, usedSymbols, preferred = "") {
+  const words = text.replace(/&/g, " ").split(/[^A-Za-z]+/).filter(Boolean);
+  const candidates = [];
+  const preferredSymbol = normalizeSymbol(preferred);
+  if (preferredSymbol) candidates.push(preferredSymbol);
+  for (const word of words) {
+    candidates.push(normalizeSymbol(word));
+    if (word.length > 2) candidates.push(normalizeSymbol(word[0] + word[2]));
+  }
+  for (let i = 0; i < words.length - 1; i += 1) {
+    candidates.push(normalizeSymbol(words[i][0] + words[i + 1][0]));
+  }
+  for (const candidate of candidates) {
+    if (/^[A-Z][a-z]?$/.test(candidate) && !usedSymbols.has(candidate)) {
+      usedSymbols.add(candidate);
+      return candidate;
+    }
+  }
+  for (let first = 65; first <= 90; first += 1) {
+    for (let second = 97; second <= 122; second += 1) {
+      const candidate = String.fromCharCode(first) + String.fromCharCode(second);
+      if (!usedSymbols.has(candidate)) {
+        usedSymbols.add(candidate);
+        return candidate;
+      }
+    }
+  }
+  throw new Error(`Unable to generate a unique symbol for ${text}`);
+}
+
+function modeForPeriod(period) {
+  if (period <= 1) return { key: "declarative", subscript: "", label: "Declarative" };
+  if (period <= 3) return { key: "task", subscript: "T", label: "Task" };
+  if (period <= 5) return { key: "action", subscript: "Ac", label: "Action" };
+  return { key: "autonomous", subscript: "Au", label: "Autonomous" };
 }
 
 function idFor(group, period) {
@@ -509,15 +614,20 @@ function agentPurpose(catalog, domain, period) {
 
 function buildAgents(catalog) {
   const agents = [];
+  const usedSymbols = new Set();
   for (let period = 1; period <= 7; period += 1) {
     for (let group = 1; group <= 18; group += 1) {
       const atomic = idFor(group, period);
       if (!atomic) continue;
       const domain = catalog.domains[group - 1];
       const label = domain.cases[period - 1];
+      const mode = modeForPeriod(period);
       agents.push({
         atomic,
-        symbol: symbolFor(label, period, group),
+        symbol: symbolFor(label, usedSymbols),
+        mode: mode.key,
+        modeLabel: mode.label,
+        modeSubscript: mode.subscript,
         label,
         name: `${label} Agent`,
         group,
@@ -530,9 +640,14 @@ function buildAgents(catalog) {
       });
     }
   }
-  bands.core.forEach(([symbol, label], index) => agents.push({
+  bands.core.forEach(([symbol, label], index) => {
+    const mode = modeForPeriod(6);
+    agents.push({
     atomic: 57 + index,
-    symbol,
+    symbol: symbolFor(label, usedSymbols, symbol),
+    mode: mode.key,
+    modeLabel: mode.label,
+    modeSubscript: mode.subscript,
     label,
     name: `${label} Agent`,
     group: "L",
@@ -542,10 +657,16 @@ function buildAgents(catalog) {
     systems: "Identity, data, knowledge, workflow, integration, analytics, and automation foundations",
     guardrails: "Approved connectors, data lineage, source-system ownership, and operational monitoring",
     purpose: `Provides the reusable ${label.toLowerCase()} foundation that lets ${catalog.context} agents connect safely across domains and systems.`,
-  }));
-  bands.trust.forEach(([symbol, label], index) => agents.push({
+    });
+  });
+  bands.trust.forEach(([symbol, label], index) => {
+    const mode = modeForPeriod(7);
+    agents.push({
     atomic: 89 + index,
-    symbol,
+    symbol: symbolFor(label, usedSymbols, symbol),
+    mode: mode.key,
+    modeLabel: mode.label,
+    modeSubscript: mode.subscript,
     label,
     name: `${label} Agent`,
     group: "A",
@@ -555,7 +676,8 @@ function buildAgents(catalog) {
     systems: "GRC, privacy, security, legal, responsible AI, records, and audit controls",
     guardrails: "Continuous audit, human override, escalation, least-privilege access, and policy review",
     purpose: `Acts as a trust control for ${label.toLowerCase()} so ${catalog.context} agent workflows remain safe, explainable, and auditable.`,
-  }));
+    });
+  });
   return agents.sort((a, b) => a.atomic - b.atomic);
 }
 
@@ -573,6 +695,8 @@ function industryTheme(folder) {
     Manufacturing: "var(--cp-warning)",
     "Media-Communications": "var(--cp-accent)",
     "Retail-CPG": "var(--cp-success)",
+    "ISD-Seller-Enablement": "var(--cp-link)",
+    "Professional-Services-Legal": "var(--cp-warning)",
   }[folder] || "var(--cp-accent)";
 }
 
@@ -671,11 +795,12 @@ header{text-align:center;margin-bottom:14px}h1{margin:0 0 4px;font-size:28px;let
 .goals-grid,.build-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.goal-item,.build-card,.legend-item{border:1px solid var(--cp-border);border-radius:0.625rem;background:var(--cp-surface);color:var(--cp-text);cursor:pointer;text-align:left}.goal-item{padding:13px 14px;min-height:82px}.goal-item:hover,.goal-item.active,.build-card:hover,.legend-item:hover,.legend-item.active{border-color:color-mix(in srgb,var(--industry-base) 46%,var(--cp-border));background:color-mix(in srgb,var(--industry-base) 9%,var(--cp-surface))}.goal-label{display:block;font-weight:700;font-size:14px;line-height:1.25;color:var(--cp-text)}.goal-blurb{display:block;margin-top:4px;color:var(--cp-text-muted);font-size:11.5px;line-height:1.35}
 .build-plan{margin-top:16px;padding-top:16px;border-top:1px solid var(--cp-border)}.build-plan[hidden]{display:none}.bp-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;gap:16px}.bp-header h3{margin:0;color:var(--cp-text);font-size:15px}.bp-sequence{color:var(--cp-text-muted);font-size:12px;font-weight:700}.build-card{padding:10px;min-height:118px}.build-card-head{display:flex;align-items:center;gap:8px;margin-bottom:6px}.mini-symbol{width:32px;height:32px;border-radius:0.625rem;border:1px solid var(--cp-border);display:flex;align-items:center;justify-content:center;color:var(--cp-text);font-weight:800}.bp-step{color:var(--cp-text-soft);font-size:10px;text-transform:uppercase;letter-spacing:.05em;font-weight:700}.bp-name{color:var(--cp-text);font-size:12.5px;font-weight:700;line-height:1.2}.bp-outcome,.bp-period{color:var(--cp-text-muted);font-size:11.5px;line-height:1.35}
 .quick-guide{max-width:1400px;margin:0 auto 14px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.quick-guide div{background:var(--cp-surface);border:1px solid var(--cp-border);border-top:4px solid var(--industry-base);border-radius:0.625rem;padding:12px 14px}.quick-guide strong{display:block;color:var(--cp-text);font-size:13px;margin-bottom:3px}.quick-guide span{display:block;color:var(--cp-text-muted);font-size:12px;line-height:1.35}
-.grid-wrap{overflow-x:auto;text-align:center}.grid{display:inline-block;padding:12px;background:var(--cp-surface);border:1px solid var(--cp-border);border-radius:16px;box-shadow:0 0 2px rgba(0,0,0,0.12),0 1px 2px rgba(0,0,0,0.14)}.row{display:flex;gap:4px;margin-bottom:4px}.cell{width:70px;height:78px;position:relative;padding:4px;border:1px solid var(--cp-border);border-radius:0.625rem;background:var(--cp-surface-soft);color:var(--cp-text);cursor:pointer;transition:transform .12s ease,opacity .12s ease,border-color .12s ease,background .12s ease;overflow:hidden}.cell:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--industry-base) 52%,var(--cp-border));z-index:5;box-shadow:var(--cp-shadow)}.cell:focus{outline:2px solid var(--industry-base);outline-offset:1px}.cell.empty{visibility:hidden;pointer-events:none}.cell.label{height:46px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:color-mix(in srgb,var(--industry-base) 13%,var(--cp-surface));color:var(--cp-text);border-color:color-mix(in srgb,var(--industry-base) 34%,var(--cp-border));cursor:default;font-size:10px;line-height:1.05;font-weight:800}.cell.label span{margin-top:3px;font-weight:600;font-size:8px;color:var(--cp-text-muted)}.header-row .cell.label:first-child{width:88px}.cell.period-label{width:88px;display:flex;align-items:center;justify-content:center;background:var(--cp-bg-elevated);cursor:default;font-size:10px;font-weight:700;color:var(--cp-text-muted)}.cell.period-label:hover,.cell.label:hover,.cell.pointer:hover{transform:none;box-shadow:none}.atomic{position:absolute;top:3px;left:5px;font-size:9px;color:var(--cp-text-soft)}.symbol{font-weight:800;font-size:18px;text-align:center;margin-top:12px;color:var(--cp-text)}.name{font-size:8.5px;text-align:center;color:var(--cp-text-muted);margin-top:2px;line-height:1.05}.pointer{display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:default;background:color-mix(in srgb,var(--industry-base) 8%,var(--cp-surface))}.range{font-weight:700;font-size:12px}.ptr-label{font-size:9px;color:var(--cp-text-muted);margin-top:3px}.lanth-actin{margin-top:14px}.band-title{display:block;font-size:10px;font-weight:700;color:var(--cp-text);line-height:1.12}.band-sub{display:block;font-size:8px;color:var(--cp-text-muted);margin-top:5px;font-weight:500;line-height:1.1;white-space:nowrap}.dimmed{opacity:.18}.highlighted{outline:2px solid var(--industry-base);outline-offset:1px;box-shadow:0 0 0 4px color-mix(in srgb,var(--industry-base) 18%,var(--cp-surface));z-index:4}
+.grid-wrap{overflow-x:auto;text-align:center}.grid{display:inline-block;padding:12px;background:var(--cp-surface);border:1px solid var(--cp-border);border-radius:16px;box-shadow:0 0 2px rgba(0,0,0,0.12),0 1px 2px rgba(0,0,0,0.14)}.row{display:flex;gap:4px;margin-bottom:4px}.cell{width:70px;height:78px;position:relative;padding:4px;border:1px solid var(--cp-border);border-radius:0.625rem;background:var(--cp-surface-soft);color:var(--cp-text);cursor:pointer;transition:transform .12s ease,opacity .12s ease,border-color .12s ease,background .12s ease;overflow:hidden}.cell:hover{transform:translateY(-2px);border-color:color-mix(in srgb,var(--industry-base) 52%,var(--cp-border));z-index:5;box-shadow:var(--cp-shadow)}.cell:focus{outline:2px solid var(--industry-base);outline-offset:1px}.cell.empty{visibility:hidden;pointer-events:none}.cell.label{height:46px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:color-mix(in srgb,var(--industry-base) 13%,var(--cp-surface));color:var(--cp-text);border-color:color-mix(in srgb,var(--industry-base) 34%,var(--cp-border));cursor:default;font-size:10px;line-height:1.05;font-weight:800}.cell.label span{margin-top:3px;font-weight:600;font-size:8px;color:var(--cp-text-muted)}.header-row .cell.label:first-child{width:88px}.cell.period-label{width:88px;display:flex;align-items:center;justify-content:center;background:var(--cp-bg-elevated);cursor:default;font-size:10px;font-weight:700;color:var(--cp-text-muted)}.cell.period-label:hover,.cell.label:hover,.cell.pointer:hover{transform:none;box-shadow:none}.atomic{position:absolute;top:3px;left:5px;font-size:9px;color:var(--cp-text-soft)}.symbol{font-weight:800;font-size:18px;text-align:center;margin-top:12px;color:var(--cp-text)}.symbol sub,.dp-symbol sub,.mini-symbol sub{font-size:.42em;vertical-align:sub;line-height:0;margin-left:1px;font-weight:700;color:var(--cp-text-muted)}.name{font-size:8.5px;text-align:center;color:var(--cp-text-muted);margin-top:2px;line-height:1.05}.pointer{display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:default;background:color-mix(in srgb,var(--industry-base) 8%,var(--cp-surface))}.range{font-weight:700;font-size:12px}.ptr-label{font-size:9px;color:var(--cp-text-muted);margin-top:3px}.lanth-actin{margin-top:14px}.band-title{display:block;font-size:10px;font-weight:700;color:var(--cp-text);line-height:1.12}.band-sub{display:block;font-size:8px;color:var(--cp-text-muted);margin-top:5px;font-weight:500;line-height:1.1;white-space:nowrap}.dimmed{opacity:.18}.highlighted{outline:2px solid var(--industry-base);outline-offset:1px;box-shadow:0 0 0 4px color-mix(in srgb,var(--industry-base) 18%,var(--cp-surface));z-index:4}
 ${cssGroups}
 .gL{background:color-mix(in srgb,var(--industry-base) 18%,var(--cp-surface))}.gA{background:color-mix(in srgb,var(--cp-accent) 14%,var(--cp-surface))}
 .legend-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px 14px}.legend-item{display:flex;align-items:center;gap:8px;background:transparent;border:1px solid transparent;border-radius:5px;padding:5px 8px;font-size:12.5px}.swatch{width:18px;height:18px;border-radius:4px;border:1px solid var(--cp-border);flex-shrink:0}.legend-num{font-weight:700;min-width:18px;color:var(--cp-text)}
 .maturity dl{margin:0;display:grid;grid-template-columns:max-content 1fr;gap:4px 16px;font-size:13px}.maturity dt{font-weight:700;color:var(--cp-accent)}.maturity dd{margin:0;color:var(--cp-text-muted)}
+.compound-guide{max-width:1400px;margin:18px auto;padding:18px 20px;border-radius:16px;background:var(--cp-surface);border:1px solid var(--cp-border);box-shadow:0 0 2px rgba(0,0,0,0.12),0 1px 2px rgba(0,0,0,0.14)}.compound-guide h2{margin:0 0 8px;color:var(--cp-text);font-size:15px;text-transform:uppercase;letter-spacing:.04em}.compound-guide h2::before{content:"";display:inline-block;width:9px;height:9px;border-radius:0.625rem;background:var(--industry-base);margin-right:8px}.compound-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.compound-card{background:var(--cp-surface);border:1px solid var(--cp-border);border-radius:0.625rem;padding:12px 14px}.compound-formula{font-size:18px;font-weight:800;color:var(--cp-text);margin-bottom:4px}.compound-formula sub{font-size:.48em;vertical-align:sub;color:var(--cp-text-muted);margin-left:1px}.compound-card strong{display:block;font-size:13px;color:var(--cp-text);margin-bottom:3px}.compound-card span{display:block;font-size:12px;color:var(--cp-text-muted);line-height:1.35}
 .panel-backdrop{position:fixed;inset:0;background:var(--cp-overlay);z-index:200;opacity:0;pointer-events:none;transition:opacity .15s ease}.panel-backdrop.show{opacity:1;pointer-events:auto}.detail-panel{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(.96);width:min(520px,calc(100vw - 32px));background:var(--cp-surface);border-radius:12px;box-shadow:var(--cp-shadow);z-index:201;opacity:0;pointer-events:none;transition:opacity .15s ease,transform .15s ease;overflow:hidden;border:1px solid var(--cp-border)}.detail-panel.show{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}.dp-header{padding:22px 56px 18px 24px;display:flex;align-items:flex-start;gap:18px;border-bottom:1px solid var(--cp-border);position:relative}.dp-symbol-box{width:88px;height:88px;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid var(--cp-border);flex-shrink:0;position:relative}.dp-atomic{position:absolute;top:6px;left:8px;font-size:11px;color:var(--cp-text-soft)}.dp-symbol{font-size:30px;font-weight:800;color:var(--cp-text);margin-top:6px}.dp-title h3{margin:0 0 4px;font-size:19px;color:var(--cp-accent);line-height:1.25}.dp-domain{font-size:13px;color:var(--cp-text-muted)}.dp-close{position:absolute;top:12px;right:12px;width:32px;height:32px;border:0;background:transparent;border-radius:6px;cursor:pointer;color:var(--cp-text-muted);font-size:22px;line-height:1;display:flex;align-items:center;justify-content:center}.dp-close:hover{background:var(--cp-surface-soft);color:var(--cp-text)}.dp-value-section{padding:14px 24px 0;margin-bottom:4px}.dp-value-block{margin-bottom:12px}.dp-value-label{font-size:10.5px;color:var(--cp-accent);text-transform:uppercase;letter-spacing:.04em;font-weight:700;margin-bottom:3px}.dp-value-text{font-size:13px;color:var(--cp-text);line-height:1.45}.dp-body{padding:16px 24px 18px;display:grid;grid-template-columns:max-content 1fr;gap:10px 18px;font-size:13px}.dp-body dt{font-weight:600;color:var(--cp-accent);text-transform:uppercase;font-size:10.5px;letter-spacing:.04em;align-self:center}.dp-body dd{margin:0;color:var(--cp-text);align-self:center}.dp-nav{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;background:var(--cp-surface-soft);border-top:1px solid var(--cp-border)}.dp-nav button{background:var(--cp-surface);border:1px solid var(--cp-border);color:var(--cp-text);padding:6px 14px;border-radius:5px;cursor:pointer;font-size:12px}.dp-nav button:hover:not(:disabled){border-color:var(--cp-accent);color:var(--cp-accent)}.dp-nav button:disabled{opacity:.35;cursor:not-allowed}.dp-counter{font-size:11px;color:var(--cp-text-muted)}
 .narrative{padding:20px 28px}.narrative .lead{font-size:13.5px;color:var(--cp-text);border-left:3px solid var(--cp-accent);padding-left:14px;margin-bottom:14px}.narrative p,.narrative li{font-size:13px;line-height:1.55;color:var(--cp-text-muted)}.narrative ul{margin:4px 0 12px;padding-left:22px}footer{text-align:center;color:var(--cp-text-muted);font-size:11px;margin-top:18px}
 @media print{body{padding:6px;min-width:0}.controls,.goals,.quick-guide,.series-nav{display:none}.cell:hover{transform:none;box-shadow:none}.grid{box-shadow:none}}
@@ -703,6 +828,7 @@ ${cssGroups}
 <main class="grid-wrap"><div class="grid" id="grid"></div></main>
 <section class="legend"><h2>Domain legend</h2><div class="legend-grid" id="legend"></div></section>
 <section class="maturity"><h2>Maturity model</h2><dl>${Object.entries(tiers).map(([n, label]) => `<dt>Period ${n}: ${label}</dt><dd>${maturityDescription(Number(n))}</dd>`).join("")}</dl></section>
+<section class="compound-guide"><h2>Compound patterns</h2><p class="ph-sub">Element symbols stay atomic: one capital letter or one capital plus lowercase. Subscripts show mode: no subscript is declarative, T is task, Ac is action, and Au is autonomous.</p><div class="compound-grid" id="compoundGrid"></div></section>
 <section class="narrative"><h2>How to use this table</h2><p class="lead">This is a strategic operating map, not a product list. It helps teams identify where agents create value, which systems they must connect to, and what guardrails are required before autonomy increases.</p><ul><li>Use strategic priorities to find credible starting sequences.</li><li>Use domains to localize agent examples to real work, not generic productivity.</li><li>Use systems and guardrails in each detail card to shape pilots, governance reviews, and customer conversations.</li></ul></section>
 <div class="panel-backdrop" id="backdrop"></div>
 <aside class="detail-panel" id="detailPanel" aria-modal="true" role="dialog">
@@ -721,17 +847,19 @@ let currentGoal = null;
 let currentDetailIndex = 0;
 function findAgentById(id){return agents.find(a=>a.atomic===Number(id));}
 function groupClass(group){return "g"+group;}
+function symbolHtml(a){return a.symbol+(a.modeSubscript?\`<sub>\${a.modeSubscript}</sub>\`:"");}
 function renderGoals(){const wrap=document.getElementById("goalsGrid");wrap.innerHTML=goals.map(g=>\`<button class="goal-item" data-goal="\${g.id}"><span class="goal-label">\${g.title}</span><span class="goal-blurb">\${g.blurb}</span></button>\`).join("");wrap.querySelectorAll("button").forEach(btn=>btn.addEventListener("click",()=>selectGoal(btn.dataset.goal)));}
 function renderGrid(){const grid=document.getElementById("grid");const header=\`<div class="row header-row"><div class="cell label">&nbsp;</div>\${domains.map(d=>\`<div class="cell label">\${d.g}<br><span>\${d.short}</span></div>\`).join("")}</div>\`;const rows=[1,2,3,4,5,6,7].map(p=>{let cells=[\`<div class="cell period-label">Period \${p}</div>\`];for(let g=1;g<=18;g++){if(p===6&&g===3){cells.push('<div class="cell pointer"><div class="range">57-71</div><div class="ptr-label">Core Systems</div></div>');continue;}if(p===7&&g===3){cells.push('<div class="cell pointer"><div class="range">89-103</div><div class="ptr-label">Trust Layer</div></div>');continue;}const a=agents.find(x=>x.group===g&&x.period===p);cells.push(a?cellHtml(a):'<div class="cell empty"></div>');}return \`<div class="row">\${cells.join("")}</div>\`;}).join("");const core=bandRow("Core Systems","(Lanthanides)",agents.filter(a=>a.group==="L"));const trust=bandRow("Trust Layer","(Actinides)",agents.filter(a=>a.group==="A"));grid.innerHTML=header+rows+\`<div class="lanth-actin">\${core}\${trust}</div>\`;document.querySelectorAll(".cell[data-symbol]").forEach(el=>{el.addEventListener("click",()=>openDetail(el.dataset.id));el.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" ")openDetail(el.dataset.id);});});}
-function cellHtml(a){return \`<div class="cell \${groupClass(a.group)}" data-symbol="\${a.symbol}" data-id="\${a.atomic}" data-group="\${a.group}" tabindex="0"><div class="atomic">\${a.atomic}</div><div class="symbol">\${a.symbol}</div><div class="name">\${a.label}</div></div>\`;}
+function cellHtml(a){return \`<div class="cell \${groupClass(a.group)}" data-symbol="\${a.symbol}" data-id="\${a.atomic}" data-group="\${a.group}" tabindex="0"><div class="atomic">\${a.atomic}</div><div class="symbol">\${symbolHtml(a)}</div><div class="name">\${a.label}</div></div>\`;}
 function bandRow(title,sub,list){const cells=[\`<div class="cell period-label"><span class="band-title">\${title}</span><span class="band-sub">\${sub}</span></div>\`,'<div class="cell empty"></div>','<div class="cell empty"></div>','<div class="cell empty"></div>'];list.forEach(a=>cells.push(cellHtml(a)));return \`<div class="row">\${cells.join("")}</div>\`;}
 function renderLegend(){const legend=document.getElementById("legend");legend.innerHTML=domains.map(d=>\`<button class="legend-item" data-group="\${d.g}"><span class="swatch g\${d.g}"></span><span class="legend-num">\${d.g}</span><span>\${d.name}</span></button>\`).join("");legend.querySelectorAll("button").forEach(btn=>btn.addEventListener("click",()=>{currentFilterGroup=currentFilterGroup===String(btn.dataset.group)?null:String(btn.dataset.group);applyFilters();}));}
-function selectGoal(id){currentGoal=goals.find(g=>g.id===id);document.querySelectorAll(".goal-item").forEach(b=>b.classList.toggle("active",b.dataset.goal===id));const plan=document.getElementById("buildPlan");plan.hidden=false;document.getElementById("bpTitle").textContent=currentGoal.title;document.getElementById("bpSequence").textContent=currentGoal.sequence.map(id=>findAgentById(id).symbol).join(" -> ");document.getElementById("bpGrid").innerHTML=currentGoal.sequence.map((id,i)=>{const a=findAgentById(id);return \`<button class="build-card" data-id="\${a.atomic}"><div class="build-card-head"><span class="mini-symbol \${groupClass(a.group)}">\${a.symbol}</span><span class="bp-step">Step \${i+1}</span></div><div class="bp-name">\${a.name}</div><div class="bp-outcome">\${a.purpose}</div><div class="bp-period">Period \${a.period}: \${a.tier}</div></button>\`;}).join("");document.querySelectorAll(".build-card").forEach(b=>b.addEventListener("click",()=>openDetail(b.dataset.id)));applyFilters();}
+function selectGoal(id){currentGoal=goals.find(g=>g.id===id);document.querySelectorAll(".goal-item").forEach(b=>b.classList.toggle("active",b.dataset.goal===id));const plan=document.getElementById("buildPlan");plan.hidden=false;document.getElementById("bpTitle").textContent=currentGoal.title;document.getElementById("bpSequence").innerHTML=currentGoal.sequence.map(id=>symbolHtml(findAgentById(id))).join(" -> ");document.getElementById("bpGrid").innerHTML=currentGoal.sequence.map((id,i)=>{const a=findAgentById(id);return \`<button class="build-card" data-id="\${a.atomic}"><div class="build-card-head"><span class="mini-symbol \${groupClass(a.group)}">\${symbolHtml(a)}</span><span class="bp-step">Step \${i+1}</span></div><div class="bp-name">\${a.name}</div><div class="bp-outcome">\${a.purpose}</div><div class="bp-period">Period \${a.period}: \${a.tier} · \${a.modeLabel}</div></button>\`;}).join("");document.querySelectorAll(".build-card").forEach(b=>b.addEventListener("click",()=>openDetail(b.dataset.id)));applyFilters();}
 function applyFilters(){const q=document.getElementById("search").value.trim().toLowerCase();const goalIds=currentGoal?new Set(currentGoal.sequence.map(Number)):null;document.querySelectorAll(".legend-item").forEach(b=>b.classList.toggle("active",currentFilterGroup===String(b.dataset.group)));document.querySelectorAll(".cell[data-symbol]").forEach(el=>{const a=findAgentById(el.dataset.id);const haystack=Object.values(a).join(" ").toLowerCase();const visible=(!q||haystack.includes(q))&&(!currentFilterGroup||String(a.group)===currentFilterGroup)&&(!goalIds||goalIds.has(a.atomic));el.classList.toggle("dimmed",!visible);el.classList.toggle("highlighted",visible&&(!!q||!!currentFilterGroup||!!goalIds));});}
-function openDetail(id){const a=findAgentById(id);currentDetailIndex=agents.indexOf(a);document.querySelector(".dp-symbol-box").className=\`dp-symbol-box \${groupClass(a.group)}\`;document.getElementById("dpAtomic").textContent=a.atomic;document.getElementById("dpSymbol").textContent=a.symbol;document.getElementById("dpName").textContent=a.name;document.getElementById("dpDomain").textContent=a.domain;document.getElementById("dpTier").textContent=\`Period \${a.period}: \${a.tier}\`;document.getElementById("dpPurpose").textContent=a.purpose;document.getElementById("dpSystems").textContent=a.systems;document.getElementById("dpGuardrails").textContent=a.guardrails;document.getElementById("dpCounter").textContent=\`\${currentDetailIndex+1} of \${agents.length}\`;document.getElementById("prevAgent").disabled=currentDetailIndex===0;document.getElementById("nextAgent").disabled=currentDetailIndex===agents.length-1;document.getElementById("detailPanel").classList.add("show");document.getElementById("backdrop").classList.add("show");}
+function renderCompounds(){const grid=document.getElementById("compoundGrid");grid.innerHTML=goals.slice(0,3).map(g=>{const list=g.sequence.map(id=>findAgentById(id)).filter(Boolean);const formula=list.slice(0,4).map(symbolHtml).join(" + ");return \`<div class="compound-card"><div class="compound-formula">\${formula}</div><strong>\${g.title}</strong><span>\${g.blurb}</span></div>\`;}).join("");}
+function openDetail(id){const a=findAgentById(id);currentDetailIndex=agents.indexOf(a);document.querySelector(".dp-symbol-box").className=\`dp-symbol-box \${groupClass(a.group)}\`;document.getElementById("dpAtomic").textContent=a.atomic;document.getElementById("dpSymbol").innerHTML=symbolHtml(a);document.getElementById("dpName").textContent=a.name;document.getElementById("dpDomain").textContent=a.domain;document.getElementById("dpTier").textContent=\`Period \${a.period}: \${a.tier} · \${a.modeLabel}\`;document.getElementById("dpPurpose").textContent=a.purpose;document.getElementById("dpSystems").textContent=a.systems;document.getElementById("dpGuardrails").textContent=a.guardrails;document.getElementById("dpCounter").textContent=\`\${currentDetailIndex+1} of \${agents.length}\`;document.getElementById("prevAgent").disabled=currentDetailIndex===0;document.getElementById("nextAgent").disabled=currentDetailIndex===agents.length-1;document.getElementById("detailPanel").classList.add("show");document.getElementById("backdrop").classList.add("show");}
 function closeDetail(){document.getElementById("detailPanel").classList.remove("show");document.getElementById("backdrop").classList.remove("show");}
 function moveDetail(delta){const next=agents[currentDetailIndex+delta];if(next)openDetail(next.atomic);}
-renderGoals();renderGrid();renderLegend();document.getElementById("search").addEventListener("input",applyFilters);document.getElementById("reset").addEventListener("click",()=>{document.getElementById("search").value="";currentFilterGroup=null;currentGoal=null;document.getElementById("buildPlan").hidden=true;document.querySelectorAll(".goal-item").forEach(b=>b.classList.remove("active"));applyFilters();});document.getElementById("bpClear").addEventListener("click",()=>{currentGoal=null;document.getElementById("buildPlan").hidden=true;document.querySelectorAll(".goal-item").forEach(b=>b.classList.remove("active"));applyFilters();});document.getElementById("dpClose").addEventListener("click",closeDetail);document.getElementById("backdrop").addEventListener("click",closeDetail);document.getElementById("prevAgent").addEventListener("click",()=>moveDetail(-1));document.getElementById("nextAgent").addEventListener("click",()=>moveDetail(1));document.addEventListener("keydown",e=>{if(e.key==="Escape")closeDetail();});
+renderGoals();renderGrid();renderLegend();renderCompounds();document.getElementById("search").addEventListener("input",applyFilters);document.getElementById("reset").addEventListener("click",()=>{document.getElementById("search").value="";currentFilterGroup=null;currentGoal=null;document.getElementById("buildPlan").hidden=true;document.querySelectorAll(".goal-item").forEach(b=>b.classList.remove("active"));applyFilters();});document.getElementById("bpClear").addEventListener("click",()=>{currentGoal=null;document.getElementById("buildPlan").hidden=true;document.querySelectorAll(".goal-item").forEach(b=>b.classList.remove("active"));applyFilters();});document.getElementById("dpClose").addEventListener("click",closeDetail);document.getElementById("backdrop").addEventListener("click",closeDetail);document.getElementById("prevAgent").addEventListener("click",()=>moveDetail(-1));document.getElementById("nextAgent").addEventListener("click",()=>moveDetail(1));document.addEventListener("keydown",e=>{if(e.key==="Escape")closeDetail();});
 </script>
 </body>
 </html>`;

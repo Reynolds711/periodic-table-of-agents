@@ -20,6 +20,8 @@ https://reynolds711.github.io/periodic-table-of-agents/
 - [Manufacturing](./Manufacturing/)
 - [Media & Entertainment / Communications](./Media-Communications/)
 - [Retail / CPG](./Retail-CPG/)
+- [ISD / Seller Enablement](./ISD-Seller-Enablement/)
+- [Professional Services / Legal](./Professional-Services-Legal/)
 
 ## What This Is
 
@@ -56,6 +58,8 @@ This is not a list of tools. It is a decision framework to help leaders:
   /Manufacturing/index.html
   /Media-Communications/index.html
   /Retail-CPG/index.html
+  /ISD-Seller-Enablement/index.html
+  /Professional-Services-Legal/index.html
   /scripts/generate-catalogs.js
 ```
 
