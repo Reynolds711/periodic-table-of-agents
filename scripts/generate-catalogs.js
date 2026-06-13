@@ -566,10 +566,10 @@ function symbolFor(text, usedSymbols, preferred = "") {
 }
 
 function modeForPeriod(period) {
-  if (period <= 1) return { key: "declarative", subscript: "1", label: "Declarative" };
-  if (period <= 3) return { key: "task", subscript: "2", label: "Task" };
-  if (period <= 5) return { key: "action", subscript: "3", label: "Action" };
-  return { key: "autonomous", subscript: "4", label: "Autonomous" };
+  if (period <= 1) return { key: "inform", subscript: "1", label: "Inform" };
+  if (period <= 3) return { key: "assist", subscript: "2", label: "Assist" };
+  if (period <= 5) return { key: "act", subscript: "3", label: "Act" };
+  return { key: "orchestrate", subscript: "4", label: "Orchestrate" };
 }
 
 function idFor(group, period) {
@@ -828,7 +828,7 @@ ${cssGroups}
 <main class="grid-wrap"><div class="grid" id="grid"></div></main>
 <section class="legend"><h2>Domain legend</h2><div class="legend-grid" id="legend"></div></section>
 <section class="maturity"><h2>Maturity model</h2><dl>${Object.entries(tiers).map(([n, label]) => `<dt>Period ${n}: ${label}</dt><dd>${maturityDescription(Number(n))}</dd>`).join("")}</dl></section>
-<section class="compound-guide"><h2>Compound patterns</h2><p class="ph-sub">Example formulas show how agents combine into workflows. Subscripts indicate mode: 1 declarative, 2 task, 3 action, 4 autonomous.</p><div class="compound-grid" id="compoundGrid"></div></section>
+<section class="compound-guide"><h2>Compound patterns</h2><p class="ph-sub">Example formulas show how agents combine into workflows. Subscripts indicate the role each agent plays: 1 Inform, 2 Assist, 3 Act, 4 Orchestrate.</p><div class="compound-grid" id="compoundGrid"></div></section>
 <section class="narrative"><h2>How to use this table</h2><p class="lead">This is a strategic operating map, not a product list. It helps teams identify where agents create value, which systems they must connect to, and what guardrails are required before autonomy increases.</p><ul><li>Use strategic priorities to find credible starting sequences.</li><li>Use domains to localize agent examples to real work, not generic productivity.</li><li>Use systems and guardrails in each detail card to shape pilots, governance reviews, and customer conversations.</li></ul></section>
 <div class="panel-backdrop" id="backdrop"></div>
 <aside class="detail-panel" id="detailPanel" aria-modal="true" role="dialog">
