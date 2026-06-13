@@ -865,7 +865,6 @@ function writeFile(filePath, content) {
 catalogs.forEach((catalog) => {
   writeFile(path.join(root, catalog.folder, "index.html"), makeHtml(catalog));
 });
-writeFile(path.join(root, "index.html"), makeLanding());
 writeFile(path.join(root, "README.md"), makeReadme());
 
 console.log(`Generated ${catalogs.length} industry catalogs.`);
