@@ -1,0 +1,595 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1400">
+<title>Periodic Table of Agents: Health & Life Sciences Expanded</title>
+<script>
+  (() => {
+    const param = new URLSearchParams(window.location.search).get("clawpilotTheme");
+    const theme =
+      param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    document.documentElement.setAttribute("data-theme", theme);
+  })();
+</script>
+<style>
+:root {
+  color-scheme: light;
+  --cp-bg: #f7f4ef;
+  --cp-bg-elevated: #fcfbf8;
+  --cp-surface: #ffffff;
+  --cp-surface-soft: #f5f5f5;
+  --cp-border: #dedede;
+  --cp-border-strong: #919191;
+  --cp-text: #242424;
+  --cp-text-muted: #5c5c5c;
+  --cp-text-soft: #6f6f6f;
+  --cp-accent: #b11f4b;
+  --cp-accent-hover: #9a1a41;
+  --cp-accent-soft: rgba(177, 31, 75, 0.08);
+  --cp-accent-fg: #ffffff;
+  --cp-success: #16a34a;
+  --cp-danger: #dc2626;
+  --cp-warning: #f59e0b;
+  --cp-link: #0078d4;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+  --cp-overlay: rgba(255, 255, 255, 0.8);
+  --cp-panel: rgba(255, 255, 255, 0.86);
+  --cp-panel-strong: rgba(255, 255, 255, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.55);
+  --cp-highlight: rgba(177, 31, 75, 0.12);
+  --table-navy: #1F3A5F;
+  --table-navy-hover: #15273f;
+  --table-bg: #f7f7f5;
+  --table-muted-panel: #f0f4fa;
+  --table-cell-text: #111111;
+  --table-cell-muted: #333333;
+  --g1: #DCEEFB;
+  --g2: #BFE3F5;
+  --g3: #C7E9C0;
+  --g4: #A1D99B;
+  --g5: #FDD0A2;
+  --g6: #FDAE6B;
+  --g7: #FDD49E;
+  --g8: #FCBBA1;
+  --g9: #FB9A99;
+  --g10: #DADAEB;
+  --g11: #BCBDDC;
+  --g12: #9E9AC8;
+  --g13: #FFE4B5;
+  --g14: #F2D7A0;
+  --g15: #E5D8BD;
+  --g16: #B3CDE3;
+  --g17: #CCEBC5;
+  --g18: #DECBE4;
+  --gL: #F0E68C;
+  --gA: #E6B8B7;
+}
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --cp-bg: #3d3b3a;
+  --cp-bg-elevated: #343231;
+  --cp-surface: #292929;
+  --cp-surface-soft: #2e2e2e;
+  --cp-border: #474747;
+  --cp-border-strong: #5f5f5f;
+  --cp-text: #dedede;
+  --cp-text-muted: #919191;
+  --cp-text-soft: #b0b0b0;
+  --cp-accent: #fd8ea1;
+  --cp-accent-hover: #fb7b91;
+  --cp-accent-soft: rgba(253, 142, 161, 0.14);
+  --cp-accent-fg: #1a1a1a;
+  --cp-success: #4ade80;
+  --cp-danger: #f87171;
+  --cp-warning: #fbbf24;
+  --cp-link: #4da6ff;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+  --cp-overlay: rgba(41, 41, 41, 0.88);
+  --cp-panel: rgba(41, 41, 41, 0.72);
+  --cp-panel-strong: rgba(41, 41, 41, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.04);
+  --cp-highlight: rgba(253, 142, 161, 0.12);
+  --table-navy: #8fb3da;
+  --table-navy-hover: #b2cbe6;
+  --table-bg: #343231;
+  --table-muted-panel: #2e2e2e;
+  --table-cell-text: #161616;
+  --table-cell-muted: #303030;
+  --g1: #9fc8e7;
+  --g2: #8bbdda;
+  --g3: #98cf93;
+  --g4: #79bd75;
+  --g5: #dca66f;
+  --g6: #d58a42;
+  --g7: #dca56b;
+  --g8: #d99079;
+  --g9: #d77c7c;
+  --g10: #aaa7d2;
+  --g11: #9592c7;
+  --g12: #817db4;
+  --g13: #d7b979;
+  --g14: #c9aa6f;
+  --g15: #bfb094;
+  --g16: #8eafc8;
+  --g17: #9fc997;
+  --g18: #b99ec4;
+  --gL: #c8bd62;
+  --gA: #bd8787;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  min-width: 1400px;
+  padding: 24px;
+  background: var(--table-bg);
+  color: var(--cp-text);
+  font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+button, input { font-family: inherit; }
+.series-nav {
+  margin: -24px -24px 20px;
+  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  background: var(--table-navy);
+  color: #ffffff;
+  font-size: 12px;
+}
+.series-nav a, .series-current {
+  color: #ffffff;
+  text-decoration: none;
+  padding: 3px 10px;
+  border-radius: 0.625rem;
+  border: 1px solid var(--cp-sheen);
+}
+.series-label { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; font-weight: 700; }
+.series-current { background: var(--cp-sheen); font-weight: 700; }
+.sep { color: #d6dfee; }
+header { text-align: center; margin-bottom: 14px; }
+h1 { margin: 0 0 4px; font-size: 28px; letter-spacing: -.01em; color: var(--table-navy); }
+.header-lead { margin: 0; color: var(--cp-text); font-weight: 700; font-size: 14px; }
+.header-sub, .series-note { margin: 4px auto 0; color: var(--cp-text-muted); font-size: 13px; max-width: 1400px; }
+.controls { display: flex; gap: 12px; align-items: center; max-width: 1400px; margin: 16px auto; }
+.controls input { flex: 1; padding: 9px 12px; border: 1px solid var(--cp-border); border-radius: 0.625rem; background: var(--cp-surface); color: var(--cp-text); font-size: 14px; }
+.reset, .clear-button { padding: 9px 14px; border: 0; border-radius: 0.625rem; background: var(--table-navy); color: #ffffff; cursor: pointer; font-size: 13px; }
+.reset:hover, .clear-button:hover { background: var(--table-navy-hover); }
+.goals, .narrative, .legend, .maturity, .howto {
+  max-width: 1400px;
+  margin: 18px auto;
+  padding: 18px 20px;
+  border-radius: 16px;
+  background: var(--cp-surface);
+  border: 1px solid var(--cp-border);
+  box-shadow: 0 1px 3px rgba(0,0,0,.08);
+}
+.goals { background: var(--table-muted-panel); }
+.goals h2, .legend h2, .maturity h2, .howto h2, .narrative h2 { margin: 0 0 8px; color: var(--table-navy); font-size: 15px; text-transform: uppercase; letter-spacing: .04em; }
+.ph-sub { margin: 0 0 14px; color: var(--cp-text-muted); font-size: 13px; }
+.goals-grid, .build-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+.goal-item, .build-card, .legend-item {
+  border: 1px solid var(--cp-border);
+  border-radius: 0.625rem;
+  background: var(--cp-surface);
+  color: var(--cp-text);
+  cursor: pointer;
+  text-align: left;
+}
+.goal-item { padding: 13px 14px; min-height: 82px; }
+.goal-item:hover, .goal-item.active, .build-card:hover, .legend-item:hover, .legend-item.active { border-color: var(--table-navy); background: var(--table-muted-panel); }
+.goal-label { display: block; font-weight: 700; font-size: 14px; line-height: 1.25; color: var(--table-navy); }
+.goal-blurb { display: block; margin-top: 4px; color: var(--cp-text-muted); font-size: 11.5px; line-height: 1.35; }
+.build-plan { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--cp-border); }
+.build-plan[hidden] { display: none; }
+.bp-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; gap: 16px; }
+.bp-header h3 { margin: 0; color: var(--table-navy); font-size: 15px; }
+.bp-sequence { color: var(--cp-text-muted); font-size: 12px; font-weight: 700; }
+.build-card { padding: 10px; min-height: 118px; }
+.build-card-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.mini-symbol { width: 32px; height: 32px; border-radius: 0.625rem; border: 1px solid rgba(0,0,0,.1); display: flex; align-items: center; justify-content: center; color: var(--table-cell-text); font-weight: 800; }
+.bp-step { color: var(--cp-text-soft); font-size: 10px; text-transform: uppercase; letter-spacing: .05em; font-weight: 700; }
+.bp-name { color: var(--cp-text); font-size: 12.5px; font-weight: 700; line-height: 1.2; }
+.bp-outcome, .bp-period { color: var(--cp-text-muted); font-size: 11.5px; line-height: 1.35; }
+.quick-guide { max-width: 1400px; margin: 0 auto 14px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.quick-guide div { background: var(--cp-surface); border: 1px solid var(--cp-border); border-left: 4px solid var(--table-navy); border-radius: 0.625rem; padding: 12px 14px; }
+.quick-guide strong { display: block; color: var(--table-navy); font-size: 13px; margin-bottom: 3px; }
+.quick-guide span { display: block; color: var(--cp-text-muted); font-size: 12px; line-height: 1.35; }
+.grid-wrap { overflow-x: auto; text-align: center; }
+.grid { display: inline-block; padding: 12px; background: var(--cp-surface); border: 1px solid var(--cp-border); border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+.row { display: flex; gap: 4px; margin-bottom: 4px; }
+.cell {
+  width: 70px;
+  height: 78px;
+  position: relative;
+  padding: 4px;
+  border: 1px solid var(--cp-border);
+  border-radius: 0.625rem;
+  background: var(--cp-surface-soft);
+  color: var(--table-cell-text);
+  cursor: pointer;
+  transition: transform .12s ease, opacity .12s ease, border-color .12s ease, background .12s ease;
+}
+.cell:hover { transform: translateY(-2px); border-color: var(--table-navy); z-index: 5; box-shadow: 0 4px 10px rgba(0,0,0,.18); }
+.cell:focus { outline: 2px solid var(--table-navy); outline-offset: 1px; }
+.cell.empty { visibility: hidden; pointer-events: none; }
+.cell.label { height: 46px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--table-navy); color: #ffffff; border-color: var(--table-navy); cursor: default; font-size: 10px; line-height: 1.05; font-weight: 700; }
+.cell.label span { margin-top: 3px; font-weight: 500; font-size: 8px; }
+.header-row .cell.label:first-child { width: 88px; }
+.cell.period-label { width: 88px; display: flex; align-items: center; justify-content: center; background: var(--cp-bg-elevated); cursor: default; font-size: 10px; font-weight: 700; color: var(--cp-text-muted); }
+.cell.pointer { display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: default; background: var(--gL); }
+.row:nth-child(8) .cell.pointer { background: var(--gA); }
+.cell.pointer .range { color: var(--table-cell-muted); font-weight: 800; }
+.cell.pointer .ptr-label { color: var(--cp-text-muted); font-size: 9px; margin-top: 3px; }
+.cell .atomic { position: absolute; top: 4px; left: 6px; font-size: 9.5px; color: var(--cp-text-muted); }
+.cell .symbol { margin-top: 14px; text-align: center; color: var(--table-cell-text); font-weight: 800; font-size: 18px; }
+.cell .name { margin-top: 2px; text-align: center; color: var(--table-cell-muted); font-size: 9px; line-height: 1.08; }
+.cell.dimmed { opacity: .18; }
+.cell.highlighted, .cell.pinned { border-color: var(--table-navy); outline: 2px solid var(--table-navy); outline-offset: 1px; }
+.g1 { background: var(--g1); }
+.g2 { background: var(--g2); }
+.g3 { background: var(--g3); }
+.g4 { background: var(--g4); }
+.g5 { background: var(--g5); }
+.g6 { background: var(--g6); }
+.g7 { background: var(--g7); }
+.g8 { background: var(--g8); }
+.g9 { background: var(--g9); }
+.g10 { background: var(--g10); }
+.g11 { background: var(--g11); }
+.g12 { background: var(--g12); }
+.g13 { background: var(--g13); }
+.g14 { background: var(--g14); }
+.g15 { background: var(--g15); }
+.g16 { background: var(--g16); }
+.g17 { background: var(--g17); }
+.g18 { background: var(--g18); }
+.gL { background: var(--gL); }
+.gA { background: var(--gA); }
+.lanth-actin { margin-top: 14px; }
+.band-title { display: block; max-width: 76px; text-align: center; line-height: 1.12; }
+.band-sub { display: block; margin-top: 5px; color: var(--cp-text-muted); font-size: 8px; font-weight: 500; }
+.legend-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px 14px; }
+.legend-item { display: flex; gap: 8px; align-items: center; padding: 6px 8px; font-size: 12.5px; }
+.swatch { width: 18px; height: 18px; border-radius: 0.625rem; border: 1px solid var(--cp-border-strong); flex-shrink: 0; }
+.legend-num { min-width: 18px; color: var(--table-navy); font-weight: 800; }
+.maturity dl { margin: 0; display: grid; grid-template-columns: max-content 1fr; gap: 5px 16px; font-size: 13px; }
+.maturity dt { color: var(--table-navy); font-weight: 800; }
+.maturity dd { margin: 0; color: var(--cp-text-muted); }
+.narrative { padding: 22px 28px; }
+.narrative p, .narrative li { color: var(--cp-text-muted); font-size: 13px; line-height: 1.55; }
+.narrative .lead { color: var(--cp-text); border-left: 3px solid var(--table-navy); padding-left: 14px; }
+.panel-backdrop { position: fixed; inset: 0; z-index: 200; background: var(--cp-overlay); opacity: 0; pointer-events: none; transition: opacity .15s ease; }
+.panel-backdrop.show { opacity: 1; pointer-events: auto; }
+.detail-panel { position: fixed; top: 50%; left: 50%; width: min(500px, calc(100vw - 32px)); transform: translate(-50%, -50%) scale(.96); z-index: 201; opacity: 0; pointer-events: none; background: var(--cp-panel-strong); border: 1px solid var(--cp-border); border-radius: 16px; box-shadow: var(--cp-shadow); overflow: hidden; transition: opacity .15s ease, transform .15s ease; }
+.detail-panel.show { opacity: 1; pointer-events: auto; transform: translate(-50%, -50%) scale(1); }
+.dp-header { position: relative; padding: 22px 56px 18px 24px; display: flex; gap: 18px; border-bottom: 1px solid var(--cp-border); }
+.dp-symbol-box { width: 88px; height: 88px; border-radius: 8px; border: 1px solid rgba(0,0,0,.1); display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; position: relative; }
+.dp-atomic { position: absolute; top: 7px; left: 9px; color: var(--cp-text-muted); font-size: 11px; }
+.dp-symbol { margin-top: 6px; color: var(--table-cell-text); font-size: 30px; font-weight: 800; }
+.dp-title h3 { margin: 0 0 4px; color: var(--table-navy); font-size: 19px; line-height: 1.25; }
+.dp-domain { color: var(--cp-text-muted); font-size: 13px; }
+.dp-close { position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; border: 0; border-radius: 0.625rem; background: var(--cp-surface-soft); color: var(--cp-text-muted); cursor: pointer; font-size: 22px; }
+.dp-body { padding: 16px 24px 18px; display: grid; grid-template-columns: max-content 1fr; gap: 10px 18px; font-size: 13px; }
+.dp-body dt { color: var(--table-navy); text-transform: uppercase; font-size: 10.5px; letter-spacing: .04em; font-weight: 800; }
+.dp-body dd { margin: 0; color: var(--cp-text); line-height: 1.4; }
+.dp-nav { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; border-top: 1px solid var(--cp-border); background: var(--cp-bg-elevated); }
+.dp-nav button { border: 1px solid var(--cp-border); border-radius: 0.625rem; background: var(--cp-surface); color: var(--cp-text); padding: 6px 14px; cursor: pointer; }
+.dp-nav button:disabled { opacity: .35; cursor: not-allowed; }
+.dp-counter { color: var(--cp-text-muted); font-size: 11px; }
+footer { margin-top: 18px; text-align: center; color: var(--cp-text-muted); font-size: 11px; }
+@media print { body { min-width: 0; padding: 6px; } .controls, .goals { display: none; } .grid { box-shadow: none; } .cell:hover { transform: none; } }
+</style>
+</head>
+<body>
+<nav class="series-nav" aria-label="Periodic Table of Agents series">
+  <span class="series-label">Periodic Table of Agents</span><span class="sep">·</span>
+  <a href="https://reynolds711.github.io/periodic-table-of-agents/">All Sectors</a><span class="sep">·</span>
+  <a href="https://reynolds711.github.io/periodic-table-of-agents/HED/">Higher Education</a><span class="sep">·</span>
+  <a href="https://reynolds711.github.io/periodic-table-of-agents/AMC/">Healthcare (AMC)</a><span class="sep">·</span>
+  <span class="series-current">HLS Expanded Draft</span><span class="sep">·</span>
+  <a href="https://reynolds711.github.io/periodic-table-of-agents/K12/">K–12 Education</a><span class="sep">·</span>
+  <a href="https://reynolds711.github.io/periodic-table-of-agents/SLG/">State & Local Gov.</a><span class="sep">·</span>
+  <a href="https://reynolds711.github.io/periodic-table-of-agents/SMC/">SMC</a><span class="sep">·</span>
+  <a href="https://reynolds711.github.io/periodic-table-of-agents/ClawPilot/">ClawPilot Skills</a>
+</nav>
+
+<header>
+  <h1>Periodic Table of Agents: Health & Life Sciences Expanded</h1>
+  <p class="header-lead">A broader HLS map that keeps AMC intact while adding payer, pharma, public health, research, nursing workforce, and ecosystem workflows.</p>
+  <p class="header-sub">Pick a goal to see the top 5 agents in build order, or explore all 118 by domain, maturity, core system, and trust layer.</p>
+</header>
+
+<div class="series-note">
+  Draft 1: expands the AMC/provider lens into a full HLS operating map across care delivery, payer workflows, nursing, clinical operations, research, life sciences, public health, and regulated data exchange.
+</div>
+
+<div class="controls">
+  <input type="search" id="search" placeholder="Search by agent name, symbol, domain, maturity, system, or guardrail..." autocomplete="off">
+  <button class="reset" id="reset">Reset filters</button>
+</div>
+
+<section class="goals">
+  <h2>Start with Your Goal</h2>
+  <p class="ph-sub">The goal buttons mirror the SLG page logic: choose an outcome and the table highlights the five agents that create the best build sequence.</p>
+  <div class="goals-grid" id="goalsGrid"></div>
+  <div class="build-plan" id="buildPlan" hidden>
+    <div class="bp-header"><h3 id="bpTitle">Top 5 agents</h3><div class="bp-sequence" id="bpSequence"></div></div>
+    <div class="build-grid" id="bpGrid"></div>
+    <button class="clear-button" id="bpClear">Clear plan</button>
+  </div>
+</section>
+
+<section class="quick-guide" aria-label="How to use this map">
+  <div><strong>1. Pick a priority</strong><span>Start with the HLS outcome: access, nursing load, provider-payer connection, research, or public health.</span></div>
+  <div><strong>2. Review the build order</strong><span>The recommended agents appear in sequence and are highlighted on the table.</span></div>
+  <div><strong>3. Read the map</strong><span>Columns = HLS domains. Rows = maturity. Bottom bands = core systems and trust controls.</span></div>
+</section>
+
+<div class="grid-wrap"><div class="grid" id="grid"></div></div>
+
+<section class="legend">
+  <h2>Domain Filter</h2>
+  <div class="legend-grid" id="legend"></div>
+</section>
+
+<section class="maturity">
+  <h2>Maturity Model</h2>
+  <dl>
+    <dt>Period 1</dt><dd>Reference agents answer common questions against approved policy, care, benefit, research, or compliance knowledge.</dd>
+    <dt>Period 2</dt><dd>Assistant agents help staff, patients, members, researchers, and partners navigate work without taking action.</dd>
+    <dt>Period 3</dt><dd>Transactional agents capture intent, prepare records, validate artifacts, and reduce administrative friction.</dd>
+    <dt>Period 4</dt><dd>Workflow agents coordinate multi-step work inside a domain while keeping humans in the accountable loop.</dd>
+    <dt>Period 5</dt><dd>Decision-support agents assemble context, options, risks, and recommendations for clinician, leader, or specialist judgment.</dd>
+    <dt>Period 6</dt><dd>Cross-organization agents connect providers, payers, public health, research networks, and life sciences partners.</dd>
+    <dt>Period 7</dt><dd>Autonomous oversight agents monitor patterns, orchestrate safe follow-through, and escalate when human judgment is required.</dd>
+  </dl>
+</section>
+
+<section class="narrative">
+  <h2>Why this expands AMC instead of replacing it</h2>
+  <p class="lead">The AMC table remains the provider-centered view. This HLS expanded version treats AMC as one anchor in a broader operating system: patients and members move across care, payer, public health, pharmacy, research, life sciences, operations, and regulated data ecosystems.</p>
+  <p>The strongest next-use signal was HLS: use the table as a coaching and enablement artifact for nursing, provider, payer, public health, research, and life sciences teams. This version therefore keeps the periodic-table logic but shifts the columns from government services to HLS domains and the bottom bands from generic government platforms to clinical, payer, research, and trust foundations.</p>
+  <ul>
+    <li><strong>Provider lens:</strong> patient access, care delivery, clinical quality, nursing workload, revenue cycle, supply chain, facilities, and workforce.</li>
+    <li><strong>Payer lens:</strong> benefit design, prior authorization, utilization management, care management, claims, payment integrity, and member experience.</li>
+    <li><strong>Public health lens:</strong> surveillance, outbreak response, registry exchange, community interventions, emergency coordination, and equity monitoring.</li>
+    <li><strong>Life sciences lens:</strong> trials, evidence generation, medical affairs, pharmacovigilance, regulatory, manufacturing, and market access workflows.</li>
+    <li><strong>Trust layer:</strong> HIPAA, consent, responsible AI, auditability, model safety, cyber resilience, and clinical accountability.</li>
+  </ul>
+</section>
+
+<footer>Draft artifact for iterative HLS expansion. Click any agent for detail; use search, domain filters, or goal pathways to pressure-test the map.</footer>
+
+<div class="panel-backdrop" id="backdrop"></div>
+<section class="detail-panel" id="detailPanel" aria-modal="true" role="dialog" aria-labelledby="dpName">
+  <div class="dp-header">
+    <div class="dp-symbol-box"><div class="dp-atomic" id="dpAtomic"></div><div class="dp-symbol" id="dpSymbol"></div></div>
+    <div class="dp-title"><h3 id="dpName"></h3><div class="dp-domain" id="dpDomain"></div></div>
+    <button class="dp-close" id="dpClose" aria-label="Close">×</button>
+  </div>
+  <dl class="dp-body">
+    <dt>Maturity</dt><dd id="dpTier"></dd>
+    <dt>Purpose</dt><dd id="dpPurpose"></dd>
+    <dt>Core systems</dt><dd id="dpSystems"></dd>
+    <dt>Guardrails</dt><dd id="dpGuardrails"></dd>
+  </dl>
+  <div class="dp-nav"><button id="prevAgent">Previous</button><span class="dp-counter" id="dpCounter"></span><button id="nextAgent">Next</button></div>
+</section>
+
+<script>
+const tiers = {
+  1: "Reference", 2: "Assistant", 3: "Transactional", 4: "Workflow",
+  5: "Decision Support", 6: "Cross-Organization", 7: "Autonomous Oversight"
+};
+
+const domains = [
+  {g:1, short:"Identity", name:"Identity & Consent", system:"Entra ID, patient identity, consent stores", guard:"Strong identity proofing, delegated access, revocation"},
+  {g:2, short:"Access", name:"Patient & Member Access", system:"CRM, contact center, portal, scheduling", guard:"Accessibility, plain language, escalation"},
+  {g:3, short:"Care", name:"Care Delivery", system:"EHR, clinical documentation, orders", guard:"Clinician accountability, scope of practice"},
+  {g:4, short:"Nursing", name:"Nursing & Clinical Workforce", system:"Workforce management, EHR, staffing", guard:"Burnout risk, workload transparency"},
+  {g:5, short:"Quality", name:"Clinical Quality & Safety", system:"Quality registry, incident, safety event systems", guard:"Clinical validation, root-cause review"},
+  {g:6, short:"Pop Health", name:"Population & Public Health", system:"HIE, registries, surveillance platforms", guard:"Equity impact, public health authority"},
+  {g:7, short:"Payer", name:"Payer & Benefits", system:"Claims, benefits, UM, care management", guard:"Medical necessity review, appeal rights"},
+  {g:8, short:"Pharmacy", name:"Pharmacy & Therapeutics", system:"eRx, formulary, pharmacy, PBM", guard:"Medication safety, formulary governance"},
+  {g:9, short:"Life Sci", name:"Life Sciences & Pharma", system:"R&D, regulatory, medical affairs, safety", guard:"Promotional review, scientific accuracy"},
+  {g:10, short:"Research", name:"Research & Trials", system:"CTMS, IRB, consent, grant systems", guard:"IRB oversight, participant consent"},
+  {g:11, short:"Rev Cycle", name:"Revenue Cycle & Claims", system:"Billing, coding, claims, ERP", guard:"Coding compliance, audit trail"},
+  {g:12, short:"Supply", name:"Supply Chain & Devices", system:"ERP, MMIS, device inventory", guard:"Recall safety, sourcing policy"},
+  {g:13, short:"Facility", name:"Facilities & Throughput", system:"Bed management, capacity, transport, IoT", guard:"Safety, infection control"},
+  {g:14, short:"Talent", name:"HR, Credentialing & Talent", system:"HRIS, LMS, credentialing, scheduling", guard:"Credential verification, labor rules"},
+  {g:15, short:"Finance", name:"Finance & Contracting", system:"ERP, contracts, value-based care finance", guard:"Segregation of duties, approval policy"},
+  {g:16, short:"IT/Data", name:"IT, Data & Interoperability", system:"Data lake, FHIR, API gateway, M365", guard:"Data minimization, cyber controls"},
+  {g:17, short:"Ecosystem", name:"Ecosystem & Partner Network", system:"HIE, partner portals, community referrals", guard:"Data-use agreements, partner assurance"},
+  {g:18, short:"Risk", name:"Compliance, Risk & Trust", system:"GRC, privacy, security, responsible AI", guard:"HIPAA, FDA, model governance, auditability"}
+];
+
+const names = {
+1:[["Ci","Consent Info"],["Pi","Portal Info"],["Cg","Care Guidance"],["Np","Nursing Policy"],["Qf","Quality FAQ"],["Pg","Program Guide"],["Bg","Benefits Guide"],["Rx","Medication FAQ"],["Mi","Medical Info"],["Rg","Research Guide"],["Bt","Billing Terms"],["Si","Supply Info"],["Fi","Facility Info"],["Hr","HR Policy"],["Fc","Finance FAQ"],["Dh","Data Help"],["Pa","Partner FAQ"],["Rq","Risk FAQ"]],
+2:[["Id","Identity Help"],["Na","Navigation Assist"],["Cs","Clinical Scribe"],["Sa","Staffing Assist"],["Qa","Quality Assist"],["Ch","Community Health"],["Mm","Member Match"],["Fa","Formulary Assist"],["Ma","Medical Affairs"],["Ta","Trial Finder"],["Ca","Coding Assist"],["Va","Vendor Assist"],["Ba","Bed Assist"],["Cr","Credential Assist"],["Kb","Contract Brief"],["Api","API Assist"],["Rf","Referral Assist"],["Hp","HIPAA Assist"]],
+3:[["Cv","Consent Verify"],["Sc","Schedule Capture"],["Ix","Intake Extract"],["Sh","Shift Swap"],["Ir","Incident Review"],["Rg","Registry Update"],["Pa","Prior Auth Prep"],["Mc","Med Reconcile"],["Sa","Safety Intake"],["Ic","IRB Checklist"],["Cl","Claim Scrub"],["Po","Purchase Prep"],["Tr","Transport Request"],["On","Onboarding"],["Ap","Approval Prep"],["Fe","FHIR Extract"],["Sr","Social Referral"],["Ar","Audit Request"]],
+4:[["Da","Delegated Access"],["Jr","Journey Router"],["Cd","Care Plan Draft"],["Nl","Nurse Load"],["Se","Safety Event"],["Ou","Outbreak Triage"],["Um","Utilization Mgmt"],["Mt","Therapy Monitor"],["Ra","Regulatory Assembly"],["Te","Trial Enrollment"],["De","Denial Worklist"],["Dm","Device Match"],["Ft","Flow Throughput"],["Cm","Credential Mgmt"],["Vc","Value Contract"],["Mx","Master Data"],["Cp","Community Pathway"],["Ai","AI Intake"]],
+5:[["Tc","Trusted Consent"],["Nx","Next Best Access"],["Dx","Diagnosis Context"],["Ws","Workforce Safety"],["Rm","Readmission Risk"],["Pe","Public Health Equity"],["Pd","Payer Decision"],["Mu","Medication Use"],["Ev","Evidence Review"],["Ea","Eligibility Analysis"],["Pi","Payment Integrity"],["Ds","Demand Signal"],["Co","Capacity Optimizer"],["Tm","Talent Match"],["Fp","Forecast Plan"],["Dg","Data Governance"],["Cn","Care Network"],["Mr","Model Risk"]],
+6:[["Ib","Identity Broker"],["Om","Omni Access"],["Co","Care Orchestrator"],["Nw","Nursing Workforce"],["Qa","Quality Alliance"],["Hx","Health Exchange"],["Pc","Provider-Payer Connect"],["Px","Pharmacy Exchange"],["Ls","Life Sci Connect"],["Rn","Research Network"],["Cx","Claims Exchange"],["Sv","Supplier Visibility"],["Em","Emergency Mode"],["Wf","Workforce Fabric"],["Rf","Risk Finance"],["Io","Interoperability Ops"],["Cs","Community System"],["Gc","Governance Council"]],
+7:[["Cf","Consent Fabric"],["Ex","Experience OS"],["Cc","Clinical Command"],["No","Nursing Orchestrator"],["Sa","Safety Assurance"],["Ph","Population Health"],["Ba","Benefits Autonomy"],["Tx","Therapy Autonomy"],["La","Lifecycle Autonomy"],["Ra","Research Autonomy"],["Pb","Payment Balance"],["Sd","Supply Autonomy"],["Fo","Facility Autonomy"],["Hc","Human Capital"],["Fi","Financial Intelligence"],["Ho","HLS Operating Data"],["Eo","Ecosystem Orchestrator"],["Tr","Trust Autonomy"]]
+};
+
+const coreSystems = [
+  ["Pi","Patient Identity"],["Cn","Consent Registry"],["Eh","EHR Connector"],["Fx","FHIR Gateway"],["Cx","Claims Core"],
+  ["Um","UM Rules"],["Cr","Clinical Registry"],["Cm","Care Mgmt"],["Ct","CTMS/IRB"],["Pv","Pharmacovigilance"],
+  ["Rx","Pharmacy Core"],["Rc","Revenue Core"],["Er","ERP Supply"],["Md","Master Data"],["Nk","Knowledge Graph"]
+];
+const trustLayer = [
+  ["Hp","HIPAA Guard"],["Fs","FDA Safety"],["Mt","Model Trace"],["Hu","Human Override"],["Cp","Consent Policy"],
+  ["Ae","Adverse Events"],["Au","Audit Trail"],["Ei","Equity Impact"],["Cy","Cyber Risk"],["De","Data Ethics"],
+  ["Qa","Quality Assurance"],["Ir","IRB Guard"],["Pr","Promotional Review"],["Di","DLP Boundary"],["Ro","Responsible AI"]
+];
+
+const goals = [
+  {id:"access", title:"Improve Patient & Member Access", blurb:"Navigation, scheduling, intake, care pathways", sequence:[4,12,20,38,88]},
+  {id:"nursing", title:"Support Nursing & Clinical Workforce", blurb:"Reduce burden, balance load, protect practice time", sequence:[22,40,72,104,113]},
+  {id:"provider-payer", title:"Connect Provider-Payer Workflows", blurb:"Prior auth, UM, claims, care management, payment integrity", sequence:[25,47,75,79,111]},
+  {id:"research", title:"Accelerate Research & Life Sciences", blurb:"Trials, evidence, regulatory, safety, medical affairs", sequence:[28,45,65,78,110]},
+  {id:"population", title:"Strengthen Public & Population Health", blurb:"Registry, surveillance, equity, community interventions", sequence:[24,42,74,106,107]}
+];
+
+let agents = [];
+let currentFilterGroup = null;
+let currentGoal = null;
+let currentDetailIndex = 0;
+
+function slug(text) { return text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""); }
+function domain(g) { return domains.find(d => d.g === g); }
+function makeAgent(g, period, atomic) {
+  const d = domain(g);
+  const [symbol, label] = names[period][g - 1];
+  const action = period <= 2 ? "answers and assists" : period <= 4 ? "captures, routes, and coordinates" : period <= 5 ? "recommends and prioritizes" : period <= 6 ? "connects work across organizations" : "monitors, orchestrates, and escalates";
+  return {
+    atomic, symbol, label, name: `${label} Agent`, group: g, period,
+    domain: d.name, tier: tiers[period], systems: d.system, guardrails: d.guard,
+    purpose: `${action} ${d.name.toLowerCase()} work while preserving human accountability, policy boundaries, and regulated HLS data controls.`,
+    haystack: ""
+  };
+}
+function addAgent(a) { a.haystack = `${a.symbol} ${a.name} ${a.label} ${a.domain} ${a.tier} ${a.systems} ${a.guardrails} ${a.purpose}`.toLowerCase(); agents.push(a); return a; }
+function buildAgents() {
+  let n = 1;
+  [1,18].forEach(g => addAgent(makeAgent(g,1,n++)));
+  [1,2,13,14,15,16,17,18].forEach(g => addAgent(makeAgent(g,2,n++)));
+  [1,2,13,14,15,16,17,18].forEach(g => addAgent(makeAgent(g,3,n++)));
+  for (let p of [4,5]) for (let g=1; g<=18; g++) addAgent(makeAgent(g,p,n++));
+  coreSystems.forEach(([symbol,label],i) => addAgent({atomic:57+i, symbol, label, name:`${label} Agent`, group:"L", period:6, domain:"Core Systems", tier:"Cross-Organization", systems:"Platform foundation", guardrails:"Controlled connectors, data lineage, approved source systems", purpose:`Provides the reusable ${label.toLowerCase()} foundation that lets HLS agents connect safely across provider, payer, research, pharmacy, and public health workflows.`}));
+  [1,2].forEach(g => addAgent(makeAgent(g,6,n++)));
+  n = 72; for (let g=4; g<=18; g++) addAgent(makeAgent(g,6,n++));
+  [1,2].forEach(g => addAgent(makeAgent(g,7,87 + g - 1)));
+  trustLayer.forEach(([symbol,label],i) => addAgent({atomic:89+i, symbol, label, name:`${label} Agent`, group:"A", period:7, domain:"Trust Layer", tier:"Autonomous Oversight", systems:"GRC, privacy, security, responsible AI controls", guardrails:"Continuous audit, human override, escalation, least-privilege access", purpose:`Acts as a trust control for ${label.toLowerCase()} so HLS agent workflows remain safe, compliant, explainable, and auditable.`}));
+  n = 104; for (let g=4; g<=18; g++) addAgent(makeAgent(g,7,n++));
+  agents.forEach(a => a.haystack = `${a.symbol} ${a.name} ${a.label} ${a.domain} ${a.tier} ${a.systems} ${a.guardrails} ${a.purpose}`.toLowerCase());
+}
+function findAgentById(id) { return agents.find(a => a.atomic === Number(id)); }
+
+function renderGoals() {
+  const wrap = document.getElementById("goalsGrid");
+  wrap.innerHTML = goals.map(g => `<button class="goal-item" data-goal="${g.id}"><span class="goal-label">${g.title}</span><span class="goal-blurb">${g.blurb}</span></button>`).join("");
+  wrap.querySelectorAll("button").forEach(btn => btn.addEventListener("click", () => selectGoal(btn.dataset.goal)));
+}
+function renderGrid() {
+  const grid = document.getElementById("grid");
+  const header = `<div class="row header-row"><div class="cell label">&nbsp;</div>${domains.map(d => `<div class="cell label">${d.g}<br><span>${d.short}</span></div>`).join("")}</div>`;
+  const rows = [1,2,3,4,5,6,7].map(p => {
+    let cells = [`<div class="cell period-label">Period ${p}</div>`];
+    for (let g=1; g<=18; g++) {
+      if (p === 6 && g === 3) { cells.push(`<div class="cell pointer"><div class="range">57-71</div><div class="ptr-label">Core Systems</div></div>`); continue; }
+      if (p === 7 && g === 3) { cells.push(`<div class="cell pointer"><div class="range">89-103</div><div class="ptr-label">Trust Layer</div></div>`); continue; }
+      const a = agents.find(x => x.group === g && x.period === p);
+      cells.push(a ? cellHtml(a) : `<div class="cell empty"></div>`);
+    }
+    return `<div class="row">${cells.join("")}</div>`;
+  }).join("");
+  const core = bandRow("Core Systems", "(Lanthanides)", coreSystems.map((_,i) => agents.find(a => a.atomic === 57+i)));
+  const trust = bandRow("Trust Layer", "(Actinides)", trustLayer.map((_,i) => agents.find(a => a.atomic === 89+i)));
+  grid.innerHTML = header + rows + `<div class="lanth-actin">${core}${trust}</div>`;
+  document.querySelectorAll(".cell[data-symbol]").forEach(el => {
+    el.addEventListener("click", () => openDetail(el.dataset.id));
+    el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") openDetail(el.dataset.id); });
+  });
+}
+function cellHtml(a) {
+  return `<div class="cell ${groupClass(a.group)}" data-symbol="${a.symbol}" data-id="${a.atomic}" data-group="${a.group}" data-atomic="${a.atomic}" tabindex="0"><div class="atomic">${a.atomic}</div><div class="symbol">${a.symbol}</div><div class="name">${a.label}</div></div>`;
+}
+function groupClass(group) { return `g${group}`; }
+function bandRow(title, sub, list) {
+  const cells = [`<div class="cell period-label"><span class="band-title">${title}</span><span class="band-sub">${sub}</span></div>`, `<div class="cell empty"></div>`, `<div class="cell empty"></div>`, `<div class="cell empty"></div>`];
+  list.forEach(a => cells.push(cellHtml(a)));
+  return `<div class="row">${cells.join("")}</div>`;
+}
+function renderLegend() {
+  const legend = document.getElementById("legend");
+  legend.innerHTML = domains.map(d => `<button class="legend-item" data-group="${d.g}"><span class="swatch g${d.g}"></span><span class="legend-num">${d.g}</span><span>${d.name}</span></button>`).join("");
+  legend.querySelectorAll("button").forEach(btn => btn.addEventListener("click", () => {
+    currentFilterGroup = currentFilterGroup === String(btn.dataset.group) ? null : String(btn.dataset.group);
+    applyFilters();
+  }));
+}
+function selectGoal(id) {
+  currentGoal = goals.find(g => g.id === id);
+  document.querySelectorAll(".goal-item").forEach(b => b.classList.toggle("active", b.dataset.goal === id));
+  const plan = document.getElementById("buildPlan");
+  plan.hidden = false;
+  document.getElementById("bpTitle").textContent = currentGoal.title;
+  document.getElementById("bpSequence").textContent = currentGoal.sequence.map(id => findAgentById(id).symbol).join(" → ");
+  document.getElementById("bpGrid").innerHTML = currentGoal.sequence.map((id, i) => {
+    const a = findAgentById(id);
+    return `<button class="build-card" data-id="${a.atomic}"><div class="build-card-head"><span class="mini-symbol ${groupClass(a.group)}">${a.symbol}</span><span class="bp-step">Step ${i+1}</span></div><div class="bp-name">${a.name}</div><div class="bp-outcome">${a.purpose}</div><div class="bp-period">Period ${a.period}: ${a.tier}</div></button>`;
+  }).join("");
+  document.querySelectorAll(".build-card").forEach(b => b.addEventListener("click", () => openDetail(b.dataset.id)));
+  applyFilters();
+}
+function applyFilters() {
+  const q = document.getElementById("search").value.trim().toLowerCase();
+  const goalIds = currentGoal ? new Set(currentGoal.sequence.map(Number)) : null;
+  document.querySelectorAll(".legend-item").forEach(b => b.classList.toggle("active", currentFilterGroup === String(b.dataset.group)));
+  document.querySelectorAll(".cell[data-symbol]").forEach(el => {
+    const a = findAgentById(el.dataset.id);
+    const searchMatch = !q || a.haystack.includes(q);
+    const groupMatch = !currentFilterGroup || String(a.group) === currentFilterGroup;
+    const goalMatch = !goalIds || goalIds.has(a.atomic);
+    const visible = searchMatch && groupMatch && goalMatch;
+    el.classList.toggle("dimmed", !visible);
+    el.classList.toggle("highlighted", visible && (!!q || !!currentFilterGroup || !!goalIds));
+  });
+}
+function openDetail(id) {
+  const a = findAgentById(id);
+  currentDetailIndex = agents.indexOf(a);
+  document.querySelector(".dp-symbol-box").className = `dp-symbol-box ${groupClass(a.group)}`;
+  document.getElementById("dpAtomic").textContent = a.atomic;
+  document.getElementById("dpSymbol").textContent = a.symbol;
+  document.getElementById("dpName").textContent = a.name;
+  document.getElementById("dpDomain").textContent = a.domain;
+  document.getElementById("dpTier").textContent = `Period ${a.period}: ${a.tier}`;
+  document.getElementById("dpPurpose").textContent = a.purpose;
+  document.getElementById("dpSystems").textContent = a.systems;
+  document.getElementById("dpGuardrails").textContent = a.guardrails;
+  document.getElementById("dpCounter").textContent = `${currentDetailIndex + 1} of ${agents.length}`;
+  document.getElementById("prevAgent").disabled = currentDetailIndex === 0;
+  document.getElementById("nextAgent").disabled = currentDetailIndex === agents.length - 1;
+  document.getElementById("detailPanel").classList.add("show");
+  document.getElementById("backdrop").classList.add("show");
+}
+function closeDetail() {
+  document.getElementById("detailPanel").classList.remove("show");
+  document.getElementById("backdrop").classList.remove("show");
+}
+function moveDetail(delta) {
+  const next = agents[currentDetailIndex + delta];
+  if (next) openDetail(next.atomic);
+}
+buildAgents();
+renderGoals();
+renderGrid();
+renderLegend();
+document.getElementById("search").addEventListener("input", applyFilters);
+document.getElementById("reset").addEventListener("click", () => {
+  document.getElementById("search").value = "";
+  currentFilterGroup = null;
+  currentGoal = null;
+  document.getElementById("buildPlan").hidden = true;
+  document.querySelectorAll(".goal-item").forEach(b => b.classList.remove("active"));
+  applyFilters();
+});
+document.getElementById("bpClear").addEventListener("click", () => {
+  currentGoal = null;
+  document.getElementById("buildPlan").hidden = true;
+  document.querySelectorAll(".goal-item").forEach(b => b.classList.remove("active"));
+  applyFilters();
+});
+document.getElementById("dpClose").addEventListener("click", closeDetail);
+document.getElementById("backdrop").addEventListener("click", closeDetail);
+document.getElementById("prevAgent").addEventListener("click", () => moveDetail(-1));
+document.getElementById("nextAgent").addEventListener("click", () => moveDetail(1));
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeDetail(); });
+</script>
+</body>
+</html>
