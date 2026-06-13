@@ -174,109 +174,6 @@
     a.sector-card small { font-size: 13px; color: var(--muted); line-height: 1.5; }
     .sector-card-coming small { font-size: 13px; color: #aab1bb; line-height: 1.5; }
 
-    .request-flow {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 32px;
-      margin: -32px 0 64px;
-    }
-    .request-flow h2 {
-      font-family: 'DM Serif Display', Georgia, serif;
-      font-size: 26px;
-      font-weight: 400;
-      color: var(--navy);
-      margin-bottom: 10px;
-    }
-    .request-flow .intro {
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.7;
-      margin-bottom: 24px;
-      max-width: 720px;
-    }
-    .request-form {
-      display: grid;
-      gap: 16px;
-    }
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px;
-    }
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-    .field.full { grid-column: 1 / -1; }
-    .field label {
-      color: var(--navy);
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-    .field input,
-    .field select,
-    .field textarea {
-      width: 100%;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      color: var(--navy);
-      font: inherit;
-      font-size: 14px;
-      padding: 11px 12px;
-      background: #fff;
-    }
-    .field textarea {
-      min-height: 116px;
-      resize: vertical;
-    }
-    .field input:focus,
-    .field select:focus,
-    .field textarea:focus {
-      outline: 2px solid rgba(201,168,76,0.32);
-      border-color: var(--gold);
-    }
-    .request-actions {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      flex-wrap: wrap;
-      margin-top: 4px;
-    }
-    .request-actions button {
-      border: 1px solid var(--gold);
-      border-radius: 999px;
-      background: var(--navy);
-      color: #fff;
-      cursor: pointer;
-      font: inherit;
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.03em;
-      padding: 11px 18px;
-      transition: transform 0.15s ease, background 0.15s ease;
-    }
-    .request-actions button:hover {
-      background: var(--navy-mid);
-      transform: translateY(-1px);
-    }
-    .request-actions small {
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.5;
-    }
-    .request-actions a {
-      color: var(--navy-mid);
-      text-decoration: none;
-      border-bottom: 1px solid rgba(26,52,96,0.28);
-    }
-    .request-actions a:hover {
-      border-bottom-color: var(--navy-mid);
-    }
-
     .disclaimer {
       border-left: 4px solid var(--gold); padding: 18px 22px;
       background: #fff; border-radius: 0 8px 8px 0; margin-bottom: 64px;
@@ -298,8 +195,6 @@
       .how-to-start { padding: 36px 24px; }
       .sector-grid { grid-template-columns: 1fr; }
       .axis-grid { grid-template-columns: 1fr; }
-      .form-grid { grid-template-columns: 1fr; }
-      .request-flow { padding: 24px; margin-top: -24px; }
     }
   </style>
 </head>
@@ -467,53 +362,6 @@
       </div>
     </section>
 
-    <section class="request-flow" id="request-industry">
-      <div class="section-label">Request the next table</div>
-      <h2>Want this model for another industry?</h2>
-      <p class="intro">Send a quick request with the industry, audience, and workflow you want mapped. The form opens a prefilled email so you can review before sending.</p>
-      <form class="request-form" id="industryRequestForm">
-        <div class="form-grid">
-          <div class="field">
-            <label for="requestName">Your name</label>
-            <input id="requestName" name="name" autocomplete="name" placeholder="Your name" />
-          </div>
-          <div class="field">
-            <label for="requestEmail">Your email</label>
-            <input id="requestEmail" name="email" type="email" autocomplete="email" placeholder="you@example.com" />
-          </div>
-          <div class="field">
-            <label for="requestIndustry">Industry or segment</label>
-            <input id="requestIndustry" name="industry" required placeholder="e.g., Legal, Nonprofit, ISD seller enablement" />
-          </div>
-          <div class="field">
-            <label for="requestAudience">Audience</label>
-            <input id="requestAudience" name="audience" placeholder="e.g., executives, sellers, CIOs, field teams" />
-          </div>
-          <div class="field">
-            <label for="requestPriority">Priority</label>
-            <select id="requestPriority" name="priority">
-              <option value="Idea / future candidate">Idea / future candidate</option>
-              <option value="Customer pull">Customer pull</option>
-              <option value="Event or workshop need">Event or workshop need</option>
-              <option value="Urgent field enablement need">Urgent field enablement need</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="requestContext">Customer or scenario</label>
-            <input id="requestContext" name="context" placeholder="Optional account, event, or scenario context" />
-          </div>
-          <div class="field full">
-            <label for="requestMessage">What should the table emphasize?</label>
-            <textarea id="requestMessage" name="message" placeholder="Share the workflows, strategic priorities, personas, systems, or use cases that should show up in the table."></textarea>
-          </div>
-        </div>
-        <div class="request-actions">
-          <button type="submit">Draft request email</button>
-          <small>This uses your email app. If it does not open, email <a href="mailto:joreynol@microsoft.com">joreynol@microsoft.com</a>.</small>
-        </div>
-      </form>
-    </section>
-
     <div class="disclaimer">
       <p><strong>A note on scope.</strong> These tables are frameworks, not forecasts. They reflect current deployment patterns and emerging capabilities as of mid-2025. Agent maturity varies significantly by institution, vendor, and use case. The goal is orientation, not prescription. Treat the table as a starting map, not a finished one.</p>
       <p class="secondary-link">Related internal enablement map: <a href="./ClawPilot/">ClawPilot/Scout Periodic Table of Skills</a>.</p>
@@ -526,30 +374,5 @@
     <p>Built as part of an agentic AI exploration &nbsp;&middot;&nbsp; v1.0 &nbsp;&middot;&nbsp; <a href="https://reynolds711.github.io/periodic-table-of-agents">reynolds711.github.io/periodic-table-of-agents</a></p>
   </footer>
 
-  <script>
-    document.getElementById('industryRequestForm').addEventListener('submit', (event) => {
-      event.preventDefault();
-      const data = new FormData(event.currentTarget);
-      const industry = (data.get('industry') || '').toString().trim();
-      const subject = `Periodic Table of Agents request: ${industry || 'New industry'}`;
-      const body = [
-        'New Periodic Table of Agents request',
-        '',
-        `Industry / segment: ${industry || '(not provided)'}`,
-        `Priority: ${data.get('priority') || '(not provided)'}`,
-        `Audience: ${data.get('audience') || '(not provided)'}`,
-        `Customer or scenario: ${data.get('context') || '(not provided)'}`,
-        '',
-        `Requester: ${data.get('name') || '(not provided)'}`,
-        `Requester email: ${data.get('email') || '(not provided)'}`,
-        '',
-        'What the table should emphasize:',
-        `${data.get('message') || '(not provided)'}`,
-        '',
-        `Source page: ${window.location.href}`,
-      ].join('\n');
-      window.location.href = `mailto:joreynol@microsoft.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    });
-  </script>
 </body>
 </html>
