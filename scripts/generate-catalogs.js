@@ -521,6 +521,40 @@ const catalogs = [
       goal("trust", "Protect Professional Trust", "Confidentiality, conflicts, quality, ethics, and governance", [[17,2],[10,4],[18,4],[18,6],[18,7]]),
     ],
   },
+  {
+    folder: "Nonprofit",
+    title: "Nonprofit",
+    lead: "A periodic table of agents for mission-driven organizations across fundraising, volunteers, programs, grants, governance, advocacy, and impact measurement.",
+    context: "nonprofit mission",
+    nav: "Nonprofit",
+    domains: [
+      d("Donor", "Fundraising & Donor Engagement", "Donor CRM, campaigns, giving platforms, M365", "Gift policy, donor privacy, relationship ownership", ["Donor guide", "Stewardship assist", "Gift prep", "Campaign workflow", "Giving signal", "Donor network", "Fundraising command"]),
+      d("MajorGift", "Major Gifts & Stewardship", "Donor CRM, wealth screening, notes, events", "Prospect ethics, gift acceptance, human ownership", ["Prospect guide", "Portfolio assist", "Visit capture", "Stewardship workflow", "Major gift signal", "Prospect network", "Stewardship command"]),
+      d("Volunteer", "Volunteer & Workforce Coordination", "Volunteer management, HRIS, LMS, scheduling", "Background checks, safeguarding, fair scheduling", ["Volunteer guide", "Onboarding assist", "Shift capture", "Volunteer workflow", "Capacity signal", "Volunteer network", "Workforce command"]),
+      d("Program", "Program Delivery", "Program systems, case notes, LMS, service records", "Staff accountability, participant dignity, outcome review", ["Program guide", "Service assist", "Outcome capture", "Program workflow", "Delivery signal", "Program partner network", "Program command"]),
+      d("Access", "Participant Access & Intake", "CRM, forms, eligibility rules, referral systems", "Plain language, accessibility, consent, escalation", ["Eligibility guide", "Navigation assist", "Intake capture", "Referral workflow", "Access signal", "Service bridge", "Participant access OS"]),
+      d("Grants", "Grants & Development Operations", "Grant portals, proposal stores, evidence library", "Approved claims, funder terms, source discipline", ["Grant guide", "Proposal assist", "Evidence capture", "Grant workflow", "Funding signal", "Funder network", "Grant command"]),
+      d("Finance", "Finance & Restricted Funds", "ERP, accounting, budget, expense systems", "Segregation of duties, restricted fund policy, audit trail", ["Fund policy", "Budget assist", "Expense capture", "Restricted fund workflow", "Cashflow signal", "Finance bridge", "Stewardship command"]),
+      d("Govern", "Compliance & Governance", "GRC, policy library, audit, records", "Board oversight, regulatory accountability, auditability", ["Compliance guide", "Policy assist", "Audit capture", "Compliance workflow", "Control signal", "Governance council", "Compliance command"]),
+      d("Board", "Board & Executive Operations", "Board portal, M365, strategy plans, portfolio tools", "Sensitive leadership data, decision rights, source control", ["Board guide", "Brief assist", "Decision capture", "Board workflow", "Priority signal", "Leadership rhythm", "Mission command"]),
+      d("Story", "Marketing & Impact Storytelling", "CMS, email, social, DAM, impact reports", "Brand review, consent, accessibility, approved outcomes", ["Story guide", "Content assist", "Asset capture", "Campaign workflow", "Audience signal", "Story network", "Reputation command"]),
+      d("Advocacy", "Advocacy & Community Mobilization", "CRM, advocacy tools, email, event platforms", "Lobbying rules, message approval, constituent privacy", ["Issue guide", "Message assist", "Constituent capture", "Advocacy workflow", "Mobilization signal", "Coalition bridge", "Advocacy command"]),
+      d("Partner", "Partnerships & Coalitions", "Partner CRM, referral portals, shared workspaces", "Data-sharing agreements, role clarity, partner assurance", ["Partner guide", "Referral assist", "MOU capture", "Partnership workflow", "Ecosystem signal", "Coalition network", "Partner command"]),
+      d("Impact", "Data, Outcomes & Impact Measurement", "Fabric, BI, CRM, program data, surveys", "Metric governance, data quality, equity review", ["Metric guide", "Report assist", "Data request", "Impact workflow", "Outcome forecast", "Impact data fabric", "Mission intelligence"]),
+      d("Digital", "Technology & Digital Services", "ITSM, M365, identity, website, app platforms", "Least privilege, cyber controls, service ownership", ["IT guide", "Service assist", "Ticket capture", "Digital workflow", "Tech debt signal", "Platform bridge", "Digital command"]),
+      d("Field", "Facilities, Field & Event Operations", "Facilities, event, inventory, fleet, IoT", "Safety, accessibility, incident escalation", ["Event guide", "Field assist", "Work order capture", "Event workflow", "Site risk signal", "Field operations bridge", "Event command"]),
+      d("People", "HR, Training & Culture", "HRIS, LMS, recruiting, performance systems", "Employee privacy, fair practice, manager accountability", ["Staff policy", "Training assist", "Credential capture", "Talent workflow", "Burnout signal", "Workforce bridge", "Culture command"]),
+      d("Safety", "Risk, Safety & Safeguarding", "Incident systems, case management, hotline, security", "Mandatory reporting, trauma-informed review, human escalation", ["Safeguarding guide", "Incident assist", "Case capture", "Safety workflow", "Risk signal", "Safeguarding network", "Safety command"]),
+      d("Trust", "Trust, Privacy & Responsible AI", "Privacy, security, responsible AI, records, GRC", "Consent, data minimization, model review, auditability", ["Privacy guide", "Responsible AI assist", "Consent capture", "Trust workflow", "Model risk signal", "Trust council", "Trust command"]),
+    ],
+    goals: [
+      goal("fundraising-roi", "Increase Fundraising ROI", "Donor segmentation, stewardship, campaigns, major gifts, and giving intelligence", [[1,2],[2,4],[10,4],[13,5],[1,7]]),
+      goal("admin-load", "Reduce Administrative Load", "Volunteers, grants, finance, digital services, and executive operating rhythm", [[3,2],[6,4],[7,4],[14,5],[9,7]]),
+      goal("program-access", "Improve Program Access", "Eligibility, intake, service navigation, referrals, and participant follow-up", [[5,2],[5,3],[4,4],[12,6],[5,7]]),
+      goal("grant-competitiveness", "Strengthen Grant Competitiveness", "Proposal quality, evidence reuse, reporting, funder alignment, and outcome proof", [[6,2],[13,3],[6,4],[13,5],[6,7]]),
+      goal("mission-intelligence", "Turn Data into Mission Intelligence", "Unified donor and program data, dashboards, governance, forecasting, and trust controls", [[13,2],[13,4],[8,4],[13,6],[18,7]]),
+    ],
+  },
 ];
 
 function escapeHtml(value) {
@@ -697,6 +731,7 @@ function industryTheme(folder) {
     "Retail-CPG": "var(--cp-success)",
     "ISD-Seller-Enablement": "var(--cp-link)",
     "Professional-Services-Legal": "var(--cp-warning)",
+    Nonprofit: "var(--cp-accent)",
   }[folder] || "var(--cp-accent)";
 }
 

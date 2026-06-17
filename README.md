@@ -22,6 +22,7 @@ https://reynolds711.github.io/periodic-table-of-agents/
 - [Retail / CPG](./Retail-CPG/)
 - [ISD / Seller Enablement](./ISD-Seller-Enablement/)
 - [Professional Services / Legal](./Professional-Services-Legal/)
+- [Nonprofit](./Nonprofit/)
 
 ## What This Is
 
@@ -60,6 +61,7 @@ This is not a list of tools. It is a decision framework to help leaders:
   /Retail-CPG/index.html
   /ISD-Seller-Enablement/index.html
   /Professional-Services-Legal/index.html
+  /Nonprofit/index.html
   /scripts/generate-catalogs.js
 ```
 
