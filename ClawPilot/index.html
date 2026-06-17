@@ -189,9 +189,9 @@
     .cell.pointer { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; cursor: default; }
     .cell.pointer .range { font-weight: 700; font-size: 12px; color: var(--cp-text); }
     .cell.pointer .ptr-label { font-size: 9px; color: var(--cp-text-muted); margin-top: 3px; }
-    .lanth-pointer { background: color-mix(in srgb, var(--cp-warning) 32%, var(--cp-surface)); }
-    .actin-pointer { background: color-mix(in srgb, var(--cp-accent) 20%, var(--cp-surface)); }
-    .lanth-actin { margin-top: 14px; }
+    .foundation-pointer { background: color-mix(in srgb, var(--cp-warning) 32%, var(--cp-surface)); }
+    .governance-pointer { background: color-mix(in srgb, var(--cp-accent) 20%, var(--cp-surface)); }
+    .substrate-bands { margin-top: 14px; }
     .cell.dimmed { opacity: .18; }
     .cell.highlighted { outline: 2px solid var(--cp-accent); outline-offset: 1px; box-shadow: 0 0 0 4px var(--cp-highlight); z-index: 4; }
     .cell.pinned { outline: 3px solid var(--cp-accent); outline-offset: 1px; z-index: 6; }
@@ -619,13 +619,13 @@ const DATA = {"groups":[{"n":1,"id":"hygiene","title":"Business Hygiene","subtit
       const map = new Map(row.placements.map(([g, sym]) => [g, itemBySymbol.get(sym)]));
       html += '<div class="row"><div class="cell period-label">Period ' + row.period + '</div>';
       for (let group = 1; group <= 18; group++) {
-        if (row.period === 6 && group === 3) html += pointer('57-71', 'Foundation', 'lanth-pointer');
-        else if (row.period === 7 && group === 3) html += pointer('89-103', 'Trust & Scale', 'actin-pointer');
+        if (row.period === 6 && group === 3) html += pointer('57-71', 'Foundation', 'foundation-pointer');
+        else if (row.period === 7 && group === 3) html += pointer('89-103', 'Trust & Scale', 'governance-pointer');
         else html += map.has(group) ? tile(map.get(group)) : empty();
       }
       html += '</div>';
     });
-    html += '<div class="row lanth-actin"><div class="cell period-label small"><span class="band-title">Foundation</span><span class="band-sub">57-71</span></div>' + connectivity.map(item => tile(item, 'series-cell')).join('') + Array.from({length: 3}, empty).join('') + '</div>';
+    html += '<div class="row substrate-bands"><div class="cell period-label small"><span class="band-title">Foundation</span><span class="band-sub">57-71</span></div>' + connectivity.map(item => tile(item, 'series-cell')).join('') + Array.from({length: 3}, empty).join('') + '</div>';
     html += '<div class="row"><div class="cell period-label small"><span class="band-title">Trust &amp; Scale</span><span class="band-sub">89-103</span></div>' + governance.map(item => tile(item, 'governance-cell')).join('') + Array.from({length: 3}, empty).join('') + '</div>';
     grid.innerHTML = html;
     wireCells();

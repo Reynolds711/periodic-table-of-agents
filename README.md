@@ -39,7 +39,7 @@ This is not a list of tools. It is a decision framework to help leaders:
 2. Select a strategic priority.
 3. Review the recommended five-agent sequence.
 4. Open individual cells to inspect purpose, systems, maturity, and guardrails.
-5. Use the bottom bands to plan core systems and trust controls before scaling autonomy.
+5. Use Work IQ and Governed Actions to plan context, permissions, approvals, observability, and safe execution before scaling autonomy.
 
 ## Repository Structure
 
