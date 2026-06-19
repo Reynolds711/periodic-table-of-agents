@@ -1,0 +1,899 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OGE Draft Operating Map: Oil and Gas Agents</title>
+<link rel="icon" href="data:,">
+<script>
+  (() => {
+    const param = new URLSearchParams(window.location.search).get("clawpilotTheme");
+    const theme =
+      param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    document.documentElement.setAttribute("data-theme", theme);
+  })();
+</script>
+<style>
+:root {
+  color-scheme: light;
+  --cp-bg: #f7f4ef;
+  --cp-bg-elevated: #fcfbf8;
+  --cp-surface: #ffffff;
+  --cp-surface-soft: #f5f5f5;
+  --cp-border: #dedede;
+  --cp-border-strong: #919191;
+  --cp-text: #242424;
+  --cp-text-muted: #5c5c5c;
+  --cp-text-soft: #6f6f6f;
+  --cp-accent: #b11f4b;
+  --cp-accent-hover: #9a1a41;
+  --cp-accent-soft: rgba(177, 31, 75, 0.08);
+  --cp-accent-fg: #ffffff;
+  --cp-success: #16a34a;
+  --cp-danger: #dc2626;
+  --cp-warning: #f59e0b;
+  --cp-link: #0078d4;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+  --cp-overlay: rgba(255, 255, 255, 0.8);
+  --cp-panel: rgba(255, 255, 255, 0.86);
+  --cp-panel-strong: rgba(255, 255, 255, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.55);
+  --cp-highlight: rgba(177, 31, 75, 0.12);
+}
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --cp-bg: #3d3b3a;
+  --cp-bg-elevated: #343231;
+  --cp-surface: #292929;
+  --cp-surface-soft: #2e2e2e;
+  --cp-border: #474747;
+  --cp-border-strong: #5f5f5f;
+  --cp-text: #dedede;
+  --cp-text-muted: #919191;
+  --cp-text-soft: #b0b0b0;
+  --cp-accent: #fd8ea1;
+  --cp-accent-hover: #fb7b91;
+  --cp-accent-soft: rgba(253, 142, 161, 0.14);
+  --cp-accent-fg: #1a1a1a;
+  --cp-success: #4ade80;
+  --cp-danger: #f87171;
+  --cp-warning: #fbbf24;
+  --cp-link: #4da6ff;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+  --cp-overlay: rgba(41, 41, 41, 0.88);
+  --cp-panel: rgba(41, 41, 41, 0.72);
+  --cp-panel-strong: rgba(41, 41, 41, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.04);
+  --cp-highlight: rgba(253, 142, 161, 0.12);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--cp-bg);
+  color: var(--cp-text);
+  font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.5;
+}
+button, input { font-family: inherit; }
+a { color: var(--cp-link); }
+.page {
+  width: min(1480px, 100%);
+  margin: 0 auto;
+  padding: 24px;
+}
+.draft-ribbon {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 16px;
+  padding: 10px 14px;
+  border: 1px solid var(--cp-border);
+  border-radius: 0.625rem;
+  background: var(--cp-surface);
+  color: var(--cp-text-muted);
+  font-size: 13px;
+}
+.draft-ribbon strong { color: var(--cp-text); }
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.55fr);
+  gap: 20px;
+  margin-bottom: 20px;
+}
+.panel {
+  background: var(--cp-surface);
+  border: 1px solid var(--cp-border);
+  border-radius: 16px;
+  box-shadow: 0 0 2px color-mix(in srgb, var(--cp-text) 12%, transparent), 0 1px 2px color-mix(in srgb, var(--cp-text) 14%, transparent);
+}
+.hero-main { padding: 28px; }
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  padding: 5px 10px;
+  border: 1px solid var(--cp-border);
+  border-radius: 999px;
+  background: var(--cp-accent-soft);
+  color: var(--cp-accent);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+h1 {
+  margin: 0;
+  max-width: 920px;
+  color: var(--cp-text);
+  font-size: clamp(32px, 5vw, 64px);
+  letter-spacing: -0.045em;
+  line-height: 0.98;
+}
+.lead {
+  max-width: 900px;
+  margin: 18px 0 0;
+  color: var(--cp-text-muted);
+  font-size: 18px;
+}
+.hero-side {
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.side-title {
+  margin: 0;
+  color: var(--cp-text);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.segment-list {
+  display: grid;
+  gap: 8px;
+}
+.segment-pill {
+  padding: 10px 12px;
+  border: 1px solid var(--cp-border);
+  border-radius: 0.625rem;
+  background: var(--cp-surface-soft);
+}
+.segment-pill strong {
+  display: block;
+  color: var(--cp-text);
+  font-size: 13px;
+}
+.segment-pill span {
+  display: block;
+  margin-top: 2px;
+  color: var(--cp-text-muted);
+  font-size: 12px;
+}
+.section {
+  margin-top: 20px;
+  padding: 22px;
+}
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: end;
+  margin-bottom: 16px;
+}
+.section h2 {
+  margin: 0;
+  color: var(--cp-text);
+  font-size: 19px;
+}
+.section-desc {
+  max-width: 800px;
+  margin: 5px 0 0;
+  color: var(--cp-text-muted);
+  font-size: 13px;
+}
+.controls {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.filter {
+  border: 1px solid var(--cp-border);
+  border-radius: 999px;
+  padding: 8px 11px;
+  background: var(--cp-surface-soft);
+  color: var(--cp-text);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+}
+.filter.active,
+.filter:hover {
+  border-color: var(--cp-accent);
+  background: var(--cp-accent-soft);
+  color: var(--cp-accent);
+}
+.map-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(180px, 1fr));
+  gap: 10px;
+}
+.axis-card {
+  padding: 12px;
+  border: 1px dashed var(--cp-border-strong);
+  border-radius: 0.625rem;
+  background: var(--cp-bg-elevated);
+}
+.axis-card strong {
+  display: block;
+  color: var(--cp-text);
+  font-size: 13px;
+}
+.axis-card span {
+  display: block;
+  margin-top: 3px;
+  color: var(--cp-text-muted);
+  font-size: 12px;
+}
+.agent-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 240px;
+  padding: 14px;
+  border: 1px solid var(--cp-border);
+  border-radius: 16px;
+  background: var(--cp-surface);
+  color: var(--cp-text);
+  cursor: pointer;
+  text-align: left;
+  transition: transform 0.14s ease, border-color 0.14s ease, background 0.14s ease;
+}
+.agent-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--cp-accent);
+  background: color-mix(in srgb, var(--cp-accent) 6%, var(--cp-surface));
+}
+.agent-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: start;
+  margin-bottom: 10px;
+}
+.symbol-box {
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--cp-border);
+  border-radius: 0.625rem;
+  background: var(--cp-surface-soft);
+  color: var(--cp-text);
+  font-size: 23px;
+  font-weight: 900;
+}
+.maturity {
+  color: var(--cp-text-soft);
+  font-size: 11px;
+  font-weight: 800;
+  text-align: right;
+  text-transform: uppercase;
+}
+.agent-card h3 {
+  margin: 0;
+  color: var(--cp-text);
+  font-size: 16px;
+  line-height: 1.2;
+}
+.domain {
+  margin-top: 4px;
+  color: var(--cp-accent);
+  font-size: 12px;
+  font-weight: 800;
+}
+.purpose {
+  margin: 10px 0 0;
+  color: var(--cp-text-muted);
+  font-size: 12.5px;
+}
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: auto;
+  padding-top: 12px;
+}
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 7px;
+  border: 1px solid var(--cp-border);
+  border-radius: 999px;
+  background: var(--cp-surface-soft);
+  color: var(--cp-text-muted);
+  font-size: 10.5px;
+  font-weight: 700;
+}
+.tag.critical {
+  border-color: var(--cp-warning);
+  color: var(--cp-warning);
+  background: color-mix(in srgb, var(--cp-warning) 8%, var(--cp-surface));
+}
+.tag.action {
+  border-color: var(--cp-accent);
+  color: var(--cp-accent);
+  background: var(--cp-accent-soft);
+}
+.tag.safe {
+  border-color: var(--cp-success);
+  color: var(--cp-success);
+  background: color-mix(in srgb, var(--cp-success) 8%, var(--cp-surface));
+}
+.sequence-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(190px, 1fr));
+  gap: 10px;
+}
+.sequence-card {
+  padding: 14px;
+  border: 1px solid var(--cp-border);
+  border-radius: 16px;
+  background: var(--cp-surface);
+}
+.sequence-card h3 {
+  margin: 0 0 9px;
+  color: var(--cp-text);
+  font-size: 15px;
+}
+.steps {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.steps li {
+  display: grid;
+  grid-template-columns: 26px 1fr;
+  gap: 8px;
+  align-items: start;
+  color: var(--cp-text-muted);
+  font-size: 12.5px;
+}
+.num {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: var(--cp-accent-soft);
+  color: var(--cp-accent);
+  font-size: 11px;
+  font-weight: 900;
+}
+.governance-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(180px, 1fr));
+  gap: 10px;
+}
+.gov-card {
+  padding: 14px;
+  border: 1px solid var(--cp-border);
+  border-radius: 0.625rem;
+  background: var(--cp-surface-soft);
+}
+.gov-card strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--cp-text);
+  font-size: 13px;
+}
+.gov-card span {
+  color: var(--cp-text-muted);
+  font-size: 12px;
+}
+.drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  display: none;
+  background: var(--cp-overlay);
+  z-index: 10;
+}
+.drawer-backdrop.show { display: block; }
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: min(560px, 100%);
+  height: 100%;
+  transform: translateX(100%);
+  transition: transform 0.18s ease;
+  z-index: 11;
+  background: var(--cp-surface);
+  border-left: 1px solid var(--cp-border);
+  box-shadow: var(--cp-shadow);
+  overflow: auto;
+}
+.drawer.show { transform: translateX(0); }
+.drawer-header {
+  position: sticky;
+  top: 0;
+  padding: 20px;
+  border-bottom: 1px solid var(--cp-border);
+  background: var(--cp-panel-strong);
+  z-index: 1;
+}
+.drawer-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  border: 1px solid var(--cp-border);
+  border-radius: 0.625rem;
+  background: var(--cp-surface-soft);
+  color: var(--cp-text);
+  cursor: pointer;
+  padding: 5px 10px;
+}
+.drawer-header h2 {
+  margin: 8px 48px 0 0;
+  color: var(--cp-text);
+  font-size: 24px;
+}
+.drawer-meta {
+  margin-top: 5px;
+  color: var(--cp-text-muted);
+  font-size: 13px;
+}
+.drawer-body {
+  padding: 20px;
+}
+.detail-grid {
+  display: grid;
+  gap: 10px;
+}
+.detail-row {
+  padding: 12px;
+  border: 1px solid var(--cp-border);
+  border-radius: 0.625rem;
+  background: var(--cp-surface-soft);
+}
+.detail-row dt {
+  margin-bottom: 4px;
+  color: var(--cp-accent);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.detail-row dd {
+  margin: 0;
+  color: var(--cp-text);
+  font-size: 13px;
+}
+.callout {
+  margin-top: 14px;
+  padding: 13px;
+  border: 1px solid var(--cp-border);
+  border-left: 4px solid var(--cp-accent);
+  border-radius: 0 0.625rem 0.625rem 0;
+  background: var(--cp-accent-soft);
+  color: var(--cp-text);
+  font-size: 13px;
+}
+footer {
+  padding: 24px 0 10px;
+  color: var(--cp-text-muted);
+  font-size: 12px;
+  text-align: center;
+}
+@media (max-width: 1100px) {
+  .hero, .map-grid, .sequence-grid, .governance-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 720px) {
+  .page { padding: 14px; }
+  .hero, .map-grid, .sequence-grid, .governance-grid { grid-template-columns: 1fr; }
+  .section-head { align-items: start; flex-direction: column; }
+  .draft-ribbon { align-items: start; flex-direction: column; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="draft-ribbon">
+    <span><strong>Unindexed draft:</strong> Oil and gas lens only. This page is intentionally not linked from the main Periodic Table of Agents index.</span>
+    <span>Working title: OGE Draft Operating Map</span>
+  </div>
+
+  <section class="hero">
+    <div class="hero-main panel">
+      <div class="eyebrow">Periodic Table of Agents / OGE draft</div>
+      <h1>Oil and Gas Agent Operating Map</h1>
+      <p class="lead">A more concrete segment draft for oil and gas production, refining, field operations, maintenance, process safety, permitting, and governed enterprise execution. The goal is to turn agent ideas into discovery-ready operating patterns: who uses it, what triggers it, what systems it touches, what it outputs, and where a human must approve.</p>
+    </div>
+    <aside class="hero-side panel">
+      <h2 class="side-title">Segment lens</h2>
+      <div class="segment-list">
+        <div class="segment-pill"><strong>Production and field operations</strong><span>Well, facility, field crew, production variance, and exception workflows.</span></div>
+        <div class="segment-pill"><strong>Refining and plant operations</strong><span>Operator rounds, process safety, maintenance windows, and shift handoff.</span></div>
+        <div class="segment-pill"><strong>Maintenance and inspection</strong><span>Asset health, work orders, inspections, turnaround readiness, and closeout evidence.</span></div>
+        <div class="segment-pill"><strong>Permit, MOC, and compliance</strong><span>Permit-to-work, Management of Change, environmental reporting, and audit trails.</span></div>
+      </div>
+    </aside>
+  </section>
+
+  <section class="section panel">
+    <div class="section-head">
+      <div>
+        <h2>Oil and gas agent cards</h2>
+        <p class="section-desc">Each card is written as an operating pattern, not a product category. Use the filters to focus on the part of the O&amp;G operating model that matters for the customer conversation.</p>
+      </div>
+      <div class="controls" id="filters" aria-label="Filter cards"></div>
+    </div>
+    <div class="map-grid" id="agentGrid" aria-live="polite"></div>
+  </section>
+
+  <section class="section panel">
+    <div class="section-head">
+      <div>
+        <h2>Distinct O&amp;G maturity sequences</h2>
+        <p class="section-desc">These sequences avoid repeating the same Grid/Safety pattern and instead show different paths from Work IQ through governed action.</p>
+      </div>
+    </div>
+    <div class="sequence-grid" id="sequenceGrid"></div>
+  </section>
+
+  <section class="section panel">
+    <div class="section-head">
+      <div>
+        <h2>Visible governance bands</h2>
+        <p class="section-desc">These should be surfaced as badges, discovery prompts, or implementation gates on Oil and Gas cards so autonomy does not sound unconstrained.</p>
+      </div>
+    </div>
+    <div class="governance-grid">
+      <div class="gov-card"><strong>Operator-in-the-loop</strong><span>Safety-critical recommendations remain advisory until an authorized operator, engineer, or supervisor approves.</span></div>
+      <div class="gov-card"><strong>Permit and MOC boundary</strong><span>Changes to equipment, procedures, or work conditions route through permit-to-work and Management of Change controls.</span></div>
+      <div class="gov-card"><strong>Evidence trail</strong><span>Inputs, citations, risk rationale, approvals, write-backs, and closeout artifacts are retained for audit and learning.</span></div>
+      <div class="gov-card"><strong>Cyber and identity control</strong><span>OT boundaries, least privilege, role-based actions, session logs, and governed system write-back define what the agent can do.</span></div>
+    </div>
+  </section>
+
+  <footer>Draft page for discussion. Not linked from the main site index.</footer>
+</div>
+
+<div class="drawer-backdrop" id="backdrop"></div>
+<aside class="drawer" id="drawer" aria-hidden="true" aria-label="Agent detail card">
+  <div class="drawer-header">
+    <button class="drawer-close" id="closeDrawer" type="button">Close</button>
+    <div class="symbol-box" id="drawerSymbol"></div>
+    <h2 id="drawerTitle"></h2>
+    <div class="drawer-meta" id="drawerMeta"></div>
+  </div>
+  <div class="drawer-body">
+    <dl class="detail-grid" id="detailGrid"></dl>
+    <div class="callout" id="drawerCallout"></div>
+  </div>
+</aside>
+
+<script>
+const domains = ["Production", "Refining", "Maintenance", "Safety", "Compliance"];
+const agents = [
+  {
+    symbol: "Pv",
+    title: "Production Variance Agent",
+    domain: "Production",
+    maturity: "Decision support",
+    purpose: "Detects production variance and prepares a constrained operating recommendation before any control change.",
+    tags: ["Operator approval required", "Read-only recommendation", "Evidence trail"],
+    detail: {
+      Persona: "Production engineer, field operations lead, or asset team manager.",
+      Trigger: "Production falls outside expected range, a well underperforms, or a facility constraint changes.",
+      Inputs: "Production historians, well tests, PI/SCADA trends, downtime codes, maintenance status, weather, and operating constraints.",
+      Output: "Variance explanation, likely drivers, risk-ranked options, and a recommended next investigation or adjustment.",
+      "System action": "Can draft a production note, create a follow-up task, or prepare an optimization recommendation; no direct control action by default.",
+      "Human approval point": "Production engineer or authorized operator approves any setpoint, choke, routing, or work-priority change.",
+      "Governance / evidence trail": "Logs source data, assumptions, model confidence, recommended action, reviewer, approval decision, and final operating note."
+    }
+  },
+  {
+    symbol: "Pr",
+    title: "Process Safety Agent",
+    domain: "Safety",
+    maturity: "Workflow",
+    purpose: "Turns process alarms, deviations, and field observations into a governed hazard-assessment workflow.",
+    tags: ["Safety critical", "Operator approval required", "OT boundary"],
+    detail: {
+      Persona: "Control-room operator, process safety engineer, or operations supervisor.",
+      Trigger: "Alarm flood, abnormal operating condition, safety observation, near miss, or recurring operating envelope breach.",
+      Inputs: "Alarm history, operating limits, procedures, PHA/HAZOP references, maintenance status, incident history, and shift notes.",
+      Output: "Hazard context, possible causes, immediate checks, escalation path, and mitigation options.",
+      "System action": "Can open an incident draft, attach evidence, notify the right role, and stage a checklist for review.",
+      "Human approval point": "Operator or supervisor confirms field action, escalation, shutdown, or procedure deviation.",
+      "Governance / evidence trail": "Retains alarm context, cited procedure, decision rationale, role approvals, time stamps, and post-event review notes."
+    }
+  },
+  {
+    symbol: "Mo",
+    title: "MOC Readiness Agent",
+    domain: "Compliance",
+    maturity: "Transactional",
+    purpose: "Checks whether an operational or equipment change requires Management of Change and prepares the package.",
+    tags: ["MOC required", "Compliance review", "Evidence trail"],
+    detail: {
+      Persona: "Operations engineer, reliability engineer, project manager, or EHS/compliance reviewer.",
+      Trigger: "Equipment modification, process parameter change, control logic update, temporary bypass, or procedure change request.",
+      Inputs: "Asset register, P&IDs, procedures, prior MOCs, risk assessments, regulatory requirements, engineering documents, and work scope.",
+      Output: "MOC applicability check, missing information list, draft change summary, required reviewers, and approval workflow.",
+      "System action": "Can draft the MOC record, route reviewer tasks, attach evidence, and update status in the workflow system.",
+      "Human approval point": "Engineering, operations, safety, and compliance owners approve before implementation.",
+      "Governance / evidence trail": "Stores scope, affected assets, document versions, reviewer decisions, required training, and closure evidence."
+    }
+  },
+  {
+    symbol: "Pt",
+    title: "Permit-to-Work Agent",
+    domain: "Safety",
+    maturity: "Transactional",
+    purpose: "Prepares permit packages while keeping the final work authorization with accountable humans.",
+    tags: ["Permit required", "Operator approval required", "Cyber / identity control"],
+    detail: {
+      Persona: "Maintenance planner, field supervisor, permit issuer, or operations authority.",
+      Trigger: "Hot work, confined-space entry, line break, energized work, excavation, lifting operation, or simultaneous operations conflict.",
+      Inputs: "Work order, job safety analysis, isolation plan, gas test requirements, equipment status, crew credentials, and shift schedule.",
+      Output: "Draft permit, conflict checks, isolation checklist, risk flags, and required approval chain.",
+      "System action": "Can pre-fill permit fields, verify required attachments, notify approvers, and hold release until approvals are complete.",
+      "Human approval point": "Permit issuer, area authority, and work supervisor authorize before work starts.",
+      "Governance / evidence trail": "Logs identity, competencies, gas test evidence, isolation proof, approval time, work start/stop, and closeout."
+    }
+  },
+  {
+    symbol: "In",
+    title: "Inspection Evidence Agent",
+    domain: "Maintenance",
+    maturity: "Assistant",
+    purpose: "Converts inspection findings into structured evidence, risk context, and recommended follow-up work.",
+    tags: ["Evidence trail", "Read-only recommendation", "Compliance review"],
+    detail: {
+      Persona: "Inspection lead, reliability engineer, corrosion engineer, or maintenance planner.",
+      Trigger: "Inspection report upload, failed measurement, overdue inspection, or anomaly found during rounds.",
+      Inputs: "Inspection reports, NDE results, images, corrosion loops, prior defects, asset criticality, and work history.",
+      Output: "Findings summary, severity rating, recommended follow-up, missing evidence, and work-order draft.",
+      "System action": "Can tag evidence, draft corrective work, and update inspection status pending review.",
+      "Human approval point": "Inspector or engineer validates severity, required action, and inspection interval changes.",
+      "Governance / evidence trail": "Preserves original report, extracted findings, reviewer edits, disposition, and work-order linkage."
+    }
+  },
+  {
+    symbol: "Ah",
+    title: "Asset Health Agent",
+    domain: "Maintenance",
+    maturity: "Decision support",
+    purpose: "Prioritizes maintenance by combining asset criticality, condition data, risk, and operating constraints.",
+    tags: ["Read-only recommendation", "Governed write-back", "Evidence trail"],
+    detail: {
+      Persona: "Reliability engineer, maintenance manager, operations planner, or turnaround lead.",
+      Trigger: "Anomalous vibration, overdue PM, recurring failure mode, spare constraint, or upcoming maintenance window.",
+      Inputs: "EAM/CMMS, historians, inspection data, condition monitoring, spares, crew capacity, downtime cost, and criticality ranking.",
+      Output: "Risk-ranked work priorities, recommended timing, dependency view, and deferred-maintenance risk.",
+      "System action": "Can draft work orders, update planning notes, and propose schedule changes for approval.",
+      "Human approval point": "Maintenance and operations leaders approve schedule changes, deferrals, and production-impacting work.",
+      "Governance / evidence trail": "Records risk drivers, data sources, approval decision, work-order status, and closeout confirmation."
+    }
+  },
+  {
+    symbol: "Sh",
+    title: "Shift Handoff Agent",
+    domain: "Refining",
+    maturity: "Workflow",
+    purpose: "Creates a complete, evidence-backed shift handoff across alarms, permits, constraints, and open actions.",
+    tags: ["Operator approval required", "Evidence trail", "OT boundary"],
+    detail: {
+      Persona: "Shift supervisor, control-room operator, console operator, or field operator.",
+      Trigger: "Shift change, abnormal event, unresolved alarm, active permit, or production constraint.",
+      Inputs: "Shift logs, alarms, active permits, unit status, maintenance windows, lab results, and open action items.",
+      Output: "Handoff brief, unresolved risks, active controls, field checks, and next-shift watch items.",
+      "System action": "Can draft the handoff, link evidence, and assign follow-up checks.",
+      "Human approval point": "Outgoing and incoming operators confirm the handoff before responsibility transfers.",
+      "Governance / evidence trail": "Captures acknowledgment, unresolved items, active constraints, permit status, and final operator notes."
+    }
+  },
+  {
+    symbol: "Em",
+    title: "Emissions Exception Agent",
+    domain: "Compliance",
+    maturity: "Decision support",
+    purpose: "Detects environmental exceptions and assembles evidence for operational response and compliance review.",
+    tags: ["Compliance review", "Evidence trail", "Read-only recommendation"],
+    detail: {
+      Persona: "Environmental manager, operations supervisor, compliance specialist, or facility engineer.",
+      Trigger: "Emissions threshold breach, flare event, spill report, exceedance alert, or missing monitoring evidence.",
+      Inputs: "CEMS, flare logs, lab results, operating data, event reports, permits, regulatory thresholds, and maintenance records.",
+      Output: "Exception summary, likely cause, evidence bundle, reporting requirement check, and recommended operational response.",
+      "System action": "Can create a compliance draft, attach data, open corrective action, and route for review.",
+      "Human approval point": "Environmental/compliance lead approves report language, regulatory submission, and corrective action.",
+      "Governance / evidence trail": "Retains source readings, timestamps, thresholds, calculations, reviewer approvals, and final filing status."
+    }
+  },
+  {
+    symbol: "Cy",
+    title: "OT Cyber Boundary Agent",
+    domain: "Compliance",
+    maturity: "Autonomous oversight",
+    purpose: "Monitors identity, access, and action boundaries between IT, OT, vendors, and agent-enabled workflows.",
+    tags: ["Cyber / identity control", "OT boundary", "Governed write-back"],
+    detail: {
+      Persona: "OT security lead, plant technology owner, identity admin, or risk manager.",
+      Trigger: "Privileged access request, vendor session, unusual login, new integration, or proposed system write-back.",
+      Inputs: "Identity logs, PAM sessions, OT network zones, role policies, device inventory, vendor access records, and change tickets.",
+      Output: "Access risk summary, control gap, recommended approval path, and session monitoring requirements.",
+      "System action": "Can request additional approval, restrict pending access, or create a security review ticket based on policy.",
+      "Human approval point": "OT security and system owner approve privileged access, integrations, and write-back scopes.",
+      "Governance / evidence trail": "Stores user identity, role, session purpose, approvals, accessed systems, write actions, and exceptions."
+    }
+  },
+  {
+    symbol: "So",
+    title: "SimOps Conflict Agent",
+    domain: "Safety",
+    maturity: "Cross-organization",
+    purpose: "Identifies conflicting field, maintenance, production, and contractor activities before work starts.",
+    tags: ["Safety critical", "Permit required", "Operator approval required"],
+    detail: {
+      Persona: "Field operations superintendent, maintenance planner, HSE lead, or contractor coordinator.",
+      Trigger: "Multiple work orders, contractor jobs, production activity, lifting, excavation, or isolation work overlap in time or area.",
+      Inputs: "Work schedule, permit queue, asset location, isolation plans, crew roster, contractor scope, and weather or access constraints.",
+      Output: "Conflict map, risk-ranked overlaps, coordination needs, and recommended sequencing.",
+      "System action": "Can flag conflicts, hold conflicting permit release, notify owners, and draft coordination actions.",
+      "Human approval point": "Area authority or operations supervisor approves sequencing and work release.",
+      "Governance / evidence trail": "Captures conflict basis, affected work, decision owner, mitigation, and final permit/work status."
+    }
+  },
+  {
+    symbol: "Tu",
+    title: "Turnaround Readiness Agent",
+    domain: "Refining",
+    maturity: "Cross-organization",
+    purpose: "Connects scope, materials, permits, crews, risk, and production constraints into a readiness view.",
+    tags: ["Permit required", "Evidence trail", "Governed write-back"],
+    detail: {
+      Persona: "Turnaround manager, maintenance planner, operations lead, or supply chain coordinator.",
+      Trigger: "Turnaround milestone, scope freeze review, material delay, permit backlog, or critical path change.",
+      Inputs: "Turnaround scope, work packs, materials, contractor plans, permits, critical path, asset criticality, and risk register.",
+      Output: "Readiness score, blocker list, critical path risk, missing approvals, and recommended interventions.",
+      "System action": "Can update readiness notes, create expediting tasks, and route blockers to owners.",
+      "Human approval point": "Turnaround leadership approves scope changes, risk acceptance, and start readiness.",
+      "Governance / evidence trail": "Stores milestone status, blocker owner, decision history, scope changes, and closeout evidence."
+    }
+  },
+  {
+    symbol: "Er",
+    title: "Enterprise Risk Agent",
+    domain: "Compliance",
+    maturity: "Autonomous oversight",
+    purpose: "Connects operational, safety, cyber, environmental, and financial risk signals into an executive view.",
+    tags: ["Compliance review", "Evidence trail", "Human approval required"],
+    detail: {
+      Persona: "Operations executive, risk leader, EHS director, or business unit general manager.",
+      Trigger: "Material incident, risk-threshold breach, repeated exceptions, board reporting cycle, or regulatory inquiry.",
+      Inputs: "Incident data, audit findings, operational KPIs, environmental events, cyber alerts, financial exposure, and open corrective actions.",
+      Output: "Risk narrative, exposure summary, action-owner view, trend analysis, and executive-ready brief.",
+      "System action": "Can draft briefings, update risk register fields, and route action reminders.",
+      "Human approval point": "Risk owner validates interpretation, disclosure, and executive communication.",
+      "Governance / evidence trail": "Retains evidence links, source systems, materiality assumptions, reviewer decisions, and action status."
+    }
+  }
+];
+
+const sequences = [
+  {
+    title: "Process Safety Sequence",
+    steps: ["Detect hazard or abnormal condition", "Assess process and people risk", "Recommend mitigation and escalation", "Require operator or supervisor approval", "Document evidence and post-event learning"]
+  },
+  {
+    title: "Maintenance and Inspection Sequence",
+    steps: ["Monitor asset and inspection signals", "Predict issue or defect risk", "Prioritize work with operating context", "Draft work order or inspection action", "Confirm closeout evidence"]
+  },
+  {
+    title: "Permit-to-Work / MOC Sequence",
+    steps: ["Identify change or work request", "Check permit and MOC requirements", "Draft package with required evidence", "Route approvals to accountable roles", "Retain audit trail and closure artifacts"]
+  },
+  {
+    title: "Production Optimization Sequence",
+    steps: ["Detect variance or constraint", "Analyze drivers and operating limits", "Recommend adjustment or investigation", "Require operator approval", "Perform governed update or create task"]
+  },
+  {
+    title: "Environmental and Compliance Sequence",
+    steps: ["Detect exception or missing evidence", "Gather source data and context", "Draft report or corrective action", "Route compliance review", "Archive final record and approval trail"]
+  }
+];
+
+const filters = ["All", ...domains];
+const filtersEl = document.getElementById("filters");
+const gridEl = document.getElementById("agentGrid");
+const sequenceEl = document.getElementById("sequenceGrid");
+const drawer = document.getElementById("drawer");
+const backdrop = document.getElementById("backdrop");
+const closeDrawer = document.getElementById("closeDrawer");
+let activeFilter = "All";
+
+function tagClass(tag) {
+  if (tag.includes("Safety") || tag.includes("Permit") || tag.includes("MOC")) return "critical";
+  if (tag.includes("write") || tag.includes("approval") || tag.includes("Human")) return "action";
+  if (tag.includes("Evidence") || tag.includes("Compliance") || tag.includes("Cyber")) return "safe";
+  return "";
+}
+
+function renderFilters() {
+  filtersEl.innerHTML = filters.map(filter => `<button class="filter ${filter === activeFilter ? "active" : ""}" type="button" data-filter="${filter}">${filter}</button>`).join("");
+  filtersEl.querySelectorAll("button").forEach(button => {
+    button.addEventListener("click", () => {
+      activeFilter = button.dataset.filter;
+      renderFilters();
+      renderAgents();
+    });
+  });
+}
+
+function renderAgents() {
+  const visible = agents.filter(agent => activeFilter === "All" || agent.domain === activeFilter);
+  gridEl.innerHTML = visible.map(agent => `
+    <button class="agent-card" type="button" data-symbol="${agent.symbol}">
+      <div class="agent-top">
+        <div class="symbol-box">${agent.symbol}</div>
+        <div class="maturity">${agent.maturity}</div>
+      </div>
+      <h3>${agent.title}</h3>
+      <div class="domain">${agent.domain}</div>
+      <p class="purpose">${agent.purpose}</p>
+      <div class="tag-row">${agent.tags.map(tag => `<span class="tag ${tagClass(tag)}">${tag}</span>`).join("")}</div>
+    </button>
+  `).join("");
+  gridEl.querySelectorAll(".agent-card").forEach(card => {
+    card.addEventListener("click", () => openDrawer(agents.find(agent => agent.symbol === card.dataset.symbol)));
+  });
+}
+
+function renderSequences() {
+  sequenceEl.innerHTML = sequences.map(sequence => `
+    <article class="sequence-card">
+      <h3>${sequence.title}</h3>
+      <ol class="steps">
+        ${sequence.steps.map((step, index) => `<li><span class="num">${index + 1}</span><span>${step}</span></li>`).join("")}
+      </ol>
+    </article>
+  `).join("");
+}
+
+function openDrawer(agent) {
+  document.getElementById("drawerSymbol").textContent = agent.symbol;
+  document.getElementById("drawerTitle").textContent = agent.title;
+  document.getElementById("drawerMeta").textContent = `${agent.domain} / ${agent.maturity}`;
+  document.getElementById("detailGrid").innerHTML = Object.entries(agent.detail).map(([key, value]) => `
+    <div class="detail-row"><dt>${key}</dt><dd>${value}</dd></div>
+  `).join("");
+  document.getElementById("drawerCallout").textContent = "Discovery prompt: ask the customer who owns the approval point, which system is the source of truth, and what evidence must be retained before this agent can move from recommendation to governed action.";
+  drawer.classList.add("show");
+  backdrop.classList.add("show");
+  drawer.setAttribute("aria-hidden", "false");
+}
+
+function hideDrawer() {
+  drawer.classList.remove("show");
+  backdrop.classList.remove("show");
+  drawer.setAttribute("aria-hidden", "true");
+}
+
+closeDrawer.addEventListener("click", hideDrawer);
+backdrop.addEventListener("click", hideDrawer);
+window.addEventListener("keydown", event => {
+  if (event.key === "Escape") hideDrawer();
+});
+
+renderFilters();
+renderAgents();
+renderSequences();
+</script>
+</body>
+</html>
